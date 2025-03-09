@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title></title>
+    
+<style>
+    .line {
+      fill: none;
+      stroke-width: 3;
+    }
+  
+    .dot {
+      stroke: #fff;
+    }
+  
+    .focus circle {
+      fill: none;
+      stroke: steelblue;
+    }
+  </style>
+</head>
+<body>
+    
+    
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+  // reference https://bl.ocks.org/gordlea/27370d1eea8464b04538e6d8ced39e89
+  const margin = { top: 50, right: 50, bottom: 50, left: 50 },
+    width = window.innerWidth - margin.left - margin.right,
+    height = window.innerHeight - margin.top - margin.bottom;
+  const color = [
+    "Blue ",
+    "Green",
+    "Red",
+    "Orange",
+    "Violet",
+    "Indigo",
+    "Yellow ",
+  ];
+  const data = [
+    {
+      year: "2017",
+      values: [
+        { key: "3", value: 1 },
+        { key: "4", value: 19 },
+        { key: "5", value: 176 },
+        { key: "6", value: 524 },
+        { key: "7", value: 284 },
+        { key: "8", value: 31 },
+      ],
+    },
+    {
+      year: "2018",
+      values: [
+        { key: "3", value: 4 },
+        { key: "4", value: 15 },
+        { key: "5", value: 152 },
+        { key: "6", value: 532 },
+        { key: "7", value: 367 },
+        { key: "8", value: 55 },
+      ],
+    },
+    {
+      year: "2019",
+      values: [
+        { key: "3", value: 1 },
+        { key: "4", value: 10 },
+        { key: "5", value: 88 },
+        { key: "6", value: 497 },
+        { key: "7", value: 410 },
+        { key: "8", value: 72 },
+        { key: "9", value: 3 },
+      ],
+    },
+    {
+      year: "2020",
+      values: [
+        { key: "1", value: 1 },
+        { key: "2", value: 1 },
+        { key: "3", value: 1 },
+        { key: "7", value: 398 },
+        { key: "8", value: 107 },
+        { key: "9", value: 4 },
+      ],
+    },
+    {
+      year: "2021",
+      values: [
+        { key: "6", value: 28 },
+        { key: "7", value: 78 },
+        { key: "8", value: 52 },
+        { key: "9", value: 8 },
+      ],
+    },
+  ];
+
+  // find the domain and the range, assuming the starting value for xscale and yscale is 0. Adjust accordingly
+  const xDomain = [0, 0];
+  const yDomain = [0, 0];
+
+  data.forEach((yearData) => {
+    yearData.values.forEach((valObj) => {
+      const key = valObj.key;
+      const value = valObj.value;
+
+      xDomain[1] = Math.max(xDomain[1], parseInt(key)); // find max x value
+      yDomain[1] = Math.max(yDomain[1], value); // find max y value
+
+      // here, you can also set the min values similarly
+      // xDomain[0] = Math.min(xDomain[0], parseInt(key));
+      // yDomain[0] = Math.min(yDomain[0], value);
+    });
+  });
+
+  const xScale = d3.scaleLinear().domain(xDomain).range([0, width]);
+
+  const yScale = d3.scaleLinear().domain(yDomain).range([height, 0]);
+
+  const line = d3
+    .line()
+    .x(function (d) {
+      return xScale(parseInt(d.key));
+    })
+    .y(function (d) {
+      return yScale(d.value);
+    })
+    .curve(d3.curveMonotoneX);
+
+  const svg = d3
+    .select("body")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  svg
+    .append("g")
+    .attr("class", "x-axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(xScale));
+
+  svg.append("g").attr("class", "y-axis").call(d3.axisLeft(yScale));
+
+  data.forEach((d, i) => {
+    const yearGroup = svg.append("g").attr("class", `.year-${i}`);
+
+    yearGroup
+      .selectAll(".dot")
+      .data(d.values)
+      .enter()
+      .append("circle")
+      .attr("class", "dot")
+      .attr("cx", function (d, i) {
+        return xScale(parseInt(d.key));
+      })
+      .attr("cy", function (d) {
+        return yScale(d.value);
+      })
+      .attr("fill", (d, i) => color[i])
+      .attr("r", 5);
+
+    yearGroup
+      .append("path")
+      .datum(d.values)
+      .attr("class", "line")
+      .attr("stroke", color[i])
+      .attr("d", line);
+  });
+</script>
+</body>
+</html>

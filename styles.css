@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+#svg_container {
+    width: 80vw;
+    height: 60%;
+}
+
+.floormap {
+    width: 100%;
+    height: 100%;
+}
+
+.apartment {
+    fill: gray;
+}
+.areas, .entrances {
+    fill: white;
+
+    &>*:hover, &>*:active {
+        fill: orange;
+    }
+}
+
+.main-entrance, .hallway {
+    fill: yellow;
+}
+
+.bedroom-door, .bedroom {
+    fill: blue;
+}
+
+.utility-room-door, .utility-room {
+    fill: blue;
+}
+
+.bathroom-door, .bathroom {
+    fill: rebeccapurple;
+}
+.kitchen {
+    fill: green;
+}
+.living-room {
+    fill: red;
+}
+
+
+
+#svg_world_container {
+    width: 80vw;
+    height: 60%;
+}
+
+/* .us-map {
+    width: 120%;
+    height: 100%;
+} */
+
+title:hover:after { 
+    
+  width: 120px;
+  background-color: orange;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  }
+  
+  .tooltip {
+    position: fixed;
+    z-index: 99;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 5px;
+    background: #222;
+    color: #fff;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    /*box-shadow: -1px 2px 5px rgba(0, 0, 0, 0.2);*/
+    /* transition: opacity 0.3s, visibility 0s; */
+    visibility: hidden;
+    opacity: 0;
+  }
+  
+  .tooltip-arrow {
+    position: absolute;
+    top: -4px;
+    width: 7px;
+    height: 7px;
+    background: inherit;
+    transform: rotate(45deg);
+    border-top: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+  }
+  
+  
+  /* just for demo */
+/*   
+  .box {
+    margin: 25px;
+    padding: 25px;
+  } */
+
+  .line {
+    fill: none;
+    stroke-width: 2px;
+  }
