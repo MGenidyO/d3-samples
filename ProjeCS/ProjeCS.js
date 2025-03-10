@@ -1,7 +1,7 @@
 
 const canvas = {
     w: 1000,
-    h: 1000
+    h: 600
 };
 
 const topoData = await d3.json(`../ProjeCS/ProjeCS.json`);
@@ -26,9 +26,9 @@ const svg = d3
     .select("#svg_client_2_container")
     .append("svg")
     .attr("viewBox", `0 0 ${canvas.w} ${canvas.h}`)
-    .attr("style", "border:1px solid black")
+    .attr("style", "border:3px solid #041E42; background-color:#E5E4E2;")
     .attr("width", canvas.w,)
-   .attr("style", "border:1px solid black")
+  //  .attr("style", "border:1px solid black")
     .on("click", reset)
 
   
@@ -57,16 +57,22 @@ const groups = g
     // groups.append("title")
     //     .text(d => d);
 
+    //new part 
+    const zones = [...new Set(arrOfKeys.flatMap(key => geoData[key]?.features.map(f => f.properties.Zone)))];
+    const colorScale = d3.scaleOrdinal()
+        .domain(zones)
+        .range(d3.schemeCategory10); // Use d3 predefined color scheme or define custom colors
+    
 const assets = groups
     .selectAll("path")
     .data(d=> geoData[d]?.features)
     .enter()
     .append("path")
-    .attr("fill", "#363cad")
+    .attr("fill", d => colorScale(d.properties.Zone)) 
     .attr("cursor", "pointer")
-    .attr("stroke", "white")
+    .attr("stroke", "#8B8000")
     .attr("stroke-linejoin", "round")
-    .attr("stroke-width", 3 )
+    .attr("stroke-width", 1.5 )
     .attr("d", d3Path)
     // {
     //     "Zone": 1,
@@ -77,9 +83,23 @@ const assets = groups
     // assets.append("title")
     //     .text(d => `Zone: ${d.properties.Zone}\nAREA: ${d.properties.AREA}\nLAYER: ${d.properties.LAYER}\nDescription: ${client_data.find((e) => e.RoomID == d.properties.LAYER)?.RoomDescription }`);
         
-        assets.attr("fill", d => `${client_data.find((e) => e.RoomID == d.properties.LAYER) ? "#2cba00" : "#ff0000" }`)
+        assets.attr("fill", d => `${client_data.find((e) => e.RoomID == d.properties.LAYER) ? "#041E42" : "#C0C0C0" }`)
         assets.attr("data-tip", d => `Zone: ${d.properties.Zone}\nAREA: ${d.properties.AREA}\nLAYER: ${d.properties.LAYER}\nDescription: ${client_data.find((e) => e.RoomID == d.properties.LAYER)?.RoomDescription }`)
-    
+        // groups
+        // .selectAll("text")
+        // .data(d => geoData[d]?.features)
+        // .enter()
+        // .append("text")
+        // .attr("x", d => d3Path.centroid(d)[0] + 2)
+        // .attr("y", d => d3Path.centroid(d)[1] -1)
+        // .attr("dy", "0.35em")
+        // .text(d => d.properties.Zone)
+        // .attr("fill", "#fff")
+        // .attr("font-size", "6px")
+        // .attr("text-anchor", "middle")
+        // .attr("pointer-events", "none"); 
+        
+        
     const zoom = d3.zoom()
         .scaleExtent([1, 8])
         .on("zoom", zoomed);
@@ -130,18 +150,27 @@ const assets = groups
       let tip = document.createElement('div')
       tip.classList.add('tooltip')
       //tip.innerText = el.getAttribute('data-tip')
-
+      tip.style.backgroundColor = '#E5E4E2'; 
+      tip.style.border = '1.8px solid #8B8000';
+      tip.style.color = '#041E42';
+      tip.style.fontSize = '13px';
+      tip.style.fontFamily = `'Montserrat', 'Proxima Nova', 'Gotham', 'Avenir', sans-serif`;
+      tip.style.letterSpacing = '1px'; 
+      tip.style.fontWeight = '500';
+      tip.style.width='230px'
+      
       document.body.appendChild(tip)
       // logo
       let logo = document.createElement('img')
-      logo.src = "../images/projecs.png";
+      logo.src = "../images/projecs2.png";
+      
       tip.appendChild(logo)
 
       let divInfo = document.createElement('div')
-      divInfo.innerHTML = `<p></p><p><b>Zone:</b> ${el.__data__.properties.Zone}</p>
+      divInfo.innerHTML = `<p></p><p><b>ZONE:</b> ${el.__data__.properties.Zone}</p>
       <p><b>AREA:</b> ${el.__data__.properties.AREA}</p>
       <p><b>LAYER:</b> ${el.__data__.properties.LAYER}</p>
-      <p><b>Description:</b>  ${client_data.find((e) => e.RoomID == el.__data__.properties.LAYER)?.RoomDescription }</p><p></p>`
+      <p><b>DESCRIPTION:</b>  ${client_data.find((e) => e.RoomID == el.__data__.properties.LAYER)?.RoomDescription }</p><p></p>`
       tip.appendChild(divInfo)
       //assets.attr("data-tip", d => `Zone: ${d.properties.Zone}\nAREA: ${d.properties.AREA}\nLAYER: ${d.properties.LAYER}\nDescription: ${client_data.find((e) => e.RoomID == d.properties.LAYER)?.RoomDescription }`)
     
