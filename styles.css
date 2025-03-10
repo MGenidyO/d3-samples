@@ -75,7 +75,7 @@ title:hover:after {
   padding: 5px 0;
   }
   
-  .tooltip {
+  /* .tooltip {
     position: fixed;
     z-index: 99;
     font-size: 12px;
@@ -87,22 +87,9 @@ title:hover:after {
     border-radius: 5px;
     font-family: sans-serif;
     box-sizing: border-box;
-    /*box-shadow: -1px 2px 5px rgba(0, 0, 0, 0.2);*/
-    /* transition: opacity 0.3s, visibility 0s; */
     visibility: hidden;
     opacity: 0;
-  }
-  
-  .tooltip-arrow {
-    position: absolute;
-    top: -4px;
-    width: 7px;
-    height: 7px;
-    background: inherit;
-    transform: rotate(45deg);
-    border-top: 1px solid #aaa;
-    border-left: 1px solid #aaa;
-  }
+  } */
   
   
   /* just for demo */
@@ -116,3 +103,94 @@ title:hover:after {
     fill: none;
     stroke-width: 2px;
   }
+
+  
+
+div.tooltip {
+    
+    /* position: fixed; */
+    z-index: 5000;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 5px;
+    background: #222;
+    color: #fff;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    /* visibility: hidden; */
+    /* opacity: 0; */
+    position: absolute;
+    /* padding: 10px; */
+    /* font: 12px Arial; */
+    /* background: rgba(255, 255, 204, 0.9);
+    box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.6); */
+    /* border: 0px;
+    border-radius: 2px; */
+    pointer-events: none;
+  }
+
+
+  /*
+  
+
+const g = svg.append("g");
+
+
+const groups = g
+  .selectAll("g")
+  .attr("fill", "#363cad")
+  .attr("cursor", "pointer")
+  .data(arrOfKeys)
+  .enter()
+  .append("g")
+  .attr("class", (d) => d).attr("stroke-width", 2)
+//.on("click", clicked)
+
+const tooltip = d3.select("#tooltip")
+  .style("opacity", 0)
+  .attr("class", "tooltip");
+
+const assets = groups
+  .selectAll("path")
+  .data(d => geoData[d]?.features)
+  .enter()
+  .append("path")
+  .attr("fill", "#363cad")
+  .attr("cursor", "pointer")
+  .attr("stroke", "white")
+  .attr("stroke-linejoin", "round")
+  .attr("stroke-width", 3)
+  .attr("d", d3Path)
+  .on("mouseover", function (d) {
+
+    tooltip.style("opacity", 0.9);
+    tooltip
+      .html(() => {
+
+        return `<p></p><p><b>Zone:</b> ${d.target.__data__.properties.Zone}</p>
+      <p><b>AREA:</b> ${d.target.__data__.properties.AREA}</p>
+      <p><b>LAYER:</b> ${d.target.__data__.properties.LAYER}</p>
+      <p><b>Description:</b>  ${client_data.find((e) => e.RoomID == d.target.__data__.properties.LAYER)?.RoomDescription}</p><p></p>`;
+
+      })
+
+
+    tooltip.append("img")
+      .attr("src", "../images/projecs.png")
+
+      tooltip
+     .style("left", d.pageX + 10 + "px")
+     .style("top", d.pageY - 28 + "px");
+  })
+  .on("mouseout", d => {
+    tooltip.style("opacity", 0);
+  });
+assets.attr("fill", d => `${client_data.find((e) => e.RoomID == d.properties.LAYER) ? "#2cba00" : "#ff0000"}`)
+assets.attr("data-tip", d => `Zone: ${d.properties.Zone}\nAREA: ${d.properties.AREA}\nLAYER: ${d.properties.LAYER}\nDescription: ${client_data.find((e) => e.RoomID == d.properties.LAYER)?.RoomDescription}`)
+
+
+
+  
+  */
