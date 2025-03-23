@@ -17,6 +17,7 @@ arrOfKeys.forEach(key => {
 const d3Identity = d3.geoIdentity();
 
 const d3Projection = d3Identity
+.reflectY(true)
     .fitSize([canvas.w, canvas.h], geoData["floor_map"]);
 
 const d3Path = d3.geoPath(d3Projection);
