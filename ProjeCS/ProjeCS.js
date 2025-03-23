@@ -18,10 +18,14 @@ arrOfKeys.forEach(key => {
 const d3Identity = d3.geoIdentity();
 
 const d3Projection = d3Identity
+.reflectY(true)
   .fitSize([canvas.w, canvas.h], geoData["JFK_lv2"]);
 
 const d3Path = d3.geoPath(d3Projection);
 
+//d3Projection.translate([0, 180,0]);
+
+//projection.rotate([x / 10, 0, 0]);
 const svg = d3
   .select("#svg_client_2_container")
   .append("svg")
