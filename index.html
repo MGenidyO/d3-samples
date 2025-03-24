@@ -42,7 +42,7 @@
         <ul class="nav flex-column">
 
           <li class="nav-item"><a href="#" class="nav-link"><img class="icon" src="./images/pipe.png">Pipes</a></li>
-          <li class="nav-item"><a href="#" class="nav-link"><img class="icon" src="./images/">Underground Cables</a>
+          <li class="nav-item"><a href="#" class="nav-link"><img class="icon" src="./images/underground_caples.png">Underground Cables</a>
           </li>
           <li class="nav-item"><a href="#" class="nav-link"><img class="icon" src="./images/doors_windows.png">Doors
               &Windows</a></li>
@@ -53,7 +53,11 @@
           </li>
           <li class="nav-item"><a href="#" class="nav-link"><img class="icon"
                 src="./images/mechanical_equipments.png">Mechanical Equipment</a></li>
-
+<li>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+    <label class="form-check-label" for="flexSwitchCheckChecked">Display Progress</label>
+  </div></li>
           <li class="nav-item">
             <input type="checkbox" name="chbx-level" id="layer1" checked> Layer 1
           </li>
@@ -100,8 +104,8 @@
               crossorigin="anonymous"></script>
 
             <script src="../lib/import_js_files.js" type="module"></script>
-            <script src="../ModifiedFloor/AdjustedFloor.js" type="module"></script>
-            <script src="../UsMap/UsMap.js" type="module"></script>
+            <!-- <script src="../ModifiedFloor/AdjustedFloor.js" type="module"></script>
+            <script src="../UsMap/UsMap.js" type="module"></script> -->
             <script src="../ProjeCS/ProjeCS.js" type="module"></script>
           </div>
         </div>
@@ -149,6 +153,12 @@
     const layers = { 1: null, 2: null, 3: null };
     const layerColors = { 1: "blue", 2: "green", 3: "pink" };
 
+    const client_levels_data = await d3.json(`./data/ProjecsLevelsData.json`);
+    debugger
+    const completeList = [...new Set(client_levels_data.map(key => key.complete))];
+    const colorLevelScale = d3.scaleOrdinal()
+      .domain(completeList)
+      .range(d3.schemeCategory10);
     // async function loadDXF(file, layer) {
     //     const text = await file.text();
     //     const parser = new DxfParser();
@@ -192,10 +202,14 @@
       });
     }
 
+    const tooltip2 = d3.select("#tooltip")
+  .style("opacity", 0)
+  .attr("class", "tooltip");
     function drawDXF(dxfData, layerGroup, layer) {
       const color = layerColors[layer] || "black";
-debugger
+      debugger
       const multiLayerSelected = document.querySelectorAll('input[name=chbx-level]:checked').length > 1;
+      const progressChecked = document.getElementById(`flexSwitchCheckChecked`).checked;
 
       const bounds = getBounds(dxfData.entities);
       if (bounds.maxX === bounds.minX || bounds.maxY === bounds.minY) {
@@ -210,6 +224,7 @@ debugger
       const offsetY = -bounds.minY * scale + (600 - (bounds.maxY - bounds.minY) * scale) / 2;
 
       dxfData.entities.forEach(entity => {
+        debugger
         switch (entity.type) {
           case "LINE":
             layerGroup.append("line")
@@ -227,9 +242,34 @@ debugger
               .attr("cy", 600 - (entity.center.y * scale + offsetY))
               .attr("r", entity.radius * scale)
               .attr("stroke", color)
-              .attr("fill",  multiLayerSelected? "none" : "white")
-              .style("opacity",multiLayerSelected? 1 : 0.35)
-              .attr("stroke-width", 2);
+              .attr("fill", multiLayerSelected? "none" : progressChecked ? colorLevelScale(client_levels_data.find((e) => e.UniqueID == entity.layer)?.complete) : "white")
+              //.attr("fill", multiLayerSelected ? "none" : "white")
+              .style("opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.35)
+              .attr("stroke-width", 2)
+              .on("mouseover", function (d) {
+
+                tooltip2.style("opacity", 0.9);
+                tooltip2
+                  .html(() => {
+
+                    return `<p></p><p><b>Complete:</b> ${Math.floor((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete) * 100)} %</p>
+  <p><b>Finish:</b> ${client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.Finish}</p>
+  <p><b>Description:</b> ${client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.Description}</p>
+  <p><b>Level:</b>  ${client_levels_data.find((e) => e.UniqueID == entity.layer)?.Level && e.Level == layer}</p><p></p>`;
+
+                  })
+
+
+                  tooltip2.append("img")
+                  .attr("src", "./images/projecs.png")
+
+                  tooltip2
+                  .style("left", d.pageX + 10 + "px")
+                  .style("top", d.pageY - 28 + "px");
+              })
+              .on("mouseout", d => {
+                tooltip2.style("opacity", 0);
+              });
             break;
 
           case "POLYLINE":
@@ -242,9 +282,34 @@ debugger
             layerGroup.append("polyline")
               .attr("points", points.join(" "))
               .attr("stroke", color)
-              .attr("fill",  multiLayerSelected? "none" : "white")
-              .style("opacity",multiLayerSelected? 1 : 0.35)
-              .attr("stroke-width", 2);
+              .attr("fill", multiLayerSelected? "none" : progressChecked ? colorLevelScale(client_levels_data.find((e) => e.UniqueID == entity.layer)?.complete) : "white")
+              //.attr("fill", multiLayerSelected ? "none" : "white")
+              .style("opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.35)
+              .attr("stroke-width", 2)
+              .on("mouseover", function (d) {
+
+                tooltip2.style("opacity", 0.9);
+                tooltip2
+                  .html(() => {
+
+                    return `<p></p><p><b>Complete:</b> ${Math.floor((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete) * 100)} %</p>
+  <p><b>Finish:</b> ${client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.Finish}</p>
+  <p><b>Description:</b> ${client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.Description}</p>
+  <p><b>Level:</b>  ${client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.Level}</p><p></p>`;
+
+                  })
+
+
+                  tooltip2.append("img")
+                  .attr("src", "./images/projecs.png")
+
+                  tooltip2
+                  .style("left", d.pageX + 10 + "px")
+                  .style("top", d.pageY - 28 + "px");
+              })
+              .on("mouseout", d => {
+                tooltip2.style("opacity", 0);
+              });
             break;
 
           default:

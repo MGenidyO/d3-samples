@@ -6,7 +6,7 @@ const canvas = {
 
 const topoData = await d3.json(`../ProjeCS/ProjeCS.json`);
 const client_data = await d3.json(`../ProjeCS/ProjeCSData.json`);
-debugger
+
 const geoData = {};
 
 const arrOfKeys = Object.keys(topoData.objects);

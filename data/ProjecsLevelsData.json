@@ -1,0 +1,198 @@
+[
+     {
+      "UniqueID": "BACK OF HOUSE EAST",
+      "complete": 0.10506546698686048,
+      "Finish": "02\/17\/2034",
+      "Description": "BACK OF HOUSE EAST",
+      "Level": 1
+     },
+     {
+      "UniqueID": "BACK OF HOUSE WEST",
+      "complete": 0.8071757827099949,
+      "Finish": "04\/11\/2034",
+      "Description": "BACK OF HOUSE WEST",
+      "Level": 1
+     },
+     {
+      "UniqueID": "baggage claim hall",
+      "complete": 0.21333106677839342,
+      "Finish": "01\/06\/2034",
+      "Description": "baggage claim hall",
+      "Level": 1
+     },
+     {
+      "UniqueID": "CBP",
+      "complete": 0.5180522323365848,
+      "Finish": "10\/11\/2032",
+      "Description": "CBP",
+      "Level": 1
+     },
+     {
+      "UniqueID": "DATA center and FCC",
+      "complete": 0.5578392898629189,
+      "Finish": "12\/08\/2032",
+      "Description": "DATA center and FCC",
+      "Level": 1
+     },
+     {
+      "UniqueID": "EBS CBIS & CBRA",
+      "complete": 0.6227807930439601,
+      "Finish": "11\/28\/2032",
+      "Description": "EBS CBIS & CBRA",
+      "Level": 1
+     },
+     {
+      "UniqueID": "FRONT OF HOUSE",
+      "complete": 0.014798436465637388,
+      "Finish": "11\/25\/2033",
+      "Description": "FRONT OF HOUSE",
+      "Level": 1
+     },
+     {
+      "UniqueID": "INBOUND AND OUTBOUND BAGGAGE ROOM",
+      "complete": 0.4478847238370579,
+      "Finish": "09\/10\/2034",
+      "Description": "INBOUND AND OUTBOUND BAGGAGE ROOM",
+      "Level": 1
+     },
+     {
+      "UniqueID": "MEETER GREETER HALL",
+      "complete": 0.3418514520696526,
+      "Finish": "01\/09\/2034",
+      "Description": "MEETER GREETER HALL",
+      "Level": 1
+     },
+     {
+      "UniqueID": "PUMP PLANT SPOT NETWORK",
+      "complete": 0.004102494526046052,
+      "Finish": "12\/14\/2032",
+      "Description": "PUMP PLANT SPOT NETWORK",
+      "Level": 1
+     },
+     {
+      "UniqueID": "SPOT NETWORK 3",
+      "complete": 0.9053840820356264,
+      "Finish": "09\/21\/2033",
+      "Description": "SPOT NETWORK 3",
+      "Level": 1
+     },
+     {
+      "UniqueID": "BACK OF HOUSE EAST",
+      "complete": 0.3471716602715861,
+      "Finish": "12\/05\/2034",
+      "Description": "BACK OF HOUSE EAST",
+      "Level": 2
+     },
+     {
+      "UniqueID": "BACK OF HOUSE WEST",
+      "complete": 0.22486238210791298,
+      "Finish": "06\/20\/2032",
+      "Description": "BACK OF HOUSE WEST",
+      "Level": 2
+     },
+     {
+      "UniqueID": "CBP",
+      "complete": 0.7531402081438004,
+      "Finish": "09\/29\/2034",
+      "Description": "CBP",
+      "Level": 2
+     },
+     {
+      "UniqueID": "CONCESSION RETAIL LOUNGES AND HOLD ROOMS",
+      "complete": 0.9557657014841634,
+      "Finish": "01\/26\/2035",
+      "Description": "CONCESSION RETAIL LOUNGES AND HOLD ROOMS",
+      "Level": 2
+     },
+     {
+      "UniqueID": "MECHANICAL PLATFORM",
+      "complete": 0.5888036811429482,
+      "Finish": "07\/02\/2032",
+      "Description": "MECHANICAL PLATFORM",
+      "Level": 2
+     },
+     {
+      "UniqueID": "TSA LEASABLE OFFICES",
+      "complete": 0.06562277219850654,
+      "Finish": "09\/10\/2034",
+      "Description": "TSA LEASABLE OFFICES",
+      "Level": 2
+     },
+     {
+      "UniqueID": "WHITEBOX SPACES",
+      "complete": 0.8316243432443008,
+      "Finish": "09\/30\/2034",
+      "Description": "WHITEBOX SPACES",
+      "Level": 2
+     },
+     {
+      "UniqueID": "AIRLINE LOUNGE",
+      "complete": 0.8624448328515902,
+      "Finish": "08\/18\/2034",
+      "Description": "AIRLINE LOUNGE",
+      "Level": 3
+     },
+     {
+      "UniqueID": "AIRTRAIN CORRIDOR & WHITEBOX",
+      "complete": 0.25973940256030625,
+      "Finish": "12\/03\/2032",
+      "Description": "AIRTRAIN CORRIDOR & WHITEBOX",
+      "Level": 3
+     },
+     {
+      "UniqueID": "CBP",
+      "complete": 0.14324764932184586,
+      "Finish": "03\/21\/2034",
+      "Description": "CBP",
+      "Level": 3
+     },
+     {
+      "UniqueID": "DEPARTURES CHECK IN",
+      "complete": 0.7229776494788057,
+      "Finish": "09\/10\/2033",
+      "Description": "DEPARTURES CHECK IN",
+      "Level": 3
+     },
+     {
+      "UniqueID": "POST CBP CORRIDOR",
+      "complete": 0.7692852517362502,
+      "Finish": "08\/03\/2033",
+      "Description": "POST CBP CORRIDOR",
+      "Level": 3
+     },
+     {
+      "UniqueID": "POST TSA AND OVERLOOK",
+      "complete": 0.827242285076868,
+      "Finish": "08\/27\/2032",
+      "Description": "POST TSA AND OVERLOOK",
+      "Level": 3
+     },
+     {
+      "UniqueID": "RETAIL BOH-E",
+      "complete": 0.6681591192836306,
+      "Finish": "12\/02\/2033",
+      "Description": "RETAIL BOH-E",
+      "Level": 3
+     },
+     {
+      "UniqueID": "RETAIL BOH-W",
+      "complete": 0.8729622816042929,
+      "Finish": "01\/09\/2035",
+      "Description": "RETAIL BOH-W",
+      "Level": 3
+     },
+     {
+      "UniqueID": "sterile corridor",
+      "complete": 0.9402650561368656,
+      "Finish": "05\/10\/2034",
+      "Description": "sterile corridor",
+      "Level": 3
+     },
+     {
+      "UniqueID": "TSA SSCP",
+      "complete": 0.4689401176985426,
+      "Finish": "12\/03\/2034",
+      "Description": "TSA SSCP",
+      "Level": 3
+     }
+    ]
