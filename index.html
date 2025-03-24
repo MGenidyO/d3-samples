@@ -201,8 +201,8 @@ function drawDXF(dxfData, layerGroup, layer) {
         return;
     }
 
-    const scaleX = 800 / (bounds.maxX - bounds.minX);
-    const scaleY = 600 / (bounds.maxY - bounds.minY);
+    const scaleX = 1060 / (bounds.maxX - bounds.minX);
+    const scaleY = 860 / (bounds.maxY - bounds.minY);
     const scale = Math.min(scaleX, scaleY) * 0.9;
     const offsetX = -bounds.minX * scale + (800 - (bounds.maxX - bounds.minX) * scale) / 2;
     const offsetY = -bounds.minY * scale + (600 - (bounds.maxY - bounds.minY) * scale) / 2;
