@@ -164,22 +164,23 @@ const layerColors = { 1: "lightblue", 2: "lightgreen", 3: "lightpink" };
 
 function renderLayers() {
     const svg = d3.select("svg");
-    //svg.selectAll("*").remove();
+    svg.selectAll(".new-level").remove();
 
-    svg.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", 800)
-        .attr("height", 600)
-        .attr("stroke", "black")
-        .attr("fill", "none");
+    // svg.append("rect")
+    //     .attr("x", 0)
+    //     .attr("y", 0)
+    //     .attr("width", 800)
+    //     .attr("height", 600)
+    //     .attr("stroke", "black")
+    //     .attr("fill", "none");
 
     Object.entries(layers).forEach(([layer, data]) => {
         if (data && document.getElementById(`layer${layer}`).checked) {
             const layerGroup = svg.append("g")
                 .attr("id", `layer-group-${layer}`)
                 .attr("transform", "translate(0, 0)")
-                .style("cursor", "grab")  
+                .style("cursor", "grab")
+                .attr("class", "new-level")
                 .call(d3.drag()
                     .on("start", dragStarted)
                     .on("drag", dragged)
