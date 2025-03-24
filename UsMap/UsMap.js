@@ -4,7 +4,7 @@ const height = 1000;
 
 //us = FileAttachment("./us.json").json()
 const us = await d3.json(`../UsMap/UsMap.json`);
-debugger
+
 const zoom = d3.zoom()
     .scaleExtent([1, 8])
     .on("zoom", zoomed);
