@@ -153,7 +153,7 @@
 
   <script type="module">
     const layers = { 1: null, 2: null, 3: null };
-    const layerColors = { 1: "blue", 2: "green", 3: "pink" };
+    const layerColors = { 1: "blue", 2: "red", 3: "pink" };
 
     const client_levels_data = await d3.json(`./data/ProjecsLevelsData.json`);
     debugger
@@ -247,7 +247,7 @@
               .attr("stroke", color)
               .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(client_levels_data.find((e) => e.UniqueID == entity.layer)?.complete) : "white")
               //.attr("fill", multiLayerSelected ? "none" : "white")
-              .style("opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.35)
+              .style("fill-opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.35)
               .attr("stroke-width", 2)
               .on("mouseover", function (d) {
 
@@ -287,7 +287,7 @@
               .attr("stroke", color)
               .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(client_levels_data.find((e) => e.UniqueID == entity.layer)?.complete) : "white")
               //.attr("fill", multiLayerSelected ? "none" : "white")
-              .style("opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.35)
+              .style("fill-opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.3)
               .attr("stroke-width", 2)
               .on("mouseover", function (d) {
 
