@@ -157,10 +157,11 @@
 
     const client_levels_data = await d3.json(`./data/ProjecsLevelsData.json`);
     debugger
-    const completeList = [...new Set(client_levels_data.map(key => key.complete))];
-    const colorLevelScale = d3.scaleOrdinal()
-      .domain(completeList)
-      .range(d3.schemeCategory10);
+    const completeList = [0,100];
+    //const ddd = d3.interpolateCool([0,100]);
+    const colorLevelScale = d3.scaleOrdinal(d3.schemeGreens[3])
+      //.domain(completeList)
+      //.range(d3.schemeCategory10);
     // async function loadDXF(file, layer) {
     //     const text = await file.text();
     //     const parser = new DxfParser();
@@ -245,7 +246,7 @@
               .attr("cy", 780 - (entity.center.y * scale + offsetY))
               .attr("r", entity.radius * scale)
               .attr("stroke", color)
-              .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(client_levels_data.find((e) => e.UniqueID == entity.layer)?.complete) : "white")
+              .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete)*100) : "white")
               //.attr("fill", multiLayerSelected ? "none" : "white")
               .style("fill-opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.35)
               .attr("stroke-width", 2)
@@ -285,7 +286,7 @@
             layerGroup.append("polyline")
               .attr("points", points.join(" "))
               .attr("stroke", color)
-              .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(client_levels_data.find((e) => e.UniqueID == entity.layer)?.complete) : "white")
+              .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete)*100) : "white")
               //.attr("fill", multiLayerSelected ? "none" : "white")
               .style("fill-opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.3)
               .attr("stroke-width", 2)
