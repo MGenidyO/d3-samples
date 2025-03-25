@@ -1,7 +1,7 @@
 
 const canvas = {
-  w: 1000,
-  h: 600
+  w: 1500,
+  h: 1000
 };
 
 const topoData = await d3.json(`../ProjeCS/ProjeCS.json`);
