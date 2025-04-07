@@ -30,7 +30,7 @@ const svg = d3
   .select("#svg_client_2_container")
   .append("svg")
   .attr("viewBox", `0 0 ${canvas.w} ${canvas.h}`)
-  .attr("style", "border:3px solid #041E42; background-color:#E5E4E2;")
+  .attr("style", "background-color:#E5E4E2;")
   .attr("width", canvas.w,)
   //  .attr("style", "border:1px solid black")
   .on("click", reset)

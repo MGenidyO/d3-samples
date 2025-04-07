@@ -217,7 +217,7 @@ assets.attr("data-tip", d => `Zone: ${d.properties.Zone}\nAREA: ${d.properties.A
     display: list-item;
 }
 body {
-    background-image: url('images/background.jpg');
+    background-color: #E5E4E2;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
