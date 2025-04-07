@@ -307,7 +307,6 @@ svg.selectAll(".new-level").remove();
 
       const scale = (layer == 1 ? scaleX1 : layer == 2 ? scaleX2 : scaleX3) / (bounds.maxX - bounds.minX);
 
-      debugger
       const offsetX = -bounds.minX * scale + (800 - (bounds.maxX - bounds.minX) * scale) / 2;
       const offsetY = -bounds.minY * scale + (600 - (bounds.maxY - bounds.minY) * scale) / 2;
       console.info(`scale:${scale}, offsetX:${offsetX}, offsetY:${offsetY}`);
@@ -387,6 +386,8 @@ svg.selectAll(".new-level").remove();
               //.attr("fill", multiLayerSelected ? "none" : "white")
               .style("fill-opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.3)
               .attr("stroke-width", 2)
+              .attr("data-tip", d => `layer: ${entity.layer}\nlevel: ${layer}`)
+              .call(getArea)
               .on("mouseover", function (d) {
 
                 tooltip2.style("opacity", 0.9);
@@ -573,9 +574,9 @@ function reset() {
 }
 
 
-function getArea(searchWord) {
-  const value = searchWord.target.value
-
+function getArea() {
+  const value = document.getElementById("example-search-input").value
+  
   const multiLayerSelected = document.querySelectorAll('input[name=chbx-level]:checked').length > 1;
       const progressChecked = document.getElementById(`flexSwitchCheckChecked`).checked;
 
@@ -586,6 +587,7 @@ function getArea(searchWord) {
   .style("fill-opacity", 0.3)
   .attr("fill", "red")
   
+  debugger
   const notExistElements2 = d3.selectAll('.area').filter(function() {
     const name = d3.select(this).attr("name");
     return !value || !name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
@@ -595,7 +597,7 @@ function getArea(searchWord) {
   debugger
 }
 
-  document.getElementById("example-search-input").addEventListener("keyup", e => getArea(e));
+  document.getElementById("example-search-input").addEventListener("keyup", e => getArea());
 
 
   </script>

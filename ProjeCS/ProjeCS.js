@@ -162,7 +162,7 @@ function getMainArea(searchWord) {
   })
   .attr("fill-opacity", 1)
   .attr("fill", d => `${client_data.find((e) => e.RoomID == d.properties.LAYER) ? "#041E42" : "#C0C0C0"}`)
-  debugger
+  
 }
 
   document.getElementById("example-search-input").addEventListener("keyup", e => getMainArea(e));
