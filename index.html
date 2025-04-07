@@ -75,6 +75,11 @@
           <li class="nav-item my-1">
             <input type="checkbox" name="chbx-level" id="layer3" checked> JFK-HH-LV3-arc-zones
           </li>
+          <li class="nav-item my-1">
+            <div class="input-group">
+                <input class="form-control border" type="search" placeholder="search" id="example-search-input">
+            </div>
+          </li>
         </ul>
       </nav>
 
@@ -339,7 +344,7 @@ svg.selectAll(".new-level").remove();
               .attr("stroke", color)
               .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete))) : "white")
               //.attr("fill", multiLayerSelected ? "none" : "white")
-              .style("fill-opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.35)
+              .style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
               .attr("stroke-width", 2)
               .on("mouseover", function (d) {
 
@@ -375,6 +380,8 @@ svg.selectAll(".new-level").remove();
 
             layerGroup.append("polyline")
               .attr("points", points.join(" "))
+              .attr("name", `${entity.layer}`)
+              .attr("class", `area`)
               .attr("stroke", color)
               .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete))) : "white")
               //.attr("fill", multiLayerSelected ? "none" : "white")
@@ -564,6 +571,32 @@ function reset() {
     d3.zoomTransform(g.node()).invert([1500 / 2, 1000 / 2])
   );
 }
+
+
+function getArea(searchWord) {
+  const value = searchWord.target.value
+
+  const multiLayerSelected = document.querySelectorAll('input[name=chbx-level]:checked').length > 1;
+      const progressChecked = document.getElementById(`flexSwitchCheckChecked`).checked;
+
+  const existElements = d3.selectAll('.area').filter(function() {
+    const name = d3.select(this).attr("name");
+    return value && name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
+  })
+  .style("fill-opacity", 0.3)
+  .attr("fill", "red")
+  
+  const notExistElements2 = d3.selectAll('.area').filter(function() {
+    const name = d3.select(this).attr("name");
+    return !value || !name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
+  })
+  .style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
+  .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete))) : "white")
+  debugger
+}
+
+  document.getElementById("example-search-input").addEventListener("keyup", e => getArea(e));
+
 
   </script>
 </body>

@@ -72,7 +72,10 @@ const assets = groups
   .attr("stroke", "#8B8000")
   .attr("stroke-linejoin", "round")
   .attr("stroke-width", 1.5)
-  .attr("d", d3Path).on("mouseover", function (d) {
+  .attr("name", d => `${d.properties.LAYER}`)
+  .attr("class", `mainLayerArea`)
+  .attr("d", d3Path)
+  .on("mouseover", function (d) {
 
     tooltip.style("opacity", 0.9);
     tooltip
@@ -143,4 +146,24 @@ function zoomed(event) {
   g.attr("stroke-width", 2);
 }
 
+
+function getMainArea(searchWord) {
+  const value = searchWord.target.value
+  const existElements = d3.selectAll('.mainLayerArea').filter(function() {
+    const name = d3.select(this).attr("name");
+    return value && name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
+  })
+  .attr("fill-opacity", 0.3)
+  .attr("fill", "red")
+
+  const notExistElements = d3.selectAll('.mainLayerArea').filter(function() {
+    const name = d3.select(this).attr("name");
+    return !value || !name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
+  })
+  .attr("fill-opacity", 1)
+  .attr("fill", d => `${client_data.find((e) => e.RoomID == d.properties.LAYER) ? "#041E42" : "#C0C0C0"}`)
+  debugger
+}
+
+  document.getElementById("example-search-input").addEventListener("keyup", e => getMainArea(e));
 
