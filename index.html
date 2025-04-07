@@ -54,12 +54,12 @@
           </li>
           <li class="nav-item"><a href="#" class="nav-link"><img class="icon"
                 src="./images/mechanical_equipments.png">Mechanical Equipment</a></li> -->
-          <li class=" nav-item mt-3">
+          <!-- <li class=" nav-item mt-3">
             <div class="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="hideBackgroundAreasCheckChecked">
               <label class="form-check-label" for="hideBackgroundAreasCheckChecked">Hide Background Areas</label>
             </div>
-          </li>
+          </li> -->
           <li class=" nav-item mt-3">
             <div class="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
@@ -232,6 +232,8 @@
       const svg = d3.select("svg").on("click", reset);
       
 //const g = svg.append("g");
+// d3.selectAll("path")
+// .attr("stroke-width", 0)
 
 svg.selectAll(".new-level").remove();
 

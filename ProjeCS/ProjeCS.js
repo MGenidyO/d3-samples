@@ -40,11 +40,12 @@ const g = svg.append("g");
 
 const groups = g
   .selectAll("g")
-  .attr("fill", "#363cad")
+  .attr("fill", "#363cad") // #363cad
   .attr("cursor", "pointer")
   .data(arrOfKeys)
   .enter()
   .append("g")
+  .attr("class", "main-layer")
   .attr("class", (d) => d).attr("stroke-width", 2)
 //.on("click", clicked)
 
