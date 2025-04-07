@@ -56,6 +56,12 @@
                 src="./images/mechanical_equipments.png">Mechanical Equipment</a></li> -->
           <li class=" nav-item mt-3">
             <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="hideBackgroundAreasCheckChecked">
+              <label class="form-check-label" for="hideBackgroundAreasCheckChecked">Hide Background Areas</label>
+            </div>
+          </li>
+          <li class=" nav-item mt-3">
+            <div class="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
               <label class="form-check-label" for="flexSwitchCheckChecked">Display Progress</label>
             </div>
@@ -100,18 +106,18 @@
             <div class="col-md-12">
               <!-- <div id="svg_container"></div> -->
             </div>
-            <div id="controls">
+            <!-- <div id="controls">
               <label for="scale-layer1">Scale Layer 1:</label>
               <input type="range" id="scale-layer1" min="0.5" max="2" step="0.1" value="1">
-              
+
               <label for="scale-layer2">Scale Layer 2:</label>
               <input type="range" id="scale-layer2" min="0.5" max="2" step="0.1" value="1">
-            
+
               <label for="scale-layer3">Scale Layer 3:</label>
               <input type="range" id="scale-layer3" min="0.5" max="2" step="0.1" value="1">
-            </div>
-            
-          
+            </div> -->
+
+
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
               integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
               crossorigin="anonymous"></script>
@@ -167,10 +173,10 @@
     const layerColors = { 1: "blue", 2: "red", 3: "pink" };
 
     const client_levels_data = await d3.json(`./data/ProjecsLevelsData.json`);
-    const completeList = [0,100];
+    const completeList = [0, 100];
     const colorLevelScale = d3.scaleSequential(d3.interpolateGreens)
-      //.domain(completeList)
-      //.range(d3.schemeCategory10);
+    //.domain(completeList)
+    //.range(d3.schemeCategory10);
     // async function loadDXF(file, layer) {
     //     const text = await file.text();
     //     const parser = new DxfParser();
@@ -186,73 +192,73 @@
 
     //Old function without scaling 
     //function renderLayers() {
-      //const svg = d3.select("svg");
-      //svg.selectAll(".new-level").remove();
+    //const svg = d3.select("svg");
+    //svg.selectAll(".new-level").remove();
 
-      // svg.append("rect")
-      //     .attr("x", 0)
-      //     .attr("y", 0)
-      //     .attr("width", 800)
-      //     .attr("height", 600)
-      //     .attr("stroke", "black")
-      //     .attr("fill", "none");
+    // svg.append("rect")
+    //     .attr("x", 0)
+    //     .attr("y", 0)
+    //     .attr("width", 800)
+    //     .attr("height", 600)
+    //     .attr("stroke", "black")
+    //     .attr("fill", "none");
 
-   //   Object.entries(layers).forEach(([layer, data]) => {
-   //     if (data && document.getElementById(`layer${layer}`).checked) {
-   //       const layerGroup = svg.append("g")
-   //         .attr("id", `layer-group-${layer}`)
-   //         .attr("transform", "translate(0, 0)")
-   //         .style("cursor", "grab")
-   //         .attr("class", "new-level")
-   //         .call(d3.drag()
-   //           .on("start", dragStarted)
-   //           .on("drag", dragged)
-   //           .on("end", dragEnded)
-   //         );
+    //   Object.entries(layers).forEach(([layer, data]) => {
+    //     if (data && document.getElementById(`layer${layer}`).checked) {
+    //       const layerGroup = svg.append("g")
+    //         .attr("id", `layer-group-${layer}`)
+    //         .attr("transform", "translate(0, 0)")
+    //         .style("cursor", "grab")
+    //         .attr("class", "new-level")
+    //         .call(d3.drag()
+    //           .on("start", dragStarted)
+    //           .on("drag", dragged)
+    //           .on("end", dragEnded)
+    //         );
 
-   //       drawDXF(data, layerGroup, layer);
-   //     }
-   //   });
-   // }
+    //       drawDXF(data, layerGroup, layer);
+    //     }
+    //   });
+    // }
 
-const layerScales = { 1: 1, 2: 1, 3: 1 }; 
-const layerTransforms = { 1: { x: 0, y: 0 }, 2: { x: 0, y: 0 }, 3: { x: 0, y: 0 } }; 
+    const layerScales = { 1: 1, 2: 1, 3: 1 };
+    const layerTransforms = { 1: { x: 0, y: 0 }, 2: { x: 0, y: 0 }, 3: { x: 0, y: 0 } };
 
-function renderLayers() {
-  const svg = d3.select("svg");
-  svg.selectAll(".new-level").remove();
+    function renderLayers() {
+      const svg = d3.select("svg");
+      svg.selectAll(".new-level").remove();
 
-  Object.entries(layers).forEach(([layer, data]) => {
-    if (data && document.getElementById(`layer${layer}`).checked) {
-      const layerGroup = svg.append("g")
-        .attr("id", `layer-group-${layer}`)
-        .attr("transform", "translate(0, 0)")
-        .style("cursor", "grab")
-        .attr("class", "new-level")
-        .call(d3.drag()
-              .on("start", dragStarted)
-              .on("drag", dragged)
-              .on("end", dragEnded)
-        );
+      Object.entries(layers).forEach(([layer, data]) => {
+        if (data && document.getElementById(`layer${layer}`).checked) {
+          const layerGroup = svg.append("g")
+            .attr("id", `layer-group-${layer}`)
+            .attr("transform", "translate(0, 0)")
+            .style("cursor", "grab")
+            .attr("class", "new-level")
+            // .call(d3.drag()
+            //   .on("start", dragStarted)
+            //   .on("drag", dragged)
+            //   .on("end", dragEnded)
+            // );
 
-      drawDXF(data, layerGroup, layer);
+          drawDXF(data, layerGroup, layer);
 
-      d3.select(`#scale-layer${layer}`).on("input", function () {
-        layerScales[layer] = this.value;
-         updateTransform(layer);
+          d3.select(`#scale-layer${layer}`).on("input", function () {
+            layerScales[layer] = this.value;
+            updateTransform(layer);
+          });
+        }
       });
     }
-  });
-}
 
-  function updateTransform(layer) {
-  console.log(`Updating transform for layer ${layer}:`, layerTransforms[layer]);
-  const { x, y } = layerTransforms[layer];
-  const scale = layerScales[layer];
+    function updateTransform(layer) {
+      console.log(`Updating transform for layer ${layer}:`, layerTransforms[layer]);
+      const { x, y } = layerTransforms[layer];
+      const scale = layerScales[layer];
 
-  d3.select(`#layer-group-${layer}`)
-    .attr("transform", `translate(${x}, ${y}) scale(${scale})`);
-}
+      d3.select(`#layer-group-${layer}`)
+        .attr("transform", `translate(${x}, ${y}) scale(${scale})`);
+    }
 
     const tooltip2 = d3.select("#tooltip")
       .style("opacity", 0)
@@ -269,15 +275,30 @@ function renderLayers() {
         return;
       }
 
-      const scaleX = 1580 / (bounds.maxX - bounds.minX);
-      const scaleY = 1300 / (bounds.maxY - bounds.minY);
-      const scale = Math.min(scaleX, scaleY) * 0.9;
+      const scaleX1 = 1403
+      const scaleX2 = 1430
+      const scaleX3 = 1375
+
+      const scale = (layer == 1 ? scaleX1 : layer == 2 ? scaleX2 : scaleX3) / (bounds.maxX - bounds.minX);
+
+      debugger
       const offsetX = -bounds.minX * scale + (800 - (bounds.maxX - bounds.minX) * scale) / 2;
       const offsetY = -bounds.minY * scale + (600 - (bounds.maxY - bounds.minY) * scale) / 2;
-
+      console.info(`scale:${scale}, offsetX:${offsetX}, offsetY:${offsetY}`);
+      const x1 = 302
+      const y1 = 735
+      const x2 = 312
+      const y2 = 785
+      const x3 = 338
+      const y3 = 772
+      /*
+      layer1: scale:27.280428350879188, offsetX:-300.62557621478703, offsetY:-46.874804581787956
+      layer2: scale:42.58078973634616, offsetX:-317.39098994551506, offsetY:-76.79034063321643
+      layer3: scale:67.92873335606416, offsetX:-276.56519291915913, offsetY:-158.90716637412618
+      */
       dxfData.entities.forEach(entity => {
-        console.info((Math.floor(client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete*100)));
-        console.info(colorLevelScale(Math.floor(client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete*100)));
+        //console.info((Math.floor(client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete * 100)));
+        //console.info(colorLevelScale(Math.floor(client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete * 100)));
         switch (entity.type) {
           case "LINE":
             layerGroup.append("line")
@@ -326,9 +347,10 @@ function renderLayers() {
           case "POLYLINE":
           case "LWPOLYLINE":
             const points = entity.vertices.map(v => [
-              v.x * scale +( offsetX +312 ),
-              785 - (v.y * scale + offsetY)
+              v.x * scale + (offsetX + (layer == 1 ? x1 : layer == 2 ? x2 : x3)),
+              -(v.y * scale + (offsetY - (layer == 1 ? y1 : layer == 2 ? y2 : y3)))
             ]);
+            console.info(`Entity Points: ${points}`)
 
             layerGroup.append("polyline")
               .attr("points", points.join(" "))
@@ -398,81 +420,81 @@ function renderLayers() {
     }
 
     function dragged(event, d) {
-  const layerId = +d3.select(this).attr("id").split("-")[2];
-  layerTransforms[layerId].x += event.dx;
-  layerTransforms[layerId].y += event.dy;
-  updateTransform(layerId);
-}
+      const layerId = +d3.select(this).attr("id").split("-")[2];
+      layerTransforms[layerId].x += event.dx;
+      layerTransforms[layerId].y += event.dy;
+      updateTransform(layerId);
+    }
 
 
-const transformations = {}; 
-let fileHandle = null;
+    const transformations = {};
+    let fileHandle = null;
 
-async function dragEnded(event, d) {
-  d3.select(this)
-    .style("cursor", "grab");
+    async function dragEnded(event, d) {
+      d3.select(this)
+        .style("cursor", "grab");
 
-  const transform = d3.select(this).attr("transform");
-  const layer = this.id.split('-').pop();
+      const transform = d3.select(this).attr("transform");
+      const layer = this.id.split('-').pop();
 
-  transformations[layer] = {
-    transform: transform
-  };
+      transformations[layer] = {
+        transform: transform
+      };
 
-  console.log(`Layer ${layer} moved to:`, event.x, event.y);
-  console.log(`Saved Transform:`, transform);
+      console.log(`Layer ${layer} moved to:`, event.x, event.y);
+      console.log(`Saved Transform:`, transform);
 
-  await saveTransformations(); 
-}
+      await saveTransformations();
+    }
 
-async function getFileHandle() {
-  if (!fileHandle) {
-      try {
-      [fileHandle] = await window.showOpenFilePicker({
-        types: [{
-          description: 'JSON Files',
-          accept: { 'application/json': ['.json'] }
-        }]
-      });
-    } catch (err) {
-      if (err.name === 'AbortError') {
-        console.warn('File selection aborted by user.');
-      } else {
-        console.error('Error selecting file:', err);
+    async function getFileHandle() {
+      if (!fileHandle) {
+        try {
+          [fileHandle] = await window.showOpenFilePicker({
+            types: [{
+              description: 'JSON Files',
+              accept: { 'application/json': ['.json'] }
+            }]
+          });
+        } catch (err) {
+          if (err.name === 'AbortError') {
+            console.warn('File selection aborted by user.');
+          } else {
+            console.error('Error selecting file:', err);
+          }
+        }
       }
     }
-  }
-}
 
-async function saveTransformations() {
-   try {
-     if (!fileHandle) await getFileHandle();
-     if (!fileHandle) return;
- 
-     let existingData = {};
-     try {
-       const file = await fileHandle.getFile();
-       const text = await file.text();
-       existingData = JSON.parse(text);
-     } catch (e) {
-       console.log('No existing file or error reading file:', e);
-     }
- 
-     Object.assign(existingData, transformations);
- 
-     const writable = await fileHandle.createWritable();
-     await writable.write(JSON.stringify(existingData, null, 2));
-     await writable.close();
- 
-     console.log('Transformations saved successfully!');
-   } catch (err) {
-     if (err.name === 'AbortError') {
-       console.warn('File save aborted by user.');
-     } else {
-       console.error('Error saving file:', err);
-     }
-   }
- }
+    async function saveTransformations() {
+      try {
+        if (!fileHandle) await getFileHandle();
+        if (!fileHandle) return;
+
+        let existingData = {};
+        try {
+          const file = await fileHandle.getFile();
+          const text = await file.text();
+          existingData = JSON.parse(text);
+        } catch (e) {
+          console.log('No existing file or error reading file:', e);
+        }
+
+        Object.assign(existingData, transformations);
+
+        const writable = await fileHandle.createWritable();
+        await writable.write(JSON.stringify(existingData, null, 2));
+        await writable.close();
+
+        console.log('Transformations saved successfully!');
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          console.warn('File save aborted by user.');
+        } else {
+          console.error('Error saving file:', err);
+        }
+      }
+    }
 
     const layer1 = await d3.json(`./files/layer-1.json`);
     readDXF(layer1, 1);
