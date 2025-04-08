@@ -437,18 +437,21 @@ svg.selectAll(".new-level").remove();
               v.x * scale + (offsetX + (layer == 1 ? x1 : layer == 2 ? x2 : x3)),
               -(v.y * scale + (offsetY - (layer == 1 ? y1 : layer == 2 ? y2 : y3)))
             ]);
-            console.info(`Entity Points: ${points}`)
+            //console.info(`Entity Points: ${points}`)
 
-            layerGroup.append("polyline")
+            layerGroup
+        
+layerGroup.append("polyline")
               .attr("points", points.join(" "))
               .attr("name", `${entity.layer}`)
               .attr("class", `area`)
               .attr("stroke", color)
+              .attr("data-level", layer)
+              .attr("data-layer", entity.layer)
               .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete))) : "white")
               //.attr("fill", multiLayerSelected ? "none" : "white")
               .style("fill-opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.3)
               .attr("stroke-width", 2)
-              .attr("data-tip", d => `layer: ${entity.layer}\nlevel: ${layer}`)
               .call(getArea)
               .on("mouseover", function (d) {
                 tooltip2
@@ -664,14 +667,17 @@ function getArea() {
   .style("fill-opacity", 0.3)
   .attr("fill", "red")
   
-  debugger
+  
   const notExistElements2 = d3.selectAll('.area').filter(function() {
     const name = d3.select(this).attr("name");
     return !value || !name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
   })
-  .style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
-  .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete))) : "white")
-  debugger
+  
+  notExistElements2.each(function(){
+                    const entity = d3.select(this).node().dataset
+                    d3.select(this).style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
+                    .attr("fill",multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == entity.level)?.complete))) : "white");
+                });
 }
 
   document.getElementById("example-search-input").addEventListener("keyup", e => getArea());

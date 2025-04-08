@@ -80,22 +80,22 @@ const assets = groups
   tooltip
   .style("opacity", 1)
   .html(`
-    <h3 class="layerName">Layer Name</h3>
+    <h3 class="layerName">Main background</h3>
     <div class="row">
       <div class="label">Zone:</div>
-      <div class="value">Dummy zone</div>
+      <div class="value">${d.target.__data__.properties.Zone}</div>
     </div>
     <div class="row">
       <div class="label">Area:</div>
-      <div class="value">Dummy area</div>
+      <div class="value">${d.target.__data__.properties.AREA}</div>
     </div>
     <div class="row">
       <div class="label">Layer:</div>
-      <div class="value">Dummy layer</div>
+      <div class="value">${d.target.__data__.properties.LAYER}</div>
     </div>
     <div class="row">
       <div class="label">Description:</div>
-      <div class="value" style="max-width: 400px;">Dummy description</div>
+      <div class="value" style="max-width: 400px;">${client_data.find((e) => e.RoomID == d.target.__data__.properties.LAYER)?.RoomDescription}</div>
     </div>
   `)
   .style("left", (event.pageX + 20) + "px")
