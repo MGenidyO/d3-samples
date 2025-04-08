@@ -77,18 +77,46 @@ const assets = groups
   .attr("d", d3Path)
   .on("mouseover", function (d) {
 
+  tooltip
+  .style("opacity", 1)
+  .html(`
+    <h3 class="layerName">Layer Name</h3>
+    <div class="row">
+      <div class="label">Zone:</div>
+      <div class="value">Dummy zone</div>
+    </div>
+    <div class="row">
+      <div class="label">Area:</div>
+      <div class="value">Dummy area</div>
+    </div>
+    <div class="row">
+      <div class="label">Layer:</div>
+      <div class="value">Dummy layer</div>
+    </div>
+    <div class="row">
+      <div class="label">Description:</div>
+      <div class="value" style="max-width: 400px;">Dummy description</div>
+    </div>
+  `)
+  .style("left", (event.pageX + 20) + "px")
+  .style("top", (event.pageY - 30) + "px");
+})
+.on("mouseout", function () {
+  tooltip.style("opacity", 0);
+});
+
+//==============tool tip old design code ==============
+/*
+  .on("mouseover", function (d) {
+
     tooltip.style("opacity", 0.9);
     tooltip
       .html(() => {
-
-        return `<p></p><p><b>Zone:</b> ${d.target.__data__.properties.Zone}</p>
+      return `<p></p><p><b>Zone:</b> ${d.target.__data__.properties.Zone}</p>
       <p><b>AREA:</b> ${d.target.__data__.properties.AREA}</p>
       <p><b>LAYER:</b> ${d.target.__data__.properties.LAYER}</p>
       <p><b>Description:</b>  ${client_data.find((e) => e.RoomID == d.target.__data__.properties.LAYER)?.RoomDescription}</p><p></p>`;
-
       })
-
-
     tooltip.append("img")
       .attr("src", "../images/projecs.png")
 
@@ -99,6 +127,7 @@ const assets = groups
   .on("mouseout", d => {
     tooltip.style("opacity", 0);
   });
+  */
 
 assets.attr("fill", d => `${client_data.find((e) => e.RoomID == d.properties.LAYER) ? "#041E42" : "#C0C0C0"}`)
 assets.attr("data-tip", d => `Zone: ${d.properties.Zone}\nAREA: ${d.properties.AREA}\nLAYER: ${d.properties.LAYER}\nDescription: ${client_data.find((e) => e.RoomID == d.properties.LAYER)?.RoomDescription}`)

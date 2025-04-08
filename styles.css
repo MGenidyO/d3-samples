@@ -278,3 +278,81 @@ main .nav-link.active {
     text-align: center;
     font-size: 14px;
 }
+
+/*Tool tip styling*/
+.layerName{
+    font-size: 23px !important;
+}
+#tooltip {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9); 
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    padding: 20px 24px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+    max-width: 300px;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border: 1px solid #e5e5e5;
+  }
+  
+  #tooltip h3 {
+    margin-top: 0;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  
+  #tooltip .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #cce5ff;
+    padding-bottom: 4px;
+  }
+  #tooltip .row:last-child  { 
+    border-bottom: none; 
+}
+#tooltip .description-row{
+    border-bottom: none;
+  }
+  #tooltip .label,
+  #tooltip .value {
+    flex: 1;
+    white-space: nowrap; 
+  }
+  
+  #tooltip .label {
+    font-weight: bold;
+    color: #555;
+    margin-right: 10px;
+  }
+  
+  #tooltip .value {
+    text-align: right;
+    color: #222;
+  }
+  .alert-warning{
+    font-size: 12px !important;
+  }
+
+  /*Progress bar styling*/
+  .bg-secondary{
+    background-color: #adbbc7 !important;
+  }
+  .progress{
+    height: 12px;
+  }
+  #smallProgress{
+    height: 10px; 
+    flex-grow: 1;
+  }
+  .precentage{
+    margin-right: 8px !important;
+  }
