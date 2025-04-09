@@ -189,14 +189,14 @@ const assets = groups
   });
 assets.attr("fill", d => `${client_data.find((e) => e.RoomID == d.properties.LAYER) ? "#2cba00" : "#ff0000"}`)
 assets.attr("data-tip", d => `Zone: ${d.properties.Zone}\nAREA: ${d.properties.AREA}\nLAYER: ${d.properties.LAYER}\nDescription: ${client_data.find((e) => e.RoomID == d.properties.LAYER)?.RoomDescription}`)
-
-
-
-  
   */
 
-  body {
+body {
     font-family: 'Trebuchet MS', sans-serif;
+}
+
+main{
+  zoom : 0.8;
 }
 
 .sidebar {
