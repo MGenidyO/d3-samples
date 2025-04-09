@@ -89,11 +89,11 @@
         <div class="w-75 mx-auto">
           <div class="d-flex justify-content-between mb-1 text-center">
             <div class="text-start">
-              <span class="d-block fw-bold fs-1">40%</span>
+              <span id="completed-progress-title-value" class="d-block fw-bold fs-1">40%</span>
               <span class="fs-1">Completed</span>
             </div>
             <div>
-              <span class="d-block fw-bold fs-1">60%</span>
+              <span id="pending-progress-title-value" class="d-block fw-bold fs-1">60%</span>
               <span class="fs-1">Pending</span>
             </div>
           </div>
@@ -264,7 +264,7 @@
 
       svg.selectAll(".new-level").remove();
 
-      const selectedLayers = [];
+      let selectedLayers = [];
 
       Object.entries(layers).forEach(([layer, data]) => {
         if (data && document.getElementById(`layer${layer}`).checked) {
@@ -294,8 +294,10 @@
           // });
         }
         else
-        selectedLayers.push(layer)
+        selectedLayers = selectedLayers.filter(e => e != layer)
       });
+
+      updatedProgressBar(selectedLayers);
 
       svg.call(zoom)
         .on("mousedown.zoom", null)
@@ -666,7 +668,26 @@
 
     document.getElementById("example-search-input").addEventListener("keyup", e => getArea());
 
+  function updatedProgressBar(selectedLayers) {
 
+    var filteredList = [];
+
+    if (selectedLayers.length > 0)
+      filteredList = client_levels_data.filter(item => selectedLayers.includes(item.Level.toString()))
+    else
+      filteredList = client_levels_data
+
+    let total = filteredList.reduce((sum, item) => sum + (item?.complete * 100), 0);
+
+    const completed = (total / filteredList.length).toFixed(1).replace(/[.,]0$/, "")
+    const pending = 100 - completed
+    
+    document.getElementById("completed-progress-title-value").innerHTML  = completed
+    document.getElementById("pending-progress-title-value").innerHTML  = pending
+
+    console.info("Count: " + filteredList.length + ", Total: " + total + ", Precentage:" + total / filteredList.length);
+    //client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.Level
+  }
   </script>
 </body>
 
