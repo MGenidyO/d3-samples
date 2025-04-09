@@ -682,8 +682,11 @@
     const completed = (total / filteredList.length).toFixed(1).replace(/[.,]0$/, "")
     const pending = (100 - completed).toFixed(1).replace(/[.,]0$/, "")
     
-    document.getElementById("completed-progress-title-value").innerHTML  = completed + " %"
-    document.getElementById("pending-progress-title-value").innerHTML  = pending + " %"
+    //document.getElementById("completed-progress-title-value").innerHTML  = completed + " %"
+    //document.getElementById("pending-progress-title-value").innerHTML  = pending + " %"
+
+    d3.select('#completed-progress-title-value').text(completed +' %');
+    d3.select('#pending-progress-title-value').text(pending +' %');
 
     d3.select("#completed-progress-bar-value").style("width", `${completed}%`)
     d3.select("#pending-progress-bar-value").style("width", `${pending}%`)
