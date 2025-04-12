@@ -36,7 +36,7 @@
   <div class="container-fluid">
     <div class="row">
       <!-- Left Sidebar  -->
-      <nav class="col-md-4 col-lg-2 d-md-block sidebar ms-2">
+      <nav class="col-md-4 col-lg-2 d-md-block sidebar">
         <div class="d-flex align-items-center">
           <img src="./images/back.png" id="backImg" class="ms-3 mt-2">
           <h5 class="mt-3">Layers</h5>
@@ -200,7 +200,7 @@
 
   <script type="module">
     const layers = { 1: null, 2: null, 3: null };
-    const layerColors = { 1: "blue", 2: "red", 3: "pink" };
+    const layerColors = { 1: "#00C7BE", 2: "#AF52DE", 3: "#F18900" };
 
     const client_levels_data = await d3.json(`./data/ProjecsLevelsData.json`);
     const completeList = [0, 100];
