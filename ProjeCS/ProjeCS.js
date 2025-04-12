@@ -87,7 +87,7 @@ const assets = groups
     </div>
     <div class="row">
       <div class="label">Area:</div>
-      <div class="value">${d.target.__data__.properties.AREA}</div>
+      <div class="value">${Number(d.target.__data__.properties.AREA).toFixed(2)}</div>
     </div>
     <div class="row">
       <div class="label">Layer:</div>

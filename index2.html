@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>ProjeCS Demo</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dxf-parser@1.1.2/dist/dxf-parser.min.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Contech</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-4">
+          <li class="nav-item"><a class="nav-link" href="#">Project 01</a></li>
+          <li class="nav-item"><a class="nav-link" href="#"> > </a></li>
+          <li class="nav-item"><a class="nav-link active" id="House" href="#">House 01</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-4 col-lg-2 d-md-block sidebar ms-2">
+        <div class="d-flex align-items-center">
+          <img src="./images/back.png" id="backImg" class="ms-3 mt-2">
+          <h5 class="mt-3">Layers</h5>
+        </div>
+        <ul class="nav flex-column">
+          <li class=" nav-item mt-3">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+              <label class="form-check-label" for="flexSwitchCheckChecked">Display Progress</label>
+            </div>
+          </li>
+          <li class="nav-item my-1">
+            <input type="checkbox" name="chbx-level" id="layer1" checked> JFK-HH-LV1-arc-zones-1
+          </li>
+          <li class="nav-item my-1">
+            <input type="checkbox" name="chbx-level" id="layer2" checked> JFK-HH-LV2-arc-zones
+          </li>
+          <li class="nav-item my-1">
+            <input type="checkbox" name="chbx-level" id="layer3" checked> JFK-HH-LV3-arc-zones
+          </li>
+          <li class="nav-item my-1">
+            <div class="input-group">
+              <input class="form-control border" type="search" placeholder="search" id="example-search-input">
+            </div>
+          </li>
+          <li class="nav-item my-2">
+            <label>Layer 1 Transform:</label>
+            <input type="number" id="scale1" placeholder="Scale" step="0.01" min="0.01" class="form-control form-control-sm my-1">
+            <input type="number" id="x1" placeholder="Translate X" class="form-control form-control-sm my-1">
+            <input type="number" id="y1" placeholder="Translate Y" class="form-control form-control-sm my-1">
+            <button class="btn btn-sm btn-primary" onclick="applyTransform(1)">Apply Layer 1</button>
+          </li>
+          <li class="nav-item my-2">
+            <label>Layer 2 Transform:</label>
+            <input type="number" id="scale2" placeholder="Scale" step="0.01" min="0.01" class="form-control form-control-sm my-1">
+            <input type="number" id="x2" placeholder="Translate X" class="form-control form-control-sm my-1">
+            <input type="number" id="y2" placeholder="Translate Y" class="form-control form-control-sm my-1">
+            <button class="btn btn-sm btn-primary" onclick="applyTransform(2)">Apply Layer 2</button>
+          </li>
+          <li class="nav-item my-2">
+            <label>Layer 3 Transform:</label>
+            <input type="number" id="scale3" placeholder="Scale" step="0.01" min="0.01" class="form-control form-control-sm my-1">
+            <input type="number" id="x3" placeholder="Translate X" class="form-control form-control-sm my-1">
+            <input type="number" id="y3" placeholder="Translate Y" class="form-control form-control-sm my-1">
+            <button class="btn btn-sm btn-primary" onclick="applyTransform(3)">Apply Layer 3</button>
+          </li>
+        </ul>
+      </nav>
+      <main class="col-md-7 col-lg-9  mt-4 px-md-4">
+        <div class="w-75 mx-auto">
+          <div class="d-flex justify-content-between mb-1 text-center">
+            <div class="text-start">
+              <span class="d-block fw-bold fs-1">40%</span>
+              <span class="fs-1">Completed</span>
+            </div>
+            <div>
+              <span class="d-block fw-bold fs-1">60%</span>
+              <span class="fs-1">Pending</span>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: 40%;" aria-valuenow="40"
+              aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-secondary" role="progressbar" style="width: 60%;" aria-valuenow="60"
+              aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <div class="mt-2">
+            <span class="fs-3">Current phase: Structural frame</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center mb-3">
+          <div class="row">
+            <div class="col-md-12">
+              <div id="svg_client_2_container"></div>
+              <div id="tooltip">
+              </div>
+            </div>
+            <div class="col-md-12">
+            </div>
+            <div class="col-md-12">
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+              integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+              crossorigin="anonymous"></script>
+            <script src="./lib/import_js_files.js" type="module"></script>
+            <script src="./ProjeCS/ProjeCS.js" type="module"></script>
+          </div>
+        </div>
+      </main>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+    window.applyTransform = applyTransform;
+    const layers = { 1: null, 2: null, 3: null };
+    const layerColors = { 1: "blue", 2: "red", 3: "pink" };
+
+    const client_levels_data = await d3.json(`./data/ProjecsLevelsData.json`);
+    const completeList = [0, 100];
+    const colorLevelScale = d3.scaleSequential(d3.interpolateGreens)
+    const zoom = d3.zoom()
+      .scaleExtent([1, 8])
+      .on("zoom", zoomed);
+      const layerScales = { 1: 1, 2: 1, 3: 1 };
+      const layerNames = { 1: 'JFK-HH-LV1-arc-zones-1', 2: 'JFK-HH-LV2-arc-zones', 3: 'JFK-HH-LV3-arc-zones' };
+    const layerTransforms = { 1: { x: 0, y: 0 }, 2: { x: 0, y: 0 }, 3: { x: 0, y: 0 } };
+    function renderLayers() {
+      const svg = d3.select("svg").on("click", reset);
+      svg.selectAll(".new-level").remove();
+      const selectedLayers = [];
+      Object.entries(layers).forEach(([layer, data]) => {
+        if (data && document.getElementById(`layer${layer}`).checked) {
+          const layerGroup = svg.append("g")
+            .attr("id", `layer-group-${layer}`)
+            .attr("transform", "translate(0, 0)")
+            .style("cursor", "grab")
+            .attr("class", "new-level")
+          drawDXF(data, layerGroup, layer);
+          selectedLayers.push(layer)
+        }
+        else
+        selectedLayers.push(layer)
+      });
+
+      svg.call(zoom)
+        .on("mousedown.zoom", null)
+        .on("touchstart.zoom", null)
+        .on("touchmove.zoom", null)
+        .on("touchend.zoom", null);
+
+    }
+
+    function updateTransform(layer) {
+      console.log(`Updating transform for layer ${layer}:`, layerTransforms[layer]);
+      const { x, y } = layerTransforms[layer];
+      const scale = layerScales[layer];
+      d3.select(`#layer-group-${layer}`)
+        .attr("transform", `translate(${x}, ${y}) scale(${scale})`);
+    }
+    
+    function applyTransform(layer) {
+       const scaleInput = document.getElementById(`scale${layer}`);
+       const xInput = document.getElementById(`x${layer}`);
+       const yInput = document.getElementById(`y${layer}`);
+     
+       const scale = parseFloat(scaleInput?.value);
+       const x = parseFloat(xInput?.value);
+       const y = parseFloat(yInput?.value);
+     
+       if (!isNaN(scale)) layerScales[layer] = scale;
+       if (!isNaN(x)) layerTransforms[layer].x = x;
+       if (!isNaN(y)) layerTransforms[layer].y = y;
+     
+       updateTransform(layer);
+   }
+
+    const tooltip2 = d3.select("#tooltip")
+      .style("opacity", 0)
+      .attr("class", "tooltip");
+    function drawDXF(dxfData, layerGroup, layer) {
+      const color = layerColors[layer] || "black";
+      const multiLayerSelected = document.querySelectorAll('input[name=chbx-level]:checked').length > 1;
+      const progressChecked = document.getElementById(`flexSwitchCheckChecked`).checked;
+      const bounds = getBounds(dxfData.entities);
+      if (bounds.maxX === bounds.minX || bounds.maxY === bounds.minY) {
+        console.error("Invalid bounds – DXF data may be empty or invalid");
+        return;
+      }
+      const scaleX1 = 1403
+      const scaleX2 = 1430
+      const scaleX3 = 1375
+      const scale = (layer == 1 ? scaleX1 : layer == 2 ? scaleX2 : scaleX3) / (bounds.maxX - bounds.minX);
+      const offsetX = -bounds.minX * scale + (800 - (bounds.maxX - bounds.minX) * scale) / 2;
+      const offsetY = -bounds.minY * scale + (600 - (bounds.maxY - bounds.minY) * scale) / 2;
+      console.info(`scale:${scale}, offsetX:${offsetX}, offsetY:${offsetY}`);
+      const x1 = 302
+      const y1 = 735
+      const x2 = 312
+      const y2 = 785
+      const x3 = 338
+      const y3 = 772
+      dxfData.entities.forEach(entity => {
+        switch (entity.type) {
+          case "LINE":
+            layerGroup.append("line")
+              .attr("x1", entity.vertices[0].x * scale + offsetX)
+              .attr("y1", 780 - (entity.vertices[0].y * scale + offsetY))
+              .attr("x2", entity.vertices[1].x * scale + offsetX)
+              .attr("y2", 780 - (entity.vertices[1].y * scale + offsetY))
+              .attr("stroke", color)
+              .attr("stroke-width", 2);
+            break;
+
+          case "CIRCLE":
+            layerGroup.append("circle")
+              .attr("cx", entity.center.x * scale + offsetX)
+              .attr("cy", 780 - (entity.center.y * scale + offsetY))
+              .attr("r", entity.radius * scale)
+              .attr("stroke", color)
+              .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete))) : "white")
+              //.attr("fill", multiLayerSelected ? "none" : "white")
+              .style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
+              .attr("stroke-width", 2)
+              .on("mouseover", function (d) {
+                tooltip2
+                  .style("opacity", 1)
+                  .html(`
+    <h3 class="layerName">Layer Name</h3>
+    <div class="row">
+      <div class="label">Complete:</div>
+      <div class="value d-flex align-items-center">
+      <span class="precentage">60%</span> 
+      <div class="progress ml-3" id="smallProgress">
+      <div class="progress-bar bg-secondary" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar bg-success" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">Level:</div>
+      <div class="value">Dummy level</div>
+    </div>
+    <div class="row">
+      <div class="label">Finish:</div>
+      <div class="value">16/06/2025</div>
+    </div>
+    <div class="row description-row">
+      <div class="label">Description:</div>
+      <div class="value" style="max-width: 400px;">Repatures Check-In</div>
+    </div>
+     <div class="row">
+      <div class="alert alert-warning" role="alert">
+         <i class="fas fa-exclamation-triangle"></i> Notes : Discoloration on the north wall 
+    </div>
+    </div>
+  `)
+                  .style("left", (event.pageX + 20) + "px")
+                  .style("top", (event.pageY - 30) + "px");
+              })
+              .on("mouseout", function () {
+                tooltip2.style("opacity", 0);
+              });
+            break;
+
+          case "POLYLINE":
+          case "LWPOLYLINE":
+            const points = entity.vertices.map(v => [
+              v.x * scale + (offsetX + (layer == 1 ? x1 : layer == 2 ? x2 : x3)),
+              -(v.y * scale + (offsetY - (layer == 1 ? y1 : layer == 2 ? y2 : y3)))
+            ]);
+            layerGroup
+            layerGroup.append("polyline")
+              .attr("points", points.join(" "))
+              .attr("name", `${entity.layer}`)
+              .attr("class", `area`)
+              .attr("stroke", color)
+              .attr("data-level", layer)
+              .attr("data-layer", entity.layer)
+              .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete))) : "white")
+              .style("fill-opacity", multiLayerSelected ? 1 : progressChecked ? 1 : 0.3)
+              .attr("stroke-width", 2)
+              .call(getArea)
+              .on("mouseover", function (d) {
+                tooltip2
+                  .style("opacity", 1)
+                  .html(`
+    <h3 class="layerName">${layerNames[layer]}</h3>
+    <div class="row">
+      <div class="label">Complete:</div>
+   <div class="value d-flex align-items-center">
+    <span class="precentage">${Math.floor((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete) * 100)}%</span> 
+    <div class="progress ml-3" id="smallProgress">
+      <div class="progress-bar bg-secondary" role="progressbar" style="width: ${100 - Math.floor((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete) * 100)}%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar bg-success" role="progressbar" style="width: ${Math.floor((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete) * 100)}%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+  </div>
+     </div>
+    <div class="row">
+      <div class="label">Level:</div>
+      <div class="value">${client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.Level}</div>
+    </div>
+    <div class="row">
+      <div class="label">Finish:</div>
+      <div class="value">${client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.Finish}</div>
+    </div>
+    <div class="row description-row">
+      <div class="label">Description:</div>
+      <div class="value" style="max-width: 400px;">${client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.Description}</div>
+    </div>
+    <div class="row">
+      <div class="alert alert-warning" role="alert">
+         <i class="fas fa-exclamation-triangle"></i> Notes : Discoloration on the north wall 
+    </div>
+    </div>
+  `)
+                  .style("left", (event.pageX + 20) + "px")
+                  .style("top", (event.pageY - 30) + "px");
+              })
+              .on("mouseout", function () {
+                tooltip2.style("opacity", 0);
+              });
+            break;
+
+          default:
+            console.log("Unsupported entity type:", entity.type);
+        }
+      });
+    }
+
+    function getBounds(entities) {
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+      entities.forEach(entity => {
+        if (entity.vertices) {
+          entity.vertices.forEach(vertex => {
+            minX = Math.min(minX, vertex.x);
+            minY = Math.min(minY, vertex.y);
+            maxX = Math.max(maxX, vertex.x);
+            maxY = Math.max(maxY, vertex.y);
+          });
+        } else if (entity.center) {
+          minX = Math.min(minX, entity.center.x - entity.radius);
+          minY = Math.min(minY, entity.center.y - entity.radius);
+          maxX = Math.max(maxX, entity.center.x + entity.radius);
+          maxY = Math.max(maxY, entity.center.y + entity.radius);
+        }
+      });
+
+      return { minX, minY, maxX, maxY };
+    }
+
+    function dragStarted(event, d) {
+      d3.select(this)
+        .raise()
+        .style("cursor", "grabbing");
+    }
+    function dragged(event, d) {
+      const layerId = +d3.select(this).attr("id").split("-")[2];
+      layerTransforms[layerId].x += event.dx;
+      layerTransforms[layerId].y += event.dy;
+      updateTransform(layerId);
+    }
+    const transformations = {};
+    let fileHandle = null;
+
+    async function dragEnded(event, d) {
+      d3.select(this)
+        .style("cursor", "grab");
+
+      const transform = d3.select(this).attr("transform");
+      const layer = this.id.split('-').pop();
+
+      transformations[layer] = {
+        transform: transform
+      };
+
+      console.log(`Layer ${layer} moved to:`, event.x, event.y);
+      console.log(`Saved Transform:`, transform);
+
+      await saveTransformations();
+    }
+
+    async function getFileHandle() {
+      if (!fileHandle) {
+        try {
+          [fileHandle] = await window.showOpenFilePicker({
+            types: [{
+              description: 'JSON Files',
+              accept: { 'application/json': ['.json'] }
+            }]
+          });
+        } catch (err) {
+          if (err.name === 'AbortError') {
+            console.warn('File selection aborted by user.');
+          } else {
+            console.error('Error selecting file:', err);
+          }
+        }
+      }
+    }
+
+    async function saveTransformations() {
+      try {
+        if (!fileHandle) await getFileHandle();
+        if (!fileHandle) return;
+
+        let existingData = {};
+        try {
+          const file = await fileHandle.getFile();
+          const text = await file.text();
+          existingData = JSON.parse(text);
+        } catch (e) {
+          console.log('No existing file or error reading file:', e);
+        }
+
+        Object.assign(existingData, transformations);
+
+        const writable = await fileHandle.createWritable();
+        await writable.write(JSON.stringify(existingData, null, 2));
+        await writable.close();
+
+        console.log('Transformations saved successfully!');
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          console.warn('File save aborted by user.');
+        } else {
+          console.error('Error saving file:', err);
+        }
+      }
+    }
+
+    const layer1 = await d3.json(`./files/layer-1.json`);
+    readDXF(layer1, 1);
+
+    const layer2 = await d3.json(`./files/layer-2.json`);
+    readDXF(layer2, 2);
+
+    const layer3 = await d3.json(`./files/layer-3.json`);
+    readDXF(layer3, 3);
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener("change", renderLayers);
+    });
+    async function readDXF(data, layer) {
+      try {
+        layers[layer] = data;
+        console.log(`Loaded DXF for Layer ${layer}`, data);
+        renderLayers();
+      } catch (error) {
+        console.error(`Error parsing DXF for Layer ${layer}:`, error);
+      }
+    }
+    function zoomed(event) {
+      const { transform } = event;
+      const g = d3.selectAll('svg g')
+      g.attr("transform", transform);
+      g.attr("stroke-width", 2);
+    }
+    function reset() {
+      const g = d3.selectAll('svg')
+      g.transition().duration(750).call(
+        zoom.transform,
+        d3.zoomIdentity,
+        d3.zoomTransform(g.node()).invert([1500 / 2, 1000 / 2])
+      );
+    }
+    function getArea() {
+      const value = document.getElementById("example-search-input").value
+      const multiLayerSelected = document.querySelectorAll('input[name=chbx-level]:checked').length > 1;
+      const progressChecked = document.getElementById(`flexSwitchCheckChecked`).checked;
+      const existElements = d3.selectAll('.area').filter(function () {
+        const name = d3.select(this).attr("name");
+        return value && name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
+      })
+        .style("fill-opacity", 0.3)
+        .attr("fill", "red")
+      const notExistElements2 = d3.selectAll('.area').filter(function () {
+        const name = d3.select(this).attr("name");
+        return !value || !name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
+      })
+
+      notExistElements2.each(function () {
+        const entity = d3.select(this).node().dataset
+        d3.select(this).style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
+          .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == entity.level)?.complete))) : "white");
+      });
+    }
+    document.getElementById("example-search-input").addEventListener("keyup", e => getArea());
+  </script>
+</body>
+</html>

@@ -356,3 +356,14 @@ main .nav-link.active {
   .precentage{
     margin-right: 8px !important;
   }
+
+  
+  /*New part index2*/
+  .nav-item input{
+    padding: 0.3rem 0.4rem;
+  font-size: 0.85rem;
+  }
+  .nav-item .btn-sm{
+    font-size: 0.85rem;
+    padding: 0.2rem 0.7rem;
+  }
