@@ -450,8 +450,8 @@
    <div class="value d-flex align-items-center">
     <span class="precentage">${Math.floor((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete) * 100)}%</span> 
     <div class="progress ml-3" id="smallProgress">
-      <div class="progress-bar bg-secondary" role="progressbar" style="width: ${100 - Math.floor((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete) * 100)}%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
       <div class="progress-bar bg-success" role="progressbar" style="width: ${Math.floor((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete) * 100)}%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar bg-secondary" role="progressbar" style="width: ${100 - Math.floor((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.complete) * 100)}%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
   </div>
      </div>

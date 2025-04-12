@@ -293,7 +293,7 @@ main .nav-link.active {
     font-size: 14px;
     line-height: 1.5;
     color: #333;
-    max-width: 300px;
+    max-width: 350px;
     z-index: 1000;
     pointer-events: none;
     opacity: 0;
