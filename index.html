@@ -81,6 +81,13 @@
             <div class="input-group">
               <input class="form-control border" type="search" placeholder="search" id="example-search-input">
             </div>
+            <div class="mb-3">
+              <label for="upload-file-input" class="form-label">Upload progress Excel file</label>
+              <input type="file"
+                     class="form-control"
+                     id="upload-file-input"
+                     accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            </div>            
           </li>
         </ul>
       </nav>
@@ -197,12 +204,15 @@
   </footer> -->
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
-  <script type="module">
+ <script type="module">
     const layers = { 1: null, 2: null, 3: null };
     const layerColors = { 1: "#00C7BE", 2: "#AF52DE", 3: "#F18900" };
 
-    const client_levels_data = await d3.json(`./data/ProjecsLevelsData.json`);
+    // const client_levels_data = await d3.json(`./data/ProjecsLevelsData.json`);
+    let client_levels_data = await d3.json(`./data/ProjecsLevelsData.json`);
+
     const completeList = [0, 100];
     const colorLevelScale = d3.scaleSequential(d3.interpolateGreens)
     //.domain(completeList)
@@ -250,6 +260,37 @@
     //     }
     //   });
     // }
+    
+document.getElementById('upload-file-input').addEventListener('change', handleFileUpload);
+async function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) {
+    console.log("No file selected");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const data = new Uint8Array(e.target.result);
+    const workbook = XLSX.read(data, { type: "array" });
+    console.log(workbook.SheetNames); 
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    if (!worksheet) {
+      console.log("Sheet not found");
+      return;
+    }
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+    console.log("Excel Data:", jsonData);
+  
+    client_levels_data.length = 0;
+    
+    client_levels_data.push(...jsonData);
+    console.log("Client levels data",client_levels_data);
+    renderLayers(); 
+  };
+  reader.readAsArrayBuffer(file);
+}
+
 
     const zoom = d3.zoom()
       .scaleExtent([1, 8])
@@ -348,6 +389,7 @@
       const y2 = 785
       const x3 = 338
       const y3 = 772
+      console.log("data in draw dfx",client_levels_data);
       /*
       layer1: scale:27.280428350879188, offsetX:-300.62557621478703, offsetY:-46.874804581787956
       layer2: scale:42.58078973634616, offsetX:-317.39098994551506, offsetY:-76.79034063321643
