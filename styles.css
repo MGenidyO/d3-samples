@@ -14,7 +14,9 @@ body {
     width: 80vw;
     height: 60%;
 }
-
+.navbar{
+  height: 65px !important;
+}
 .floormap {
     width: 100%;
     height: 100%;
@@ -196,7 +198,7 @@ body {
 }
 
 main{
-  zoom : 0.8;
+  zoom : 0.7;
 }
 
 .sidebar {
@@ -369,3 +371,19 @@ main .nav-link.active {
   }
 
  
+  /*Progress colors*/
+  .color1{ 
+     background-color: #DB4E41; 
+  }
+  .color2{
+      background-color: #ECCB28;
+  }
+  .color3{
+    background-color: #97CA58;
+  }
+  .color1, .color2,.color3{
+    width: 30px; 
+    height: 30px;
+    border-radius: 5px;
+    margin: 0 auto;
+  }
