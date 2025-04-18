@@ -199,19 +199,7 @@
         console.error("Invalid bounds – DXF data may be empty or invalid");
         return;
       }
-      const scaleX1 = 1403
-      const scaleX2 = 1430
-      const scaleX3 = 1375
-      const scale = (layer == 1 ? scaleX1 : layer == 2 ? scaleX2 : scaleX3) / (bounds.maxX - bounds.minX);
-      const offsetX = -bounds.minX * scale + (800 - (bounds.maxX - bounds.minX) * scale) / 2;
-      const offsetY = -bounds.minY * scale + (600 - (bounds.maxY - bounds.minY) * scale) / 2;
-      console.info(`scale:${scale}, offsetX:${offsetX}, offsetY:${offsetY}`);
-      const x1 = 302
-      const y1 = 735
-      const x2 = 312
-      const y2 = 785
-      const x3 = 338
-      const y3 = 772
+      
       dxfData.entities.forEach(entity => {
         switch (entity.type) {
           case "LINE":
@@ -278,8 +266,8 @@
           case "POLYLINE":
           case "LWPOLYLINE":
             const points = entity.vertices.map(v => [
-              v.x * scale + (offsetX + (layer == 1 ? x1 : layer == 2 ? x2 : x3)),
-              -(v.y * scale + (offsetY - (layer == 1 ? y1 : layer == 2 ? y2 : y3)))
+              v.x * 20,
+              (v.y * 20)
             ]);
             layerGroup
             layerGroup.append("polyline")
