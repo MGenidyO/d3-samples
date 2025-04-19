@@ -14,7 +14,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
-       <img class="navbar-brand" src="../d3-samples/images/projecs22.png" height="40" width="170"/>
+       <img class="navbar-brand" src="./images/projecs22.png" height="40" width="170"/>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -81,6 +81,27 @@
                      id="upload-file-input"
                      accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
             </div>            
+          </li>
+          <li class="nav-item my-2">
+            <label>Layer 1 Transform:</label>
+            <input type="number" id="scale1" placeholder="Scale" step="0.01" min="0.01" class="form-control form-control-sm my-1">
+            <input type="number" id="x1" placeholder="Translate X" class="form-control form-control-sm my-1">
+            <input type="number" id="y1" placeholder="Translate Y" class="form-control form-control-sm my-1">
+            <button class="btn btn-sm btn-primary" onclick="applyTransform(1)">Apply Layer 1</button>
+          </li>
+          <li class="nav-item my-2">
+            <label>Layer 2 Transform:</label>
+            <input type="number" id="scale2" placeholder="Scale" step="0.01" min="0.01" class="form-control form-control-sm my-1">
+            <input type="number" id="x2" placeholder="Translate X" class="form-control form-control-sm my-1">
+            <input type="number" id="y2" placeholder="Translate Y" class="form-control form-control-sm my-1">
+            <button class="btn btn-sm btn-primary" onclick="applyTransform(2)">Apply Layer 2</button>
+          </li>
+          <li class="nav-item my-2">
+            <label>Layer 3 Transform:</label>
+            <input type="number" id="scale3" placeholder="Scale" step="0.01" min="0.01" class="form-control form-control-sm my-1">
+            <input type="number" id="x3" placeholder="Translate X" class="form-control form-control-sm my-1">
+            <input type="number" id="y3" placeholder="Translate Y" class="form-control form-control-sm my-1">
+            <button class="btn btn-sm btn-primary" onclick="applyTransform(3)">Apply Layer 3</button>
           </li>
         </ul>
       </nav>
@@ -164,7 +185,8 @@
             <div class="color3"></div>
             <div class="mt-2">71+%</div>
           </div>
-        </div>     
+        </div>    
+   
       </main>
       <!-- Right Sidebar -->
       <!-- <aside class="col-md-3 col-lg-2 d-md-block house-details mt-4">
@@ -204,6 +226,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
  <script type="module">
+      window.applyTransform = applyTransform;
     const layers = { 1: null, 2: null, 3: null };
     const layerColors = { 1: "#00C7BE", 2: "#AF52DE", 3: "#F18900" };
     // const client_levels_data = await d3.json(`./data/ProjecsLevelsData.json`);
@@ -259,7 +282,6 @@ function getColorByCompleteness(percentage) {
   return "#97CA58";                            // Green
 }
 
-    
 document.getElementById('upload-file-input').addEventListener('change', handleFileUpload);
 async function handleFileUpload(event) {
   const file = event.target.files[0];
@@ -356,7 +378,21 @@ async function handleFileUpload(event) {
       d3.select(`#layer-group-${layer}`)
         .attr("transform", `translate(${x}, ${y}) scale(${scale})`);
     }
-
+    function applyTransform(layer) {
+       const scaleInput = document.getElementById(`scale${layer}`);
+       const xInput = document.getElementById(`x${layer}`);
+       const yInput = document.getElementById(`y${layer}`);
+     
+       const scale = parseFloat(scaleInput?.value);
+       const x = parseFloat(xInput?.value);
+       const y = parseFloat(yInput?.value);
+     
+       if (!isNaN(scale)) layerScales[layer] = scale;
+       if (!isNaN(x)) layerTransforms[layer].x = x;
+       if (!isNaN(y)) layerTransforms[layer].y = y;
+     
+       updateTransform(layer);
+   }
     const tooltip2 = d3.select("#tooltip")
       .style("opacity", 0)
       .attr("class", "tooltip");
@@ -466,6 +502,7 @@ async function handleFileUpload(event) {
               v.x * scale + (offsetX + (layer == 1 ? x1 : layer == 2 ? x2 : x3)),
               -(v.y * scale + (offsetY - (layer == 1 ? y1 : layer == 2 ? y2 : y3)))
             ]);
+           
             //console.info(`Entity Points: ${points}`)
             layerGroup.append("polyline")
               .attr("points", points.join(" "))
