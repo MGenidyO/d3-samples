@@ -12,7 +12,7 @@
   {
       "RoomID": "HH.LV2.1003",
       "Room Description": "Level 2 CBP",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.1004",
@@ -72,7 +72,7 @@
   {
       "RoomID": "HH.LV2.2106",
       "Room Description": "Fed from Fire Alarm Closet HH-1E",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.2107",
@@ -82,12 +82,12 @@
   {
       "RoomID": "HH.LV2.2108",
       "Room Description": "Fed from Fire Alarm Closet HH-2C",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.2109",
       "Room Description": "Fed from Fire Alarm Closet HH-2B",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.2201",
@@ -147,12 +147,12 @@
   {
       "RoomID": "HH.LV2.2212",
       "Room Description": "Area Fed from Electrical Closet HH-111B",
-      "Level": "1"
+      "Level": "12"
   },
   {
       "RoomID": "HH.LV2.2213",
       "Room Description": "Area Fed from Electrical Closet HH-211",
-      "Level": "1"
+      "Level": "3"
   },
   {
       "RoomID": "HH.LV2.2214",
@@ -252,17 +252,17 @@
   {
       "RoomID": "HH.LV2.2309",
       "Room Description": "Area Fed from TR1-01",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.2310",
       "Room Description": "Area Fed from TR1-02",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.2311",
       "Room Description": "Area Fed from TR1-03",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.2312",
@@ -307,22 +307,22 @@
   {
       "RoomID": "HH.LV2.2320",
       "Room Description": "Area Fed from DC1",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.2321",
       "Room Description": "Area Fed from TR1-03",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.2322",
       "Room Description": "Area Fed from TR3-12",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.2323",
       "Room Description": "Area Fed from TR2-03",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.2401",
@@ -337,32 +337,32 @@
   {
       "RoomID": "HH.LV2.3101",
       "Room Description": "ATO",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.3102",
       "Room Description": "ATO",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.3103",
       "Room Description": "ATO",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.3104",
       "Room Description": "ATO",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.3105",
       "Room Description": "ATO",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.3106",
       "Room Description": "ATO",
-      "Level": "1"
+      "Level": "2"
   },
   {
       "RoomID": "HH.LV2.3107",
@@ -557,62 +557,62 @@
   {
       "RoomID": "HH.LV2.3201",
       "Room Description": "Storage",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3202",
       "Room Description": "C206",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3203",
       "Room Description": "C208",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3204",
       "Room Description": "C205",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3205",
       "Room Description": "C215",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3206",
       "Room Description": "C217",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3207",
       "Room Description": "C225",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3208",
       "Room Description": "C235",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3209",
       "Room Description": "C237",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3210",
       "Room Description": "C230",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3211",
       "Room Description": "C220",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3212",
       "Room Description": "Storage",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.3213",
@@ -677,17 +677,17 @@
   {
       "RoomID": "HH.LV2.4101",
       "Room Description": "EL.01-03",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4102",
       "Room Description": "EL.04-06",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4103",
       "Room Description": "EL.09-10",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4104",
@@ -702,22 +702,22 @@
   {
       "RoomID": "HH.LV2.4106",
       "Room Description": "EL.21-22",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4107",
       "Room Description": "EL. G14.1 - G14.2",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4108",
       "Room Description": "EL. G12.1 - G12.2",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4109",
       "Room Description": "EL.23-24",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4110",
@@ -762,22 +762,22 @@
   {
       "RoomID": "HH.LV2.4201",
       "Room Description": "ESC.01-03",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4202",
       "Room Description": "ESC.04-06",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4203",
       "Room Description": "ESC.11-12",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4204",
       "Room Description": "ESC.09-10",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4205",
@@ -787,32 +787,32 @@
   {
       "RoomID": "HH.LV2.4206",
       "Room Description": "ESC.G14. 1-2-3",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4207",
       "Room Description": "ESC.G14. 4-5-6",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4208",
       "Room Description": "ESC.21-22",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4209",
       "Room Description": "ESC.23-24",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4210",
       "Room Description": "ESC.G12. 1-2-3",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4211",
       "Room Description": "ESC.G12. 4-5-6",
-      "Level": "2"
+      "Level": "1"
   },
   {
       "RoomID": "HH.LV2.4212",

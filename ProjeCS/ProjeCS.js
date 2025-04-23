@@ -4,11 +4,11 @@ const canvas = {
   h: 1000
 };
 
-// const topoData = await d3.json(`../ProjeCS/ProjeCS.json`);
-// const client_data = await d3.json(`../ProjeCS/ProjeCSData.json`);
+ const topoData = await d3.json(`../ProjeCS/ProjeCS.json`);
+ const client_data = await d3.json(`../ProjeCS/ProjeCSData.json`);
 
-const topoData = await d3.json(`./ProjeCS/ProjeCS.json`);
-const client_data = await d3.json(`./ProjeCS/ProjeCSData.json`);
+//const topoData = await d3.json(`./ProjeCS/ProjeCS.json`);
+//const client_data = await d3.json(`./ProjeCS/ProjeCSData.json`);
 
 const geoData = {};
 
