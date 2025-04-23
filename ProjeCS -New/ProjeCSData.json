@@ -1,0 +1,827 @@
+[
+  {
+      "RoomID": "HH.LV2.1001",
+      "Room Description": "Mecahanical Platforms",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.1002",
+      "Room Description": "Level 2 WhiteBox Spaces",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.1003",
+      "Room Description": "Level 2 CBP",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.1004",
+      "Room Description": "HH Level 2 Back of House",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.1005",
+      "Room Description": "PBT Gate 14 & 15",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.1006",
+      "Room Description": "PBT Gate 12",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.1007",
+      "Room Description": "PBT Gate 11",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.1008",
+      "Room Description": "HH Concession, Retail, Lounges, and Back of House",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.1009",
+      "Room Description": "HH Concession, Retail, Lounges, and Holdrooms",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2101",
+      "Room Description": "Fire Alarm Closet HH-2A",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2102",
+      "Room Description": "Fire Alarm Closet HH-2B",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2103",
+      "Room Description": "Fire Alarm Closet HH-2C",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2104",
+      "Room Description": "Fed from Fire Alarm Closet HH-1G",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2105",
+      "Room Description": "Fed from Fire Alarm Closet HH-1F",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2106",
+      "Room Description": "Fed from Fire Alarm Closet HH-1E",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2107",
+      "Room Description": "Fed from Fire Alarm Closet HH-2A",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2108",
+      "Room Description": "Fed from Fire Alarm Closet HH-2C",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2109",
+      "Room Description": "Fed from Fire Alarm Closet HH-2B",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2201",
+      "Room Description": "Electrical Closet HH-213",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2202",
+      "Room Description": "Electrical Closet HH-212",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2203",
+      "Room Description": "Electrical Closet HH-211",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2204",
+      "Room Description": "Electrical Closet HH-234",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2205",
+      "Room Description": "Electrical Closet HH-233",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2206",
+      "Room Description": "Electrical Closet HH-PBT1",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2207",
+      "Room Description": "Electrical Closet HH-232",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2208",
+      "Room Description": "Electrical Closet HH-231",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2209",
+      "Room Description": "Area Fed from Electrical Closet HH-213",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2210",
+      "Room Description": "Area Fed from Electrical Closet HH-212",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2211",
+      "Room Description": "Area Fed from Electrical Closet HH-111",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2212",
+      "Room Description": "Area Fed from Electrical Closet HH-111B",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2213",
+      "Room Description": "Area Fed from Electrical Closet HH-211",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2214",
+      "Room Description": "Area Fed from Electrical Closet HH-234",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2215",
+      "Room Description": "Area Fed from Electrical Closet HH-134",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2216",
+      "Room Description": "Area Fed from Electrical Closet HH-PBT3",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2217",
+      "Room Description": "Area Fed from Electrical Closet HH-PBT2",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2218",
+      "Room Description": "Area Fed from Electrical Closet HH-213",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2219",
+      "Room Description": "Area Fed from Electrical Closet HH-233",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2220",
+      "Room Description": "Area Fed from Electrical Closet HH-2PBT1",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2221",
+      "Room Description": "Area Fed from Electrical Closet HH-131",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2222",
+      "Room Description": "Area Fed from Electrical Closet HH-232",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2223",
+      "Room Description": "Area Fed from Electrical Closet HH-231",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2224",
+      "Room Description": "Area Fed from Electrical Closet HH-137",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2301",
+      "Room Description": "TR2-01",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2302",
+      "Room Description": "TR2-02",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2303",
+      "Room Description": "TR2-03",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2304",
+      "Room Description": "AV2-01",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2305",
+      "Room Description": "AV2-02",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2306",
+      "Room Description": "Data Center 1",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2307",
+      "Room Description": "TOC TR",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2308",
+      "Room Description": "TR3-10",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2309",
+      "Room Description": "Area Fed from TR1-01",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2310",
+      "Room Description": "Area Fed from TR1-02",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2311",
+      "Room Description": "Area Fed from TR1-03",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2312",
+      "Room Description": "Area Fed from TR2-01",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2313",
+      "Room Description": "Area Fed from TR2-09",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2314",
+      "Room Description": "Area Fed from TR3-10",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2315",
+      "Room Description": "Area Fed from TR1-04",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2316",
+      "Room Description": "Area Fed from TR3-11",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2317",
+      "Room Description": "Area Fed from TR1-10",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2318",
+      "Room Description": "Area Fed from TR2-02",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2319",
+      "Room Description": "Area Fed from TOC TR",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2320",
+      "Room Description": "Area Fed from DC1",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2321",
+      "Room Description": "Area Fed from TR1-03",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2322",
+      "Room Description": "Area Fed from TR3-12",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2323",
+      "Room Description": "Area Fed from TR2-03",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2401",
+      "Room Description": "Mechanical Platform 2N.5.111",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.2402",
+      "Room Description": "Mechanical Platform 2N.2.200",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3101",
+      "Room Description": "ATO",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3102",
+      "Room Description": "ATO",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3103",
+      "Room Description": "ATO",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3104",
+      "Room Description": "ATO",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3105",
+      "Room Description": "ATO",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3106",
+      "Room Description": "ATO",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3107",
+      "Room Description": "A275",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3108",
+      "Room Description": "ATO",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3109",
+      "Room Description": "ATO",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3110",
+      "Room Description": "C202",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3111",
+      "Room Description": "ATO",
+      "Level": "1"
+  },
+  {
+      "RoomID": "HH.LV2.3112",
+      "Room Description": "C239",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3113",
+      "Room Description": "C245",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3114",
+      "Room Description": "C251",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3115",
+      "Room Description": "C253",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3116",
+      "Room Description": "C257",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3117",
+      "Room Description": "C259",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3118",
+      "Room Description": "Ghost Kitchen",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3119",
+      "Room Description": "C252",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3120",
+      "Room Description": "C254",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3121",
+      "Room Description": "C256",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3122",
+      "Room Description": "C258",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3123",
+      "Room Description": "C260",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3124",
+      "Room Description": "C266",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3125",
+      "Room Description": "C264",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3126",
+      "Room Description": "C270",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3127",
+      "Room Description": "C280",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3128",
+      "Room Description": "Seating Area",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3129",
+      "Room Description": "C272",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3130",
+      "Room Description": "C274",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3131",
+      "Room Description": "C276",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3132",
+      "Room Description": "C278",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3133",
+      "Room Description": "C290",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3134",
+      "Room Description": "C296",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3135",
+      "Room Description": "ATO",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3136",
+      "Room Description": "ATO",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3137",
+      "Room Description": "Airline Lounge C1",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3138",
+      "Room Description": "C261",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3139",
+      "Room Description": "C265",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3140",
+      "Room Description": "C269",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3141",
+      "Room Description": "C275",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3142",
+      "Room Description": "C285",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3143",
+      "Room Description": "C289",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3144",
+      "Room Description": "C291",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3201",
+      "Room Description": "Storage",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3202",
+      "Room Description": "C206",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3203",
+      "Room Description": "C208",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3204",
+      "Room Description": "C205",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3205",
+      "Room Description": "C215",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3206",
+      "Room Description": "C217",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3207",
+      "Room Description": "C225",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3208",
+      "Room Description": "C235",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3209",
+      "Room Description": "C237",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3210",
+      "Room Description": "C230",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3211",
+      "Room Description": "C220",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3212",
+      "Room Description": "Storage",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3213",
+      "Room Description": "C240",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3214",
+      "Room Description": "C246",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3215",
+      "Room Description": "C250",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3216",
+      "Room Description": "Storage",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3217",
+      "Room Description": "Storage",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3218",
+      "Room Description": "Storage",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3219",
+      "Room Description": "Storage",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3220",
+      "Room Description": "Storage",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3221",
+      "Room Description": "Storage",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3222",
+      "Room Description": "C295",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3223",
+      "Room Description": "C241",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.3224",
+      "Room Description": "C243",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4101",
+      "Room Description": "EL.01-03",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4102",
+      "Room Description": "EL.04-06",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4103",
+      "Room Description": "EL.09-10",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4104",
+      "Room Description": "EL.027-28",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4105",
+      "Room Description": "EL.07,08,11",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4106",
+      "Room Description": "EL.21-22",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4107",
+      "Room Description": "EL. G14.1 - G14.2",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4108",
+      "Room Description": "EL. G12.1 - G12.2",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4109",
+      "Room Description": "EL.23-24",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4110",
+      "Room Description": "EL.25-26",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4111",
+      "Room Description": "EL.29-30",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4112",
+      "Room Description": "EL.40",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4113",
+      "Room Description": "EL.33-34",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4114",
+      "Room Description": "EL.36-37",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4115",
+      "Room Description": "EL.35",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4116",
+      "Room Description": "EL.31-32",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4117",
+      "Room Description": "EL.38-39",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4201",
+      "Room Description": "ESC.01-03",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4202",
+      "Room Description": "ESC.04-06",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4203",
+      "Room Description": "ESC.11-12",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4204",
+      "Room Description": "ESC.09-10",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4205",
+      "Room Description": "ESC.07-08",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4206",
+      "Room Description": "ESC.G14. 1-2-3",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4207",
+      "Room Description": "ESC.G14. 4-5-6",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4208",
+      "Room Description": "ESC.21-22",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4209",
+      "Room Description": "ESC.23-24",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4210",
+      "Room Description": "ESC.G12. 1-2-3",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4211",
+      "Room Description": "ESC.G12. 4-5-6",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4212",
+      "Room Description": "ESC.G11. 1-2",
+      "Level": "2"
+  },
+  {
+      "RoomID": "HH.LV2.4213",
+      "Room Description": "ESC.25-26",
+      "Level": "2"
+  }
+]
