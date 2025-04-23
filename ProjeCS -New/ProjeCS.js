@@ -48,8 +48,11 @@ const assets = g
   .attr("class", "main-layer")
   .attr("stroke-width", 2);
 
-assets.selectAll("path")
-  .data(d => geoData[d]?.features)
+  assets.selectAll("path")
+  .data(d => geoData[d]?.features.filter(f => {
+    const level = client_data.find(e => e.RoomID == f.properties.LAYER)?.Level;
+    return level === "1" || level === "2";
+  }))
   .enter()
   .append("path")
   .attr("cursor", "pointer")
@@ -95,12 +98,15 @@ function updateLayerColors() {
   assets.selectAll("path")
     .attr("fill", d => {
       const roomData = client_data.find((e) => e.RoomID == d.properties.LAYER);
-      if (roomData && roomData.Level === "1" && showLayer1) {
-        return "#0d0f42";  
-      } else if (roomData && roomData.Level === "2" && showLayer2) {
-        return "#693421";  
-      }
-      return "#C0C0C0";  
+      if (roomData?.Level === "1" && showLayer1) return "#0d0f42"; 
+      if (roomData?.Level === "2" && showLayer2) return "#0d0f42"; 
+      return "none";
+    })
+    .attr("visibility", d => {
+      const roomData = client_data.find((e) => e.RoomID == d.properties.LAYER);
+      if (roomData?.Level === "1" && showLayer1) return "visible";
+      if (roomData?.Level === "2" && showLayer2) return "visible";
+      return "hidden"; 
     });
 }
 
