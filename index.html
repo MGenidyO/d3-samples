@@ -74,13 +74,17 @@
             <div class="input-group">
               <input class="form-control border" type="search" placeholder="search" id="example-search-input">
             </div>
-            <div class="mb-3">
+          </li>
+          <li class="nav-item my-1">   
               <label for="upload-file-input" class="form-label">Upload progress Excel file</label>
               <input type="file"
                      class="form-control"
                      id="upload-file-input"
                      accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-            </div>            
+          </li>
+          <li class="nav-item my-1">
+            <label for="upload-dxf-input" class="form-label">Upload the dxf file</label>
+            <input type="file" class="form-control" id="upload-dxf-input" accept=".dxf">
           </li>
           <li class="nav-item my-2">
             <label>Layer 1 Transform:</label>
@@ -224,6 +228,7 @@
     <p>© 2025 SmartMap Interactive. All Rights Reserved.</p>
   </footer> -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dxf-parser@1.1.5/dist/dxf-parser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
  <script type="module">
       window.applyTransform = applyTransform;
@@ -771,7 +776,105 @@ async function handleFileUpload(event) {
     console.info("Count: " + filteredList.length + ", Total: " + total + ", Precentage:" + total / filteredList.length);
     //client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == layer)?.Level
   }
-  </script>
-</body>
 
+document.getElementById('upload-dxf-input').addEventListener('change', handleDxfUpload);
+
+async function handleDxfUpload(event) {
+  const file = event.target.files[0];
+  if (!file) {
+    console.log("No file selected");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const parser = new DxfParser();
+    let dxfData;
+    try {
+      dxfData = parser.parseSync(e.target.result);
+    } catch (error) {
+      console.error("Error parsing DXF:", error);
+      return;
+    }
+    console.log("DXF Parsed Data:", dxfData);
+
+    drawUploadedDXF(dxfData);
+  };
+  reader.readAsText(file);
+}
+
+function drawUploadedDXF(dxfData) {
+  const svg = d3.select("svg");
+  
+  svg.selectAll("#uploaded-dxf-group").remove();
+
+  const uploadGroup = svg.append("g")
+    .attr("id", "uploaded-dxf-group")
+    .attr("transform", "translate(0,0)")
+    .style("pointer-events", "none"); 
+
+    /*
+    Without this, you cannot properly scale or position the drawing inside your SVG.
+    The DXF drawing could be huge (e.g., 10000 units) or small (e.g., 5 units)
+     — and you wouldn't know unless you check its bounds.
+    */
+  const bounds = getBounds(dxfData.entities);
+  /*
+    If maxX == minX or maxY == minY, it means the drawing width or height is zero — meaning:
+    Either the file is empty.
+    Or all the points are at the same location (corrupted or bad upload).
+  */
+  if (bounds.maxX === bounds.minX || bounds.maxY === bounds.minY) {
+    console.error("Invalid bounds – DXF data may be empty or invalid");
+    return;
+  }
+  //scale changes size — so your drawing fits in a desired area.
+  //offsetX / offsetY change position — to center it in the visible area.
+  const scale = 1400 / (bounds.maxX - bounds.minX);
+  const offsetX = -bounds.minX * scale + (800 - (bounds.maxX - bounds.minX) * scale) / 2;
+  const offsetY = -bounds.minY * scale + (600 - (bounds.maxY - bounds.minY) * scale) / 2;
+
+  dxfData.entities.forEach(entity => {
+    switch (entity.type) {
+      case "LINE":
+        uploadGroup.append("line")
+          .attr("x1", entity.vertices[0].x * scale + offsetX)
+          .attr("y1", 780 - (entity.vertices[0].y * scale + offsetY))
+          .attr("x2", entity.vertices[1].x * scale + offsetX)
+          .attr("y2", 780 - (entity.vertices[1].y * scale + offsetY))
+          .attr("stroke", "black")
+          .attr("stroke-width", 3);
+        break;
+
+      case "CIRCLE":
+        uploadGroup.append("circle")
+          .attr("cx", entity.center.x * scale + offsetX)
+          .attr("cy", 780 - (entity.center.y * scale + offsetY))
+          .attr("r", entity.radius * scale)
+          .attr("stroke", "black")
+          .attr("fill", "none")
+          .attr("stroke-width", 3);
+        break;
+
+      case "POLYLINE":
+      case "LWPOLYLINE":
+        const points = entity.vertices.map(v => [
+          v.x * scale + offsetX,
+          780 - (v.y * scale + offsetY)
+        ]);
+
+        uploadGroup.append("polyline")
+          .attr("points", points.join(" "))
+          .attr("stroke", "black")
+          .attr("fill", "none")
+          .attr("stroke-width", 3);
+        break;
+
+      default:
+        console.log("Unsupported uploaded entity type:", entity.type);
+    }
+  });
+}
+</script>
+</body>
 </html>
