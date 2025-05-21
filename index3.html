@@ -225,24 +225,7 @@
       li.appendChild(trash);
       layerList.appendChild(li);
 
-
-      if (currentLevels) {
-        Object.entries(currentLevels).forEach(([index, level]) => {
-          // if (data && document.getElementById(`layer${layer}`).checked) {
-          //   const layerGroup = svg.append("g")
-          //     .attr("id", `layer-group-${layer}`)
-          //     .attr("transform", "translate(0, 0)")
-          //     .style("cursor", "grab")
-          //     .attr("class", "new-level")
-          //   drawDXF(data, layerGroup, layer);
-          //   selectedLayers.push(layer)
-          // }
-          // else
-          // selectedLayers.push(layer)
-          console.log(level);
-          drawUploadedDXF(level.dxfData,);
-        });
-      }
+      drawUploadedDXF(newLevel.dxfData,);
       
       // Clear input
       layerInput.value = '';
@@ -383,7 +366,7 @@
       }
 
       const tooltip = d3.select("#tooltip");
-      const baseScale = 700 / (bounds.maxX - bounds.minX);
+      const baseScale = ((svgWidth+svgHeight)/4) / (bounds.maxX - bounds.minX); 
       const scale = baseScale * userScale;
       const offsetX = -bounds.minX * scale + (svgWidth - (bounds.maxX - bounds.minX) * scale) / 2;
       const offsetY = -bounds.minY * scale + (svgHeight - (bounds.maxY - bounds.minY) * scale) / 2;
