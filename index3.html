@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -24,6 +25,7 @@
     }
   </style>
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
@@ -53,7 +55,7 @@
             <button class="btn btn-primary d-flex align-items-center" type="button" data-bs-toggle="collapse"
               data-bs-target="#myCollapse" aria-expanded="false" aria-controls="myCollapse">
               Add Layers
-              <span class="ms-2">	&#43;</span>
+              <span class="ms-2"> &#43;</span>
             </button>
             <div class="collapse mt-2" id="myCollapse">
               <div class="mb-3">
@@ -71,16 +73,17 @@
               </div>
               <div class="mb-3">
                 <label for="layerScale" class="form-label">Layer Scale</label>
-                <input type="number" class="form-control" id="layerScale" placeholder="Enter scale (default is 1)" step="0.1" value="1">
-              </div>  
+                <input type="number" class="form-control" id="layerScale" placeholder="Enter scale (default is 1)"
+                  step="0.1" value="1">
+              </div>
               <div class="mb-3">
                 <input type="button" class="btn btn-success" id="saveButton" value="Save">
-              </div>       
+              </div>
             </div>
             <div id="layer-controls" class="mt-3">
-            <h6>Manage Layers</h6>
-            <ul id="layerList"></ul>
-          </div>
+              <h6>Manage Layers</h6>
+              <ul id="layerList"></ul>
+            </div>
           </li>
         </ul>
       </nav>
@@ -144,71 +147,97 @@
   <script src="https://cdn.jsdelivr.net/npm/dxf-parser@1.1.5/dist/dxf-parser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
   <script type="module">
-const layerList = document.getElementById('layerList');
-const saveButton = document.getElementById('saveButton');
-const layerInput = document.getElementById('layerName');
-const excelFile = document.getElementById("upload-file-input");
-const dxfFile = document.getElementById("upload-dxf-input");
-const scaleInput = document.getElementById("layerScale");
-saveButton.addEventListener('click', () => {
-  const layerName = layerInput.value.trim();
+    const layerList = document.getElementById('layerList');
+    const saveButton = document.getElementById('saveButton');
+    const layerInput = document.getElementById('layerName');
+    const excelFile = document.getElementById("upload-file-input");
+    const dxfFile = document.getElementById("upload-dxf-input");
+    const scaleInput = document.getElementById("layerScale");
+    saveButton.addEventListener('click', () => {
+      const layerName = layerInput.value.trim();
 
-  if (layerName === '' || excelFile === '' || dxfFile === '' || scaleInput === '' ) {
-    alert('Please enter the valid data');
-    return;
-  }
+      if (layerName === '' || excelFile === '' || dxfFile === '' || scaleInput === '') {
+        alert('Please enter the valid data');
+        return;
+      }
+      const uuid = crypto.randomUUID();
 
-  // Create list item
-  const li = document.createElement('li');
-  li.classList.add('d-flex', 'align-items-center', 'mb-2');
-
-  // Create checkbox
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  checkbox.classList.add('form-check-input', 'me-2');
-  checkbox.checked = true;
-
-  // Create layer name text
-  const span = document.createElement('span');
-  span.textContent = layerName;
-  span.classList.add('me-auto');
-
-  // Create trash icon
-  const trash = document.createElement('i');
-  trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
-  trash.style.cursor = 'pointer';
-
-  // Trash click removes the layer
-  trash.addEventListener('click', () => {
-      d3.select("svg").selectAll("#uploaded-dxf-group").remove();  // Remove old DXF group
-    li.remove();
-  });
- checkbox.addEventListener('change', (e) => {
-  const isChecked = e.target.checked;
-    const layerGroup =  d3.select("svg").selectAll("#uploaded-dxf-group");
-  layerGroup.style('display', isChecked ? null : 'none');
-});
-  
-  // Append all elements
-  li.appendChild(checkbox);
-  li.appendChild(span);
-  li.appendChild(trash);
-  layerList.appendChild(li);
-
-  // Clear input
-  layerInput.value = '';
-  excelFile.value='';
-  dxfFile.value='';
-  scaleInput.value='';
-});
+      var storedLevels = localStorage.getItem("storedLevels");
+      var currentLevels = [];
+      if (storedLevels)
+        currentLevels = JSON.parse(storedLevels)
 
 
-    document.getElementById('layerScale').addEventListener('input', function() {
-        const scaleValue = parseFloat(this.value) || 1; // Default to 1 if invalid
-        console.log('Scale Value:', scaleValue); 
-        if (window.lastDxfData) {
-            drawUploadedDXF(window.lastDxfData, scaleValue); 
-        }
+      var newLevel =
+      {
+        levelId: uuid,
+        levelName: layerName,
+        excelData: window.lastExcelData,
+        dxfData: window.lastDxfData,
+        scale: scaleInput.value,
+        transitionX: 4,
+        transitionY: 5,
+      };
+      currentLevels.push(newLevel);
+      localStorage.setItem("storedLevels", JSON.stringify(currentLevels))
+
+      // Create list item
+      const li = document.createElement('li');
+      li.classList.add('d-flex', 'align-items-center', 'mb-2');
+      li.setAttribute('name', uuid);
+
+      // Create checkbox
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.classList.add('form-check-input', 'me-2');
+      checkbox.checked = true;
+      checkbox.setAttribute('name', uuid);
+
+      // Create layer name text
+      const span = document.createElement('span');
+      span.textContent = layerName;
+      span.classList.add('me-auto');
+      span.setAttribute('name', uuid);
+
+      // Create trash icon
+      const trash = document.createElement('i');
+      trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
+      trash.style.cursor = 'pointer';
+      trash.setAttribute('name', uuid);
+
+      // Trash click removes the layer
+      trash.addEventListener('click', () => {
+        d3.select("svg").selectAll("#uploaded-dxf-group").remove();  // Remove old DXF group
+        li.remove();
+      });
+      checkbox.addEventListener('change', (e) => {
+        const isChecked = e.target.checked;
+        const layerGroup = d3.select("svg").selectAll("#uploaded-dxf-group");
+        layerGroup.style('display', isChecked ? null : 'none');
+
+      });
+
+      // Append all elements
+      li.appendChild(checkbox);
+      li.appendChild(span);
+      li.appendChild(trash);
+      layerList.appendChild(li);
+
+      // Clear input
+      layerInput.value = '';
+      excelFile.value = '';
+      dxfFile.value = '';
+      scaleInput.value = '';
+
+    });
+
+
+    document.getElementById('layerScale').addEventListener('input', function () {
+      const scaleValue = parseFloat(this.value) || 1; // Default to 1 if invalid
+      console.log('Scale Value:', scaleValue);
+      if (window.lastDxfData) {
+        drawUploadedDXF(window.lastDxfData, scaleValue);
+      }
     });
     let excelData = []; // Will hold Excel rows
     let uploadGroup;
@@ -226,10 +255,11 @@ saveButton.addEventListener('click', () => {
         const sheet = workbook.Sheets[sheetName];
         excelData = XLSX.utils.sheet_to_json(sheet);
         console.log("Excel Parsed Data:", excelData);
-        const svg = d3.select("svg"); 
+        window.lastExcelData = excelData;
+        const svg = d3.select("svg");
         const existingDxfGroup = svg.select("#uploaded-dxf-group");
         if (!existingDxfGroup.empty()) {
-          drawUploadedDXF(window.lastDxfData); 
+          drawUploadedDXF(window.lastDxfData);
         }
       };
       reader.readAsArrayBuffer(file);
@@ -293,7 +323,6 @@ saveButton.addEventListener('click', () => {
           return;
         }
         console.log("DXF Parsed Data:", dxfData);
-        // drawUploadedDXF(dxfData);
       };
       reader.readAsText(file);
     }
@@ -326,7 +355,7 @@ saveButton.addEventListener('click', () => {
 
       const tooltip = d3.select("#tooltip");
       const baseScale = 700 / (bounds.maxX - bounds.minX);
-      const scale = baseScale * userScale;  
+      const scale = baseScale * userScale;
       const offsetX = -bounds.minX * scale + (svgWidth - (bounds.maxX - bounds.minX) * scale) / 2;
       const offsetY = -bounds.minY * scale + (svgHeight - (bounds.maxY - bounds.minY) * scale) / 2;
 
@@ -510,4 +539,5 @@ saveButton.addEventListener('click', () => {
     }
   </script>
 </body>
+
 </html>
