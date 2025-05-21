@@ -207,6 +207,8 @@
 
       // Trash click removes the layer
       trash.addEventListener('click', () => {
+        let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
+        localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
         d3.select("svg").selectAll("#uploaded-dxf-group").remove();  // Remove old DXF group
         li.remove();
       });
@@ -223,6 +225,25 @@
       li.appendChild(trash);
       layerList.appendChild(li);
 
+
+      if (currentLevels) {
+        Object.entries(currentLevels).forEach(([index, level]) => {
+          // if (data && document.getElementById(`layer${layer}`).checked) {
+          //   const layerGroup = svg.append("g")
+          //     .attr("id", `layer-group-${layer}`)
+          //     .attr("transform", "translate(0, 0)")
+          //     .style("cursor", "grab")
+          //     .attr("class", "new-level")
+          //   drawDXF(data, layerGroup, layer);
+          //   selectedLayers.push(layer)
+          // }
+          // else
+          // selectedLayers.push(layer)
+          console.log(level);
+          drawUploadedDXF(level.dxfData,);
+        });
+      }
+      
       // Clear input
       layerInput.value = '';
       excelFile.value = '';
@@ -235,9 +256,9 @@
     document.getElementById('layerScale').addEventListener('input', function () {
       const scaleValue = parseFloat(this.value) || 1; // Default to 1 if invalid
       console.log('Scale Value:', scaleValue);
-      if (window.lastDxfData) {
-        drawUploadedDXF(window.lastDxfData, scaleValue);
-      }
+      // if (window.lastDxfData) {
+      //   drawUploadedDXF(window.lastDxfData, scaleValue);
+      // }
     });
     let excelData = []; // Will hold Excel rows
     let uploadGroup;
@@ -256,11 +277,11 @@
         excelData = XLSX.utils.sheet_to_json(sheet);
         console.log("Excel Parsed Data:", excelData);
         window.lastExcelData = excelData;
-        const svg = d3.select("svg");
-        const existingDxfGroup = svg.select("#uploaded-dxf-group");
-        if (!existingDxfGroup.empty()) {
-          drawUploadedDXF(window.lastDxfData);
-        }
+        // const svg = d3.select("svg");
+        // const existingDxfGroup = svg.select("#uploaded-dxf-group");
+        // if (!existingDxfGroup.empty()) {
+        //   drawUploadedDXF(window.lastDxfData);
+        // }
       };
       reader.readAsArrayBuffer(file);
     }
@@ -315,8 +336,8 @@
         try {
           dxfData = parser.parseSync(e.target.result);
           window.lastDxfData = dxfData; // Store dxfData globally
-          const scaleInput = parseFloat(document.getElementById("layerScale").value) || 1;
-          drawUploadedDXF(dxfData, scaleInput);
+          // const scaleInput = parseFloat(document.getElementById("layerScale").value) || 1;
+          // drawUploadedDXF(dxfData, scaleInput);
 
         } catch (error) {
           console.error("Error parsing DXF:", error);
@@ -328,12 +349,20 @@
     }
 
 
+    // Initialize drag behavior
+    const drag = d3.drag()
+      .on("start", dragStarted)
+      .on("drag", dragged)
+      .on("end", dragEnded);
+      
     // Function to draw uploaded DXF entities on SVG
-    function drawUploadedDXF(dxfData, userScale = 1) {
+    function drawUploadedDXF(dxfData,id,
+     userScale = 1) {
+      
       const svg = d3.select("svg");
-      svg.selectAll("#uploaded-dxf-group").remove();  // Remove old DXF group
+      svg.selectAll(`${id}`).remove();  // Remove old DXF group
       const uploadGroup = svg.append("g")
-        .attr("id", "uploaded-dxf-group")
+        .attr("id", `${id}`)
         .attr("transform", "translate(0,0)")
         .style("cursor", "move");
       let currentX = 0, currentY = 0;
@@ -516,13 +545,7 @@
       });
     }
 
-    // Initialize drag behavior
-    const drag = d3.drag()
-      .on("start", dragStarted)
-      .on("drag", dragged)
-      .on("end", dragEnded);
 
-    uploadGroup.call(drag);
     let currentTransform = d3.zoomIdentity;
 
     function dragStarted(event) {
@@ -537,6 +560,78 @@
     function dragEnded(event) {
       d3.select(this).attr("stroke", null);
     }
+
+      function appendLayers() {
+
+        var storedLevels = localStorage.getItem("storedLevels");
+        var currentLevels = null;
+        if (storedLevels)
+          currentLevels = JSON.parse(storedLevels)
+/*
+
+
+        levelId: uuid,
+        levelName: layerName,
+        excelData: window.lastExcelData,
+        dxfData: window.lastDxfData,
+        scale: scaleInput.value,
+        transitionX: 4,
+        transitionY: 5,
+*/
+        if (currentLevels) {
+          Object.entries(currentLevels).forEach(([index,level]) => {
+            // Create list item
+            const li = document.createElement('li');
+            li.classList.add('d-flex', 'align-items-center', 'mb-2');
+            li.setAttribute('name', level.levelId);
+
+            // Create checkbox
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.classList.add('form-check-input', 'me-2');
+            checkbox.checked = true;
+            checkbox.setAttribute('name', level.levelId);
+
+            // Create layer name text
+            const span = document.createElement('span');
+            span.textContent = level.levelName; //:"asd"
+            span.classList.add('me-auto');
+            span.setAttribute('name', level.levelId);
+
+            // Create trash icon
+            const trash = document.createElement('i');
+            trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
+            trash.style.cursor = 'pointer';
+            trash.setAttribute('name', level.levelId);
+
+            // Trash click removes the layer
+            trash.addEventListener('click', () => {
+              let updatedLevels = currentLevels.filter(a => a.levelId !== level.levelId);
+              localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+              debugger
+              //d3.select("svg").selectAll(`#${level.levelId}`).remove();  // Remove old DXF group
+              li.remove();
+
+            });
+            checkbox.addEventListener('change', (e) => {
+              const isChecked = e.target.checked;
+              const layerGroup = d3.select("svg").selectAll(`#${level.levelId}`);
+              layerGroup.style('display', isChecked ? null : 'none');
+
+            });
+
+            // Append all elements
+            li.appendChild(checkbox);
+            li.appendChild(span);
+            li.appendChild(trash);
+            layerList.appendChild(li);
+
+            // console.log(level);
+             drawUploadedDXF(level.dxfData,);
+          });
+        }
+      }
+    appendLayers();
   </script>
 </body>
 
