@@ -209,12 +209,13 @@
       trash.addEventListener('click', () => {
         let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
         localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
-        d3.select("svg").selectAll("#uploaded-dxf-group").remove();  // Remove old DXF group
+        let le
+        d3.select("svg").selectAll("#"+newLevel.levelId).remove();  // Remove old DXF group
         li.remove();
       });
       checkbox.addEventListener('change', (e) => {
         const isChecked = e.target.checked;
-        const layerGroup = d3.select("svg").selectAll("#uploaded-dxf-group");
+        const layerGroup = d3.select("svg").selectAll("#"+newLevel.levelId);
         layerGroup.style('display', isChecked ? null : 'none');
 
       });
@@ -225,7 +226,7 @@
       li.appendChild(trash);
       layerList.appendChild(li);
 
-      drawUploadedDXF(newLevel.dxfData,);
+      drawUploadedDXF(newLevel.dxfData,newLevel.levelId);
       
       // Clear input
       layerInput.value = '';
@@ -339,13 +340,12 @@
       .on("end", dragEnded);
       
     // Function to draw uploaded DXF entities on SVG
-    function drawUploadedDXF(dxfData,id,
-     userScale = 1) {
+    function drawUploadedDXF(dxfData,id, userScale = 1) {
       
       const svg = d3.select("svg");
       svg.selectAll(`${id}`).remove();  // Remove old DXF group
       const uploadGroup = svg.append("g")
-        .attr("id", `${id}`)
+        .attr("id", id)
         .attr("transform", "translate(0,0)")
         .style("cursor", "move");
       let currentX = 0, currentY = 0;
@@ -591,14 +591,14 @@
             trash.addEventListener('click', () => {
               let updatedLevels = currentLevels.filter(a => a.levelId !== level.levelId);
               localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
-              debugger
-              //d3.select("svg").selectAll(`#${level.levelId}`).remove();  // Remove old DXF group
+              
+              d3.select("svg").selectAll("#"+level.levelId).remove();  // Remove old DXF group
               li.remove();
 
             });
             checkbox.addEventListener('change', (e) => {
               const isChecked = e.target.checked;
-              const layerGroup = d3.select("svg").selectAll(`#${level.levelId}`);
+              const layerGroup = d3.select("svg").selectAll("#"+level.levelId);
               layerGroup.style('display', isChecked ? null : 'none');
 
             });
@@ -610,7 +610,7 @@
             layerList.appendChild(li);
 
             // console.log(level);
-             drawUploadedDXF(level.dxfData,);
+             drawUploadedDXF(level.dxfData,level.levelId);
           });
         }
       }
