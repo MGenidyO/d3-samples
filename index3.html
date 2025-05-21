@@ -175,8 +175,8 @@
         excelData: window.lastExcelData,
         dxfData: window.lastDxfData,
         scale: scaleInput.value,
-        transitionX: 4,
-        transitionY: 5,
+        transitionX: 0,
+        transitionY: 0,
       };
       currentLevels.push(newLevel);
       localStorage.setItem("storedLevels", JSON.stringify(currentLevels))
@@ -210,12 +210,12 @@
         let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
         localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
         let le
-        d3.select("svg").selectAll("#"+newLevel.levelId).remove();  // Remove old DXF group
+        d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
         li.remove();
       });
       checkbox.addEventListener('change', (e) => {
         const isChecked = e.target.checked;
-        const layerGroup = d3.select("svg").selectAll("#"+newLevel.levelId);
+        const layerGroup = d3.select("svg").selectAll("#" + newLevel.levelId);
         layerGroup.style('display', isChecked ? null : 'none');
 
       });
@@ -226,8 +226,8 @@
       li.appendChild(trash);
       layerList.appendChild(li);
 
-      drawUploadedDXF(newLevel.dxfData,newLevel.levelId);
-      
+      drawUploadedDXF(newLevel.dxfData, newLevel.levelId);
+
       // Clear input
       layerInput.value = '';
       excelFile.value = '';
@@ -338,10 +338,10 @@
       .on("start", dragStarted)
       .on("drag", dragged)
       .on("end", dragEnded);
-      
+
     // Function to draw uploaded DXF entities on SVG
-    function drawUploadedDXF(dxfData,id, userScale = 1) {
-      
+    function drawUploadedDXF(dxfData, id, userScale = 1) {
+
       const svg = d3.select("svg");
       svg.selectAll(`${id}`).remove();  // Remove old DXF group
       const uploadGroup = svg.append("g")
@@ -356,6 +356,24 @@
             currentX += event.dx;
             currentY += event.dy;
             d3.select(this).attr("transform", `translate(${currentX},${currentY})`);
+
+            var storedLevels = localStorage.getItem("storedLevels");
+            var currentLevels = null;
+            if (storedLevels)
+              currentLevels = JSON.parse(storedLevels)
+
+            if (currentLevels) {
+              let updatedLevels = currentLevels.map((item) => {
+                if (item.levelId === id) {
+                  item.transitionX = currentX;
+                  item.transitionY = currentY;
+                  return item;
+                }
+                return item;
+              });
+
+              localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+            }
           })
       );
 
@@ -366,7 +384,7 @@
       }
 
       const tooltip = d3.select("#tooltip");
-      const baseScale = ((svgWidth+svgHeight)/4) / (bounds.maxX - bounds.minX); 
+      const baseScale = ((svgWidth + svgHeight) / 4) / (bounds.maxX - bounds.minX);
       const scale = baseScale * userScale;
       const offsetX = -bounds.minX * scale + (svgWidth - (bounds.maxX - bounds.minX) * scale) / 2;
       const offsetY = -bounds.minY * scale + (svgHeight - (bounds.maxY - bounds.minY) * scale) / 2;
@@ -544,76 +562,78 @@
       d3.select(this).attr("stroke", null);
     }
 
-      function appendLayers() {
+    function appendLayers() {
 
-        var storedLevels = localStorage.getItem("storedLevels");
-        var currentLevels = null;
-        if (storedLevels)
-          currentLevels = JSON.parse(storedLevels)
-/*
+      var storedLevels = localStorage.getItem("storedLevels");
+      var currentLevels = null;
+      if (storedLevels)
+        currentLevels = JSON.parse(storedLevels)
+      /*
+      
+      
+              levelId: uuid,
+              levelName: layerName,
+              excelData: window.lastExcelData,
+              dxfData: window.lastDxfData,
+              scale: scaleInput.value,
+              transitionX: 4,
+              transitionY: 5,
+      */
+      if (currentLevels) {
+        Object.entries(currentLevels).forEach(([index, level]) => {
+          // Create list item
+          const li = document.createElement('li');
+          li.classList.add('d-flex', 'align-items-center', 'mb-2');
+          li.setAttribute('name', level.levelId);
 
+          // Create checkbox
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.classList.add('form-check-input', 'me-2');
+          checkbox.checked = true;
+          checkbox.setAttribute('name', level.levelId);
 
-        levelId: uuid,
-        levelName: layerName,
-        excelData: window.lastExcelData,
-        dxfData: window.lastDxfData,
-        scale: scaleInput.value,
-        transitionX: 4,
-        transitionY: 5,
-*/
-        if (currentLevels) {
-          Object.entries(currentLevels).forEach(([index,level]) => {
-            // Create list item
-            const li = document.createElement('li');
-            li.classList.add('d-flex', 'align-items-center', 'mb-2');
-            li.setAttribute('name', level.levelId);
+          // Create layer name text
+          const span = document.createElement('span');
+          span.textContent = level.levelName; //:"asd"
+          span.classList.add('me-auto');
+          span.setAttribute('name', level.levelId);
 
-            // Create checkbox
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.classList.add('form-check-input', 'me-2');
-            checkbox.checked = true;
-            checkbox.setAttribute('name', level.levelId);
+          // Create trash icon
+          const trash = document.createElement('i');
+          trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
+          trash.style.cursor = 'pointer';
+          trash.setAttribute('name', level.levelId);
 
-            // Create layer name text
-            const span = document.createElement('span');
-            span.textContent = level.levelName; //:"asd"
-            span.classList.add('me-auto');
-            span.setAttribute('name', level.levelId);
+          // Trash click removes the layer
+          trash.addEventListener('click', () => {
+            let updatedLevels = currentLevels.filter(a => a.levelId !== level.levelId);
+            localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
 
-            // Create trash icon
-            const trash = document.createElement('i');
-            trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
-            trash.style.cursor = 'pointer';
-            trash.setAttribute('name', level.levelId);
+            d3.select("svg").selectAll("#" + level.levelId).remove();  // Remove old DXF group
+            li.remove();
 
-            // Trash click removes the layer
-            trash.addEventListener('click', () => {
-              let updatedLevels = currentLevels.filter(a => a.levelId !== level.levelId);
-              localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
-              
-              d3.select("svg").selectAll("#"+level.levelId).remove();  // Remove old DXF group
-              li.remove();
-
-            });
-            checkbox.addEventListener('change', (e) => {
-              const isChecked = e.target.checked;
-              const layerGroup = d3.select("svg").selectAll("#"+level.levelId);
-              layerGroup.style('display', isChecked ? null : 'none');
-
-            });
-
-            // Append all elements
-            li.appendChild(checkbox);
-            li.appendChild(span);
-            li.appendChild(trash);
-            layerList.appendChild(li);
-
-            // console.log(level);
-             drawUploadedDXF(level.dxfData,level.levelId);
           });
-        }
+          checkbox.addEventListener('change', (e) => {
+            const isChecked = e.target.checked;
+            const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
+            layerGroup.style('display', isChecked ? null : 'none');
+
+          });
+
+          // Append all elements
+          li.appendChild(checkbox);
+          li.appendChild(span);
+          li.appendChild(trash);
+          layerList.appendChild(li);
+
+          // console.log(level);
+          drawUploadedDXF(level.dxfData, level.levelId);
+
+          d3.select("svg").selectAll("#" + level.levelId).attr("transform", `translate(${level.transitionX},${level.transitionY})`);
+        });
       }
+    }
     appendLayers();
   </script>
 </body>
