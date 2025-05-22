@@ -51,48 +51,28 @@
           <h5 class="mt-3">Layers</h5>
         </div>
         <ul class="nav flex-column">
-          
+
           <li class=" nav-item mt-3">
             <div class="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
               <label class="form-check-label" for="flexSwitchCheckChecked">Display Progress</label>
             </div>
           </li>
-          
+
           <li class="nav-item my-1">
             <div class="input-group">
               <input class="form-control border" type="search" placeholder="search" id="search-input">
             </div>
           </li>
-          <li class="nav-item mt-3">
-            <button class="btn btn-primary d-flex align-items-center" type="button" data-bs-toggle="collapse"
-              data-bs-target="#myCollapse" aria-expanded="false" aria-controls="myCollapse">
-              Add Layers
-              <span class="ms-2"> &#43;</span>
-            </button>
-            <div class="collapse mt-2" id="myCollapse">
-              <div class="mb-3">
-                <label for="layerName" class="form-label">Layer name</label>
-                <input type="text" class="form-control" id="layerName" placeholder="Please enter layer name">
-              </div>
-              <div class="mb-3">
-                <label for="upload-dxf-input" class="form-label">Dxf file</label>
-                <input type="file" class="form-control" id="upload-dxf-input" accept=".dxf">
-              </div>
-              <div class="mb-3">
-                <label for="upload-file-input" class="form-label">Progress excel file</label>
-                <input type="file" class="form-control" id="upload-file-input"
-                  accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-              </div>
-              <div class="mb-3">
-                <label for="layerScale" class="form-label">Layer Scale</label>
-                <input type="number" class="form-control" id="layerScale" placeholder="Enter scale (default is 1)"
-                  step="0.1" value="1">
-              </div>
-              <div class="mb-3">
-                <input type="button" class="btn btn-success" id="saveButton" value="Save">
-              </div>
-            </div>
+
+          <!-- Button trigger modal -->
+          <button type="button" id="openModalButton" class="btn btn-primary mt-2" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">
+
+            Add Layers
+            <span class="ms-2"> &#43;</span>
+          </button>
+          <li class="nav-item mt-2">
             <div id="layer-controls" class="mt-3">
               <h6>Manage Layers</h6>
               <ul id="layerList"></ul>
@@ -154,6 +134,42 @@
         </div>
       </main>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="layerName" class="form-label">Layer name</label>
+              <input type="text" class="form-control" id="layerName" placeholder="Please enter layer name">
+            </div>
+            <div class="mb-3">
+              <label for="upload-dxf-input" class="form-label">Dxf file</label>
+              <input type="file" class="form-control" id="upload-dxf-input" accept=".dxf">
+            </div>
+            <div class="mb-3">
+              <label for="upload-file-input" class="form-label">Progress excel file</label>
+              <input type="file" class="form-control" id="upload-file-input"
+                accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            </div>
+            <div class="mb-3">
+              <label for="layerScale" class="form-label">Layer Scale</label>
+              <input type="number" class="form-control" id="layerScale" placeholder="Enter scale (default is 1)"
+                step="0.1" value="1">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="closeModalButton" data-bs-dismiss="modal">Close</button>
+            <input type="button" class="btn btn-success" id="saveButton" value="Save">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -162,6 +178,8 @@
   <script type="module">
     const layerList = document.getElementById('layerList');
     const saveButton = document.getElementById('saveButton');
+    const closeModalButton = document.getElementById('closeModalButton');
+    const openModalButton = document.getElementById('openModalButton');
     const layerInput = document.getElementById('layerName');
     const excelFile = document.getElementById("upload-file-input");
     const dxfFile = document.getElementById("upload-dxf-input");
@@ -183,7 +201,7 @@
 
       var newLevel =
       {
-        levelId: uuid,
+        levelId: "_" + uuid, // sometime the generated uuid starts with a number and this make a problem with selectors
         levelName: layerName,
         excelData: window.lastExcelData,
         dxfData: window.lastDxfData,
@@ -197,35 +215,52 @@
       // Create list item
       const li = document.createElement('li');
       li.classList.add('d-flex', 'align-items-center', 'mb-2');
-      li.setAttribute('name', uuid);
+      li.setAttribute('name', newLevel.levelId);
 
       // Create checkbox
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.classList.add('form-check-input', 'me-2');
       checkbox.checked = true;
-      checkbox.setAttribute('name', uuid);
+      checkbox.setAttribute('name', newLevel.levelId);
 
       // Create layer name text
       const span = document.createElement('span');
       span.textContent = layerName;
       span.classList.add('me-auto');
-      span.setAttribute('name', uuid);
+      span.setAttribute('name', newLevel.levelId);
 
       // Create trash icon
       const trash = document.createElement('i');
       trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
       trash.style.cursor = 'pointer';
-      trash.setAttribute('name', uuid);
+      trash.setAttribute('name', newLevel.levelId);
 
       // Trash click removes the layer
       trash.addEventListener('click', () => {
         let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
         localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
-        let le
+        //let le
         d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
         li.remove();
       });
+
+      // Create trash icon
+      const edit = document.createElement('i');
+      edit.classList.add('bi', 'bi-pencil-square', 'text-primary', 'ms-2');
+      edit.style.cursor = 'pointer';
+      edit.setAttribute('name', newLevel.levelId);
+
+      // Trash click removes the layer
+      edit.addEventListener('click', () => {
+        closeModalButton.click();
+        // let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
+        // localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+        // //let le
+        // d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
+        // li.remove();
+      });
+
       checkbox.addEventListener('change', (e) => {
         const isChecked = e.target.checked;
         const layerGroup = d3.select("svg").selectAll("#" + newLevel.levelId);
@@ -236,6 +271,7 @@
       // Append all elements
       li.appendChild(checkbox);
       li.appendChild(span);
+      li.appendChild(edit);
       li.appendChild(trash);
       layerList.appendChild(li);
 
@@ -246,9 +282,9 @@
       excelFile.value = '';
       dxfFile.value = '';
       scaleInput.value = '';
+      closeModalButton.click();
 
     });
-
 
     document.getElementById('layerScale').addEventListener('input', function () {
       const scaleValue = parseFloat(this.value) || 1; // Default to 1 if invalid
@@ -365,7 +401,6 @@
       let userScale = levelData.scale;
       let levelName = levelData.levelName;
       const progressChecked = document.getElementById("flexSwitchCheckChecked").checked;
-      debugger
 
       const svg = d3.select("svg");
       svg.selectAll(`#${levelId}`).remove();  // Remove old DXF group
@@ -497,10 +532,9 @@
               .attr("stroke-width", 2)
               .call(getArea)
               .on("mouseover", function (d) {
-                debugger
                 tooltip2
                   .style("opacity", 1)
-            .style("display", "block")
+                  .style("display", "block")
                   .html(`
     <h3 class="layerName">${levelName}</h3>
     <div class="row">
@@ -534,13 +568,11 @@
                   .style("left", (event.pageX + 20) + "px")
                   .style("top", (event.pageY - 30) + "px");
               })
-              // .on("mouseout", function () {
-              //   tooltip2.style("opacity", 0)
-              //   .transition()
-              //     .duration(500)
-              //     .style("display", "none")
-              //     .style("opacity", 0);;
-              // })
+              .on("mouseout", function () {
+                tooltip2
+                  .style("display", "none")
+                  .style("opacity", 0);
+              })
               // .on("mouseover", function (event) {
               //   d3.select("#tooltip")
               //     .style("display", "block")
@@ -685,6 +717,24 @@
             li.remove();
 
           });
+
+          // Create edit icon
+          const edit = document.createElement('i');
+          edit.classList.add('bi', 'bi-pencil-square', 'text-primary', 'ms-2');
+          edit.style.cursor = 'pointer';
+          edit.setAttribute('name', level.levelId);
+
+          // Edit click removes the layer
+          edit.addEventListener('click', () => {
+
+            closeModalButton.click();
+            // let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
+            // localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+            // let le
+            // d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
+            // li.remove();
+          });
+
           checkbox.addEventListener('change', (e) => {
             const isChecked = e.target.checked;
             const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
@@ -695,6 +745,7 @@
           // Append all elements
           li.appendChild(checkbox);
           li.appendChild(span);
+          li.appendChild(edit);
           li.appendChild(trash);
           layerList.appendChild(li);
 
@@ -706,7 +757,7 @@
       }
     }
     appendLayers();
-    
+
     function getArea() {
       const value = document.getElementById("search-input").value
 
@@ -729,34 +780,33 @@
       // notExistElements2.each(function () {
       //   const entity = d3.select(this).node().dataset
       //   d3.select(this).style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
-      //   .attr("fill", multiLayerSelected ? "none" : progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : "white")         
-      //   // .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == entity.level)?.complete))) : "white");
+      //   .attr("fill", multiLayerSelected ? "none" : progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : "white")
       // });
     }
- 
-  document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-    checkbox.addEventListener("change", function () {
 
-      var storedLevels = localStorage.getItem("storedLevels");
-      var currentLevels = null;
-      if (storedLevels)
-        currentLevels = JSON.parse(storedLevels)
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener("change", function () {
 
-      Object.entries(currentLevels).forEach(([index, level]) => {
+        var storedLevels = localStorage.getItem("storedLevels");
+        var currentLevels = null;
+        if (storedLevels)
+          currentLevels = JSON.parse(storedLevels)
 
-        drawUploadedDXF(level);
-        d3.select("svg").selectAll("#" + level.levelId).attr("transform", `translate(${level.transitionX},${level.transitionY})`);
+        Object.entries(currentLevels).forEach(([index, level]) => {
 
+          drawUploadedDXF(level);
+          d3.select("svg").selectAll("#" + level.levelId).attr("transform", `translate(${level.transitionX},${level.transitionY})`);
+
+        });
       });
     });
-  });
 
-function getColorByCompleteness(percentage) {
-  //console.log("the precentage ",percentage);
-  if (percentage <= 0.29) return "#DB4E41";      // Red
-  if (percentage <= 0.70) return "#ECCB28";      // Yellow
-  return "#97CA58";                            // Green
-}
+    function getColorByCompleteness(percentage) {
+      //console.log("the precentage ",percentage);
+      if (percentage <= 0.29) return "#DB4E41";      // Red
+      if (percentage <= 0.70) return "#ECCB28";      // Yellow
+      return "#97CA58";                            // Green
+    }
   </script>
 </body>
 
