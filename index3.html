@@ -13,7 +13,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dxf-parser@1.1.2/dist/dxf-parser.min.js"></script>
   <style>
-    #tooltip {
+    /* #tooltip {
       position: absolute;
       background-color: rgba(0, 0, 0, 0.8);
       color: #fff;
@@ -22,7 +22,7 @@
       font-size: 14px;
       display: none;
       z-index: 1000;
-    }
+    } */
   </style>
 </head>
 
@@ -363,12 +363,12 @@
       let excelData = levelData.excelData;
       let levelId = levelData.levelId;
       let userScale = levelData.scale;
-      let levelName = levelData.layerName;
+      let levelName = levelData.levelName;
       const progressChecked = document.getElementById("flexSwitchCheckChecked").checked;
       debugger
 
       const svg = d3.select("svg");
-      svg.selectAll(`${levelId}`).remove();  // Remove old DXF group
+      svg.selectAll(`#${levelId}`).remove();  // Remove old DXF group
       const uploadGroup = svg.append("g")
         .attr("id", levelId)
         .attr("transform", "translate(0,0)")
@@ -497,8 +497,10 @@
               .attr("stroke-width", 2)
               .call(getArea)
               .on("mouseover", function (d) {
+                debugger
                 tooltip2
                   .style("opacity", 1)
+            .style("display", "block")
                   .html(`
     <h3 class="layerName">${levelName}</h3>
     <div class="row">
@@ -724,14 +726,31 @@
         return !value || !name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
       })
 
-      notExistElements2.each(function () {
-        const entity = d3.select(this).node().dataset
-        d3.select(this).style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
-        .attr("fill", multiLayerSelected ? "none" : progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : "white")         
-        // .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == entity.level)?.complete))) : "white");
-      });
+      // notExistElements2.each(function () {
+      //   const entity = d3.select(this).node().dataset
+      //   d3.select(this).style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
+      //   .attr("fill", multiLayerSelected ? "none" : progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : "white")         
+      //   // .attr("fill", multiLayerSelected ? "none" : progressChecked ? colorLevelScale(((client_levels_data.find((e) => e.UniqueID == entity.layer && e.Level == entity.level)?.complete))) : "white");
+      // });
     }
  
+  document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener("change", function () {
+
+      var storedLevels = localStorage.getItem("storedLevels");
+      var currentLevels = null;
+      if (storedLevels)
+        currentLevels = JSON.parse(storedLevels)
+
+      Object.entries(currentLevels).forEach(([index, level]) => {
+
+        drawUploadedDXF(level);
+        d3.select("svg").selectAll("#" + level.levelId).attr("transform", `translate(${level.transitionX},${level.transitionY})`);
+
+      });
+    });
+  });
+
 function getColorByCompleteness(percentage) {
   //console.log("the precentage ",percentage);
   if (percentage <= 0.29) return "#DB4E41";      // Red
