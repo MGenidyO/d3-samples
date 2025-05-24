@@ -182,7 +182,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-             <input type="hidden" id="childLevelId" name="childLevelId" value="0">
+             <input type="hidden" id="childLevelId" name="childLevelId" value="">
+             <input type="hidden" id="parentLevelId" name="parentLevelId" value="">
+             <input type="hidden" id="mainLayerId" name="mainLayerId" value="">
              
             <div class="mb-3">
               <label for="childLevelName" class="form-label">level name</label>
@@ -260,6 +262,7 @@
             scale: scaleInput.value,
             transitionX: 0,
             transitionY: 0,
+            levelList:[]
           };
           currentLevels.push(newLevel);
 
@@ -335,7 +338,7 @@
 
         }
         
-        localStorage.setItem("storedLevels", JSON.stringify(currentLevels))
+        localStorage.setItem("storedLevels", JSON.stringify(currentLevels));
 
         window.location.reload();
 
@@ -353,25 +356,50 @@
 
   saveChildLevelButton.addEventListener('click', () => {
     const levelName = childLevelName.value.trim();
+    const mainLayerId = document.getElementById("mainLayerId").value;
 
     if (levelName === '' || childLevelId.value === '') {
       alert('Please enter the valid data');
       return;
     }
 
+    var storedLevels = localStorage.getItem("storedLevels");
+    var currentLevels = [];
+    if (storedLevels)
+      currentLevels = JSON.parse(storedLevels)
+
     const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${childLevelId.value}"]`);
 
-    checkboxes.forEach(checkbox => {
-      // Perform actions on each checkbox here
-      // For example, check if it's checked and log its value
-      if (checkbox.checked) {
-        console.log(checkbox.value);
-      }
-    });
+    var childLevel = {
+      levelName: levelName,
+      entityList: []
+    };
 
-        childLevelName.value = '';
-        childLevelId.value = '';
+    if (currentLevels) {
+      let updatedLevels = currentLevels.map((item) => {
+        if (item.levelId === mainLayerId) {
+
+          checkboxes.forEach(checkbox => {
+            // Perform actions on each checkbox here
+            // For example, check if it's checked and log its value
+            if (checkbox.checked) {
+              debugger
+              var checkboxName = checkbox.name;
+              childLevel.entityList.push(checkboxName);
+            }
+          });
+          item.levelList.push(childLevel);
+          return item;
+        }
+        return item;
       });
+
+      localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+    }
+
+    childLevelName.value = '';
+    childLevelId.value = '';
+  });
 
     document.getElementById('layerScale').addEventListener('input', function () {
       const scaleValue = parseFloat(this.value) || 1; // Default to 1 if invalid
@@ -817,6 +845,7 @@
           add.classList.add('bi', 'bi-plus-circle-fill', 'text-primary', 'ms-2');
           add.style.cursor = 'pointer';
           add.setAttribute('name', level.levelId);
+          add.setAttribute('data-parentId', level.levelId);
           add.setAttribute('data-bs-toggle', "modal");
           add.setAttribute('data-bs-target', "#addChildLevel");
 
@@ -825,26 +854,29 @@
             const modalList = document.getElementById("addChildLevelList");
           const childLevel_uuid = "_" + crypto.randomUUID();
           document.getElementById("childLevelId").value = childLevel_uuid;
+          document.getElementById("mainLayerId").value = level.levelId;
+          document.getElementById("parentLevelId").value = add.dataset.parentId;
+          
 
             Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
-
+//level.levelList
               const li = document.createElement('li');
               li.classList.add('d-flex', 'align-items-center', 'mb-2');
-              li.setAttribute('name', childLevel_uuid);
+              li.setAttribute('name', entity.layer);
 
               // Create checkbox
               const checkbox = document.createElement('input');
               checkbox.type = 'checkbox';
               checkbox.classList.add('form-check-input', 'me-2');
               checkbox.checked = false;
-              checkbox.setAttribute('name', childLevel_uuid);
+              checkbox.setAttribute('name', entity.layer);
 
 
               // Create layer name text
               const span = document.createElement('span');
               span.textContent = entity.layer;
               span.classList.add('me-auto');
-              span.setAttribute('name', childLevel_uuid);
+              span.setAttribute('name', entity.layer);
 
 
               li.appendChild(checkbox);
