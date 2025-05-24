@@ -144,6 +144,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+             <input type="hidden" id="levelId" name="levelId" value="0">
             <div class="mb-3">
               <label for="layerName" class="form-label">Layer name</label>
               <input type="text" class="form-control" id="layerName" placeholder="Please enter layer name">
@@ -184,107 +185,138 @@
     const excelFile = document.getElementById("upload-file-input");
     const dxfFile = document.getElementById("upload-dxf-input");
     const scaleInput = document.getElementById("layerScale");
+    const levelIdInput = document.getElementById("levelId");
     saveButton.addEventListener('click', () => {
-      const layerName = layerInput.value.trim();
+        const layerName = layerInput.value.trim();
 
-      if (layerName === '' || excelFile === '' || dxfFile === '' || scaleInput === '') {
-        alert('Please enter the valid data');
-        return;
-      }
-      const uuid = crypto.randomUUID();
+        if (layerName === '' || excelFile === '' || dxfFile === '' || scaleInput === '') {
+          alert('Please enter the valid data');
+          return;
+        }
 
-      var storedLevels = localStorage.getItem("storedLevels");
-      var currentLevels = [];
-      if (storedLevels)
-        currentLevels = JSON.parse(storedLevels)
+        var storedLevels = localStorage.getItem("storedLevels");
+        var currentLevels = [];
+        if (storedLevels)
+          currentLevels = JSON.parse(storedLevels)
 
+        var updatedLevel = {};
 
-      var newLevel =
-      {
-        levelId: "_" + uuid, // sometime the generated uuid starts with a number and this make a problem with selectors
-        levelName: layerName,
-        excelData: window.lastExcelData,
-        dxfData: window.lastDxfData,
-        scale: scaleInput.value,
-        transitionX: 0,
-        transitionY: 0,
-      };
-      currentLevels.push(newLevel);
-      localStorage.setItem("storedLevels", JSON.stringify(currentLevels))
+        if (window.isEditMode) {
+          currentLevels = currentLevels.map((item) => {
+            if (item.levelId === levelIdInput.value) {
+              debugger
+              item.levelName = layerName;
+              item.excelData = window.lastExcelData;
+              item.dxfData = window.lastDxfData;
+              item.scale = scaleInput.value;
+              updatedLevel = item;
+              return item;
+            }
+            return item;
+          });
+        }
+        else {
+          const uuid = crypto.randomUUID();
 
-      // Create list item
-      const li = document.createElement('li');
-      li.classList.add('d-flex', 'align-items-center', 'mb-2');
-      li.setAttribute('name', newLevel.levelId);
+          var newLevel =
+          {
+            levelId: "_" + uuid, // sometime the generated uuid starts with a number and this make a problem with selectors
+            levelName: layerName,
+            excelData: window.lastExcelData,
+            dxfData: window.lastDxfData,
+            scale: scaleInput.value,
+            transitionX: 0,
+            transitionY: 0,
+          };
+          currentLevels.push(newLevel);
 
-      // Create checkbox
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.classList.add('form-check-input', 'me-2');
-      checkbox.checked = true;
-      checkbox.setAttribute('name', newLevel.levelId);
+          // Create list item
+          const li = document.createElement('li');
+          li.classList.add('d-flex', 'align-items-center', 'mb-2');
+          li.setAttribute('name', newLevel.levelId);
 
-      // Create layer name text
-      const span = document.createElement('span');
-      span.textContent = layerName;
-      span.classList.add('me-auto');
-      span.setAttribute('name', newLevel.levelId);
+          // Create checkbox
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.classList.add('form-check-input', 'me-2');
+          checkbox.checked = true;
+          checkbox.setAttribute('name', newLevel.levelId);
 
-      // Create trash icon
-      const trash = document.createElement('i');
-      trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
-      trash.style.cursor = 'pointer';
-      trash.setAttribute('name', newLevel.levelId);
+          // Create layer name text
+          const span = document.createElement('span');
+          span.textContent = layerName;
+          span.classList.add('me-auto');
+          span.setAttribute('name', newLevel.levelId);
 
-      // Trash click removes the layer
-      trash.addEventListener('click', () => {
-        let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
-        localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
-        //let le
-        d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
-        li.remove();
-      });
+          // Create trash icon
+          const trash = document.createElement('i');
+          trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
+          trash.style.cursor = 'pointer';
+          trash.setAttribute('name', newLevel.levelId);
 
-      // Create trash icon
-      const edit = document.createElement('i');
-      edit.classList.add('bi', 'bi-pencil-square', 'text-primary', 'ms-2');
-      edit.style.cursor = 'pointer';
-      edit.setAttribute('name', newLevel.levelId);
+          // Trash click removes the layer
+          trash.addEventListener('click', () => {
+            let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
+            localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+            //let le
+            d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
+            li.remove();
+          });
 
-      // Trash click removes the layer
-      edit.addEventListener('click', () => {
+          // Create trash icon
+          const edit = document.createElement('i');
+          edit.classList.add('bi', 'bi-pencil-square', 'text-primary', 'ms-2');
+          edit.style.cursor = 'pointer';
+          edit.setAttribute('name', newLevel.levelId);
+
+          // Trash click removes the layer
+          edit.addEventListener('click', () => {
+            layerInput.value = newLevel.levelName;
+            levelIdInput.value = newLevel.levelId;
+            scaleInput.value = newLevel.scale;
+            window.isEditMode = true;
+            window.lastExcelData = newLevel.excelData;
+            window.lastDxfData = newLevel.dxfData;
+            openModalButton.click();
+            // let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
+            // localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+            // //let le
+            // d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
+            // li.remove();
+          });
+
+          checkbox.addEventListener('change', (e) => {
+            const isChecked = e.target.checked;
+            const layerGroup = d3.select("svg").selectAll("#" + newLevel.levelId);
+            layerGroup.style('display', isChecked ? null : 'none');
+
+          });
+
+          // Append all elements
+          li.appendChild(checkbox);
+          li.appendChild(span);
+          li.appendChild(edit);
+          li.appendChild(trash);
+          layerList.appendChild(li);
+          updatedLevel = newLevel;
+
+        }
+        debugger
+        localStorage.setItem("storedLevels", JSON.stringify(currentLevels))
+
+        window.location.reload();
+
+        // Clear input
+        layerInput.value = '';
+        excelFile.value = '';
+        dxfFile.value = '';
+        scaleInput.value = '';
+        window.lastExcelData = '';
+        window.lastDxfData = '';
+        window.isEditMode = false;
         closeModalButton.click();
-        // let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
-        // localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
-        // //let le
-        // d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
-        // li.remove();
-      });
-
-      checkbox.addEventListener('change', (e) => {
-        const isChecked = e.target.checked;
-        const layerGroup = d3.select("svg").selectAll("#" + newLevel.levelId);
-        layerGroup.style('display', isChecked ? null : 'none');
 
       });
-
-      // Append all elements
-      li.appendChild(checkbox);
-      li.appendChild(span);
-      li.appendChild(edit);
-      li.appendChild(trash);
-      layerList.appendChild(li);
-
-      drawUploadedDXF(newLevel);
-
-      // Clear input
-      layerInput.value = '';
-      excelFile.value = '';
-      dxfFile.value = '';
-      scaleInput.value = '';
-      closeModalButton.click();
-
-    });
 
     document.getElementById('layerScale').addEventListener('input', function () {
       const scaleValue = parseFloat(this.value) || 1; // Default to 1 if invalid
@@ -671,17 +703,7 @@
       var currentLevels = null;
       if (storedLevels)
         currentLevels = JSON.parse(storedLevels)
-      /*
-      
-      
-              levelId: uuid,
-              levelName: layerName,
-              excelData: window.lastExcelData,
-              dxfData: window.lastDxfData,
-              scale: scaleInput.value,
-              transitionX: 4,
-              transitionY: 5,
-      */
+
       if (currentLevels) {
         Object.entries(currentLevels).forEach(([index, level]) => {
           // Create list item
@@ -726,8 +748,14 @@
 
           // Edit click removes the layer
           edit.addEventListener('click', () => {
-
-            closeModalButton.click();
+debugger
+            layerInput.value = level.levelName;
+            scaleInput.value = level.scale;
+            levelIdInput.value = level.levelId;
+            window.isEditMode = true;
+            window.lastExcelData = level.excelData;
+            window.lastDxfData = level.dxfData;
+            openModalButton.click();
             // let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
             // localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
             // let le
