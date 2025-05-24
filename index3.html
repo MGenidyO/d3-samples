@@ -171,6 +171,34 @@
         </div>
       </div>
     </div>
+
+    
+    <!-- Modal -->
+    <div class="modal fade" id="addChildLevel" tabindex="-1" aria-labelledby="addChildLevelLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="addChildLevelLabel">Add Child level</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+             <input type="hidden" id="childLevelId" name="childLevelId" value="0">
+             
+            <div class="mb-3">
+              <label for="childLevelName" class="form-label">level name</label>
+              <input type="text" class="form-control" id="childLevelName" placeholder="Please enter level name">
+            </div>
+
+             <ul id="addChildLevelList"></ul>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="closeChildLevelModalButton" data-bs-dismiss="modal">Close</button>
+            <input type="button" class="btn btn-success" id="saveChildLevelButton" value="Save">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -186,6 +214,11 @@
     const dxfFile = document.getElementById("upload-dxf-input");
     const scaleInput = document.getElementById("layerScale");
     const levelIdInput = document.getElementById("levelId");
+    const saveChildLevelButton = document.getElementById('saveChildLevelButton');
+    const closeChildLevelModalButton = document.getElementById('closeChildLevelModalButton');
+    const childLevelName = document.getElementById('childLevelName');
+    const childLevelId = document.getElementById("childLevelId");
+
     saveButton.addEventListener('click', () => {
         const layerName = layerInput.value.trim();
 
@@ -204,7 +237,7 @@
         if (window.isEditMode) {
           currentLevels = currentLevels.map((item) => {
             if (item.levelId === levelIdInput.value) {
-              debugger
+              
               item.levelName = layerName;
               item.excelData = window.lastExcelData;
               item.dxfData = window.lastDxfData;
@@ -301,7 +334,7 @@
           updatedLevel = newLevel;
 
         }
-        debugger
+        
         localStorage.setItem("storedLevels", JSON.stringify(currentLevels))
 
         window.location.reload();
@@ -316,6 +349,28 @@
         window.isEditMode = false;
         closeModalButton.click();
 
+      });
+
+  saveChildLevelButton.addEventListener('click', () => {
+    const levelName = childLevelName.value.trim();
+
+    if (levelName === '' || childLevelId.value === '') {
+      alert('Please enter the valid data');
+      return;
+    }
+
+    const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${childLevelId.value}"]`);
+
+    checkboxes.forEach(checkbox => {
+      // Perform actions on each checkbox here
+      // For example, check if it's checked and log its value
+      if (checkbox.checked) {
+        console.log(checkbox.value);
+      }
+    });
+
+        childLevelName.value = '';
+        childLevelId.value = '';
       });
 
     document.getElementById('layerScale').addEventListener('input', function () {
@@ -748,7 +803,6 @@
 
           // Edit click removes the layer
           edit.addEventListener('click', () => {
-debugger
             layerInput.value = level.levelName;
             scaleInput.value = level.scale;
             levelIdInput.value = level.levelId;
@@ -756,11 +810,56 @@ debugger
             window.lastExcelData = level.excelData;
             window.lastDxfData = level.dxfData;
             openModalButton.click();
-            // let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
-            // localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
-            // let le
-            // d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
-            // li.remove();
+          });
+
+          // Create add icon
+          const add = document.createElement('i');
+          add.classList.add('bi', 'bi-plus-circle-fill', 'text-primary', 'ms-2');
+          add.style.cursor = 'pointer';
+          add.setAttribute('name', level.levelId);
+          add.setAttribute('data-bs-toggle', "modal");
+          add.setAttribute('data-bs-target', "#addChildLevel");
+
+          // add click removes the layer
+          add.addEventListener('click', () => {
+            const modalList = document.getElementById("addChildLevelList");
+          const childLevel_uuid = "_" + crypto.randomUUID();
+          document.getElementById("childLevelId").value = childLevel_uuid;
+
+            Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
+
+              const li = document.createElement('li');
+              li.classList.add('d-flex', 'align-items-center', 'mb-2');
+              li.setAttribute('name', childLevel_uuid);
+
+              // Create checkbox
+              const checkbox = document.createElement('input');
+              checkbox.type = 'checkbox';
+              checkbox.classList.add('form-check-input', 'me-2');
+              checkbox.checked = false;
+              checkbox.setAttribute('name', childLevel_uuid);
+
+
+              // Create layer name text
+              const span = document.createElement('span');
+              span.textContent = entity.layer;
+              span.classList.add('me-auto');
+              span.setAttribute('name', childLevel_uuid);
+
+
+              li.appendChild(checkbox);
+              li.appendChild(span);
+              modalList.append(li);
+
+            });
+
+            // layerInput.value = level.levelName;
+            // scaleInput.value = level.scale;
+            // levelIdInput.value = level.levelId;
+            // window.isEditMode = true;
+            // window.lastExcelData = level.excelData;
+            // window.lastDxfData = level.dxfData;
+            //openModalButton.click();
           });
 
           checkbox.addEventListener('change', (e) => {
@@ -773,6 +872,7 @@ debugger
           // Append all elements
           li.appendChild(checkbox);
           li.appendChild(span);
+          li.appendChild(add);
           li.appendChild(edit);
           li.appendChild(trash);
           layerList.appendChild(li);
