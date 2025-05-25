@@ -387,7 +387,7 @@
               // Perform actions on each checkbox here
               // For example, check if it's checked and log its value
               if (checkbox.checked) {
-debugger
+                debugger
                 var areaId = checkbox.dataset.areaid;
                 childLevel.entityList.push(areaId);
               }
@@ -397,7 +397,7 @@ debugger
           }
           return item;
         });
-debugger
+        debugger
         localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
       }
 
@@ -813,7 +813,7 @@ debugger
 
           checkbox.addEventListener('change', (e) => {
             const isChecked = e.target.checked;
-            
+
             document.getElementById(level.levelId).style.display = isChecked ? null : 'none';
             //const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
             //layerGroup.style('display', isChecked ? null : 'none')
@@ -875,12 +875,19 @@ debugger
             document.getElementById("mainLayerId").value = level.levelId;
             document.getElementById("parentLevelId").value = level.levelId;
 
+            var selectedEntities = [];
+            var filteredLevels = level.levelList.filter(l => l.parentLevelId == level.levelId);
+            if (filteredLevels) {
+              filteredLevels.forEach(item => {
+                selectedEntities.push.apply(selectedEntities, item.entityList);
+              });
+            }
 
             Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
-              var filteredLevels = level.levelList.filter(l => l.parentLevelId == level.levelId);
-              if (filteredLevels) {
+              debugger
+              if (selectedEntities.includes(entity.layer))
+                return;
 
-              }
               const li = document.createElement('li');
               li.classList.add('d-flex', 'align-items-center', 'mb-2');
               li.setAttribute('name', childLevel_uuid);
@@ -977,18 +984,18 @@ debugger
           checkbox.classList.add('form-check-input', 'me-2');
           checkbox.checked = true;
           checkbox.setAttribute('name', childLevel_uuid);
-          
+
           checkbox.addEventListener('change', (e) => {
             const isChecked = e.target.checked;
             debugger
             level.entityList.forEach(entity => {
               debugger
-            document.getElementById(entity).style.display = isChecked ? null : 'none';
+              document.getElementById(entity).style.display = isChecked ? null : 'none';
 
             });
             // const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
             // layerGroup.style('display', isChecked ? null : 'none');
-            
+
           });
 
           // Create layer name text
