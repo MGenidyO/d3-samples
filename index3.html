@@ -808,6 +808,15 @@
           checkbox.checked = true;
           checkbox.setAttribute('name', level.levelId);
 
+          checkbox.addEventListener('change', (e) => {
+            const isChecked = e.target.checked;
+            debugger
+            document.getElementById(level.levelId).style.display = isChecked ? null : 'none';
+             //const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
+            //layerGroup.style('display', isChecked ? null : 'none')
+
+          });
+
           // Create layer name text
           const span = document.createElement('span');
           span.textContent = level.levelName; //:"asd"
@@ -900,14 +909,7 @@
             // window.lastDxfData = level.dxfData;
             //openModalButton.click();
           });
-
-          checkbox.addEventListener('change', (e) => {
-            const isChecked = e.target.checked;
-            const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
-            layerGroup.style('display', isChecked ? null : 'none');
-
-          });
-
+          
           // Append all elements
           li.appendChild(checkbox);
           li.appendChild(span);
@@ -1099,22 +1101,22 @@
       // });
     }
 
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-      checkbox.addEventListener("change", function () {
+    // document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    //   checkbox.addEventListener("change", function () {
 
-        var storedLevels = localStorage.getItem("storedLevels");
-        var currentLevels = null;
-        if (storedLevels)
-          currentLevels = JSON.parse(storedLevels)
+    //     var storedLevels = localStorage.getItem("storedLevels");
+    //     var currentLevels = null;
+    //     if (storedLevels)
+    //       currentLevels = JSON.parse(storedLevels)
 
-        Object.entries(currentLevels).forEach(([index, level]) => {
+    //     Object.entries(currentLevels).forEach(([index, level]) => {
 
-          drawUploadedDXF(level);
-          d3.select("svg").selectAll("#" + level.levelId).attr("transform", `translate(${level.transitionX},${level.transitionY})`);
+    //       drawUploadedDXF(level);
+    //       d3.select("svg").selectAll("#" + level.levelId).attr("transform", `translate(${level.transitionX},${level.transitionY})`);
 
-        });
-      });
-    });
+    //     });
+    //   });
+    // });
 
     function getColorByCompleteness(percentage) {
       //console.log("the precentage ",percentage);
