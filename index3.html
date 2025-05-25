@@ -75,7 +75,7 @@
           <li class="nav-item mt-2">
             <div id="layer-controls" class="mt-3">
               <h6>Manage Layers</h6>
-              <ul id="layerList"></ul>
+              <ul class="list-group list-group-flush" id="layerList"></ul>
             </div>
           </li>
         </ul>
@@ -372,6 +372,7 @@
 
     var childLevel = {
       levelName: levelName,
+      levelId: "_"+crypto.randomUUID(),
       entityList: []
     };
 
@@ -383,7 +384,7 @@
             // Perform actions on each checkbox here
             // For example, check if it's checked and log its value
             if (checkbox.checked) {
-              debugger
+              
               var checkboxName = checkbox.name;
               childLevel.entityList.push(checkboxName);
             }
@@ -789,10 +790,13 @@
 
       if (currentLevels) {
         Object.entries(currentLevels).forEach(([index, level]) => {
+          //level.levelList = [];
           // Create list item
           const li = document.createElement('li');
-          li.classList.add('d-flex', 'align-items-center', 'mb-2');
+          li.classList.add('list-group-item', 'mb-2');
           li.setAttribute('name', level.levelId);
+
+          var nestedLevels = getChildLevel(level.levelList, level.levelId);
 
           // Create checkbox
           const checkbox = document.createElement('input');
@@ -907,6 +911,8 @@
           li.appendChild(add);
           li.appendChild(edit);
           li.appendChild(trash);
+          if (nestedLevels)
+            li.appendChild(nestedLevels);
           layerList.appendChild(li);
 
           // console.log(level);
@@ -917,6 +923,138 @@
       }
     }
     appendLayers();
+
+  function getChildLevel(levelList, parentLevelId) {
+
+    // Create list item
+    const ul = document.createElement('ul');
+    ul.classList.add('list-group', 'list-group-flush');
+    ul.setAttribute('name', parentLevelId);
+    if (levelList) {
+
+      levelList.forEach(level => {
+
+debugger
+        const childLevel_uuid = "_" + crypto.randomUUID();
+        const li = document.createElement('li');
+        li.classList.add('list-group-item', 'mb-2');
+        li.setAttribute('name', childLevel_uuid);
+        li.setAttribute('data-levelId', childLevel_uuid);
+        li.setAttribute('data-mainLayerId', parentLevelId);
+        li.setAttribute('data-parentLevelId', level.levelId);
+
+
+        // // Create list item
+        // const ul = document.createElement('ul');
+        // //ul.classList.add('d-flex', 'align-items-center', 'mb-2');
+        // ul.setAttribute('name', childLevel_uuid);
+
+        // if (level) {
+
+        //   var nestedLevels = getChildLevel(level.levelList);
+        //   if (nestedLevels, level.levelId)
+        //     ul.appendChild(nestedLevels);
+
+        // }
+        /*
+            var childLevel = {
+              levelName: levelName,
+              entityList: []
+            };*/
+        // Create checkbox
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.classList.add('form-check-input', 'me-2');
+        checkbox.checked = true;
+        checkbox.setAttribute('name', childLevel_uuid);
+
+        // Create layer name text
+        const span = document.createElement('span');
+        span.textContent = level.levelName; //:"asd"
+        span.classList.add('me-auto');
+        span.setAttribute('name', childLevel_uuid);
+
+        // Create trash icon
+        const trash = document.createElement('i');
+        trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
+        trash.style.cursor = 'pointer';
+        trash.setAttribute('name', childLevel_uuid);
+
+        // Trash click removes the layer
+        trash.addEventListener('click', () => {
+
+          let updatedLevels = currentLevels.filter(a => a.levelId !== level.levelId);
+          localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+
+          d3.select("svg").selectAll("#" + level.levelId).remove();  // Remove old DXF group
+          li.remove();
+
+        });
+        // Create add icon
+        const add = document.createElement('i');
+        add.classList.add('bi', 'bi-plus-circle-fill', 'text-primary', 'ms-2');
+        add.style.cursor = 'pointer';
+        add.setAttribute('name', childLevel_uuid);
+        add.setAttribute('data-parentId', level.levelId);
+        add.setAttribute('data-bs-toggle', "modal");
+        add.setAttribute('data-bs-target', "#addChildLevel");
+
+        // add click removes the layer
+        add.addEventListener('click', () => {
+          const modalList = document.getElementById("addChildLevelList");
+          const childLevel_uuid = "_" + crypto.randomUUID();
+          document.getElementById("childLevelId").value = childLevel_uuid;
+          document.getElementById("mainLayerId").value = level.levelId;
+          document.getElementById("parentLevelId").value = add.dataset.parentId;
+
+
+          Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
+            //level.levelList
+            const li = document.createElement('li');
+            li.classList.add('d-flex', 'align-items-center', 'mb-2');
+            li.setAttribute('name', entity.layer);
+
+            // Create checkbox
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.classList.add('form-check-input', 'me-2');
+            checkbox.checked = false;
+            checkbox.setAttribute('name', entity.layer);
+
+
+            // Create layer name text
+            const span = document.createElement('span');
+            span.textContent = entity.layer;
+            span.classList.add('me-auto');
+            span.setAttribute('name', entity.layer);
+
+
+            li.appendChild(checkbox);
+            li.appendChild(span);
+            modalList.append(li);
+
+          });
+        });
+
+        checkbox.addEventListener('change', (e) => {
+          const isChecked = e.target.checked;
+          const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
+          layerGroup.style('display', isChecked ? null : 'none');
+
+        });
+
+        // Append all elements
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(add);
+        li.appendChild(trash);
+        //li.appendChild(ul);
+        ul.appendChild(li);
+
+      });
+    }
+    return ul;
+  }
 
     function getArea() {
       const value = document.getElementById("search-input").value
