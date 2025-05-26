@@ -375,6 +375,7 @@
       var childLevel = {
         levelName: levelName,
         levelId: "_" + crypto.randomUUID(),
+        mainLayerId: mainLayerId,
         parentLevelId: parentLevelId,
         entityList: []
       };
@@ -882,6 +883,7 @@
                 selectedEntities.push.apply(selectedEntities, item.entityList);
               });
             }
+              modalList.innerHTML = ''
 
             Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
               debugger
@@ -913,14 +915,6 @@
               modalList.append(li);
 
             });
-
-            // layerInput.value = level.levelName;
-            // scaleInput.value = level.scale;
-            // levelIdInput.value = level.levelId;
-            // window.isEditMode = true;
-            // window.lastExcelData = level.excelData;
-            // window.lastDxfData = level.dxfData;
-            //openModalButton.click();
           });
 
           // Append all elements
@@ -1048,29 +1042,45 @@
             const modalList = document.getElementById("addChildLevelList");
             const childLevel_uuid = "_" + crypto.randomUUID();
             document.getElementById("childLevelId").value = childLevel_uuid;
-            document.getElementById("mainLayerId").value = level.levelId;
-            document.getElementById("parentLevelId").value = add.dataset.parentId;
+            document.getElementById("mainLayerId").value = level.mainLayerId;
+            document.getElementById("parentLevelId").value = level.levelId;
 
 
-            Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
-              //level.levelList
+            var mainLevel = getStoredLevels(level.mainLayerId);
+            
+            var selectedEntities = [];
+            var filteredLevels = mainLevel.levelList.filter(l => l.parentLevelId == level.levelId);
+            if (filteredLevels) {
+              filteredLevels.forEach(item => {
+                selectedEntities.push.apply(selectedEntities, item.entityList);
+              });
+            }
+
+            modalList.innerHTML = ''
+debugger
+            Object.entries(level.entityList).forEach(([index, entity]) => {
+              debugger
+              if (selectedEntities.includes(entity))
+                return;
+
               const li = document.createElement('li');
               li.classList.add('d-flex', 'align-items-center', 'mb-2');
-              li.setAttribute('name', entity.layer);
+              li.setAttribute('name', childLevel_uuid);
 
               // Create checkbox
               const checkbox = document.createElement('input');
               checkbox.type = 'checkbox';
               checkbox.classList.add('form-check-input', 'me-2');
               checkbox.checked = false;
-              checkbox.setAttribute('name', entity.layer);
+              checkbox.setAttribute('name', childLevel_uuid);
+              checkbox.setAttribute('data-areaId', entity);
 
 
               // Create layer name text
               const span = document.createElement('span');
-              span.textContent = entity.layer;
+              span.textContent = entity;
               span.classList.add('me-auto');
-              span.setAttribute('name', entity.layer);
+              span.setAttribute('name', childLevel_uuid);
 
 
               li.appendChild(checkbox);
@@ -1142,6 +1152,19 @@
       if (percentage <= 0.29) return "#DB4E41";      // Red
       if (percentage <= 0.70) return "#ECCB28";      // Yellow
       return "#97CA58";                            // Green
+    }
+  
+    function getStoredLevels(levelId) {
+
+      var storedLevels = localStorage.getItem("storedLevels");
+      var currentLevels = null;
+      if (storedLevels)
+        currentLevels = JSON.parse(storedLevels)
+
+      if (levelId && currentLevels)
+        currentLevels = currentLevels.find(x => x.levelId == levelId);
+
+      return currentLevels;
     }
   </script>
 </body>
