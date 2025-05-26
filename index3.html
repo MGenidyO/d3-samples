@@ -944,8 +944,8 @@
       ul.setAttribute('name', parentLevelId);
       if (levelList) {
 
-        levelList.forEach(level => {
-
+        levelList.filter(l=> l.parentLevelId == parentLevelId ).forEach(level => {
+debugger
           const childLevel_uuid = "_" + crypto.randomUUID();
           const li = document.createElement('li');
           li.classList.add('list-group-item', 'mb-2');
@@ -955,18 +955,18 @@
           li.setAttribute('data-parentLevelId', level.levelId);
 
 
-          // // Create list item
-          // const ul = document.createElement('ul');
-          // //ul.classList.add('d-flex', 'align-items-center', 'mb-2');
-          // ul.setAttribute('name', childLevel_uuid);
+          // Create list item
+          const nested_ul = document.createElement('ul');
+var lll = levelList.filter(l=> l.parentLevelId == level.levelId );
+          if (lll) {
+      nested_ul.classList.add('list-group', 'list-group-flush');
+          nested_ul.setAttribute('name', childLevel_uuid);
+debugger
+            var nestedLevels = getChildLevel(lll, mainLevelId, level.levelId);
+            if (nestedLevels)
+              nested_ul.appendChild(nestedLevels);
 
-          // if (level) {
-
-          //   var nestedLevels = getChildLevel(level.levelList);
-          //   if (nestedLevels, level.levelId)
-          //     ul.appendChild(nestedLevels);
-
-          // }
+          }
           /*
               var childLevel = {
                 levelName: levelName,
@@ -1082,7 +1082,6 @@ debugger
               span.classList.add('me-auto');
               span.setAttribute('name', childLevel_uuid);
 
-
               li.appendChild(checkbox);
               li.appendChild(span);
               modalList.append(li);
@@ -1096,7 +1095,7 @@ debugger
           li.appendChild(span);
           li.appendChild(add);
           li.appendChild(trash);
-          //li.appendChild(ul);
+          li.appendChild(nested_ul);
           ul.appendChild(li);
 
         });
