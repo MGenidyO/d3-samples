@@ -374,7 +374,7 @@
 
       var childLevel = {
         levelName: levelName,
-        levelId: "_" + crypto.randomUUID(),
+        levelId: childLevelId.value,
         mainLayerId: mainLayerId,
         parentLevelId: parentLevelId,
         entityList: []
@@ -1039,6 +1039,7 @@ debugger
 
           // add click removes the layer
           add.addEventListener('click', () => {
+            debugger
             const modalList = document.getElementById("addChildLevelList");
             const childLevel_uuid = "_" + crypto.randomUUID();
             document.getElementById("childLevelId").value = childLevel_uuid;
