@@ -58,12 +58,12 @@
               <label class="form-check-label" for="flexSwitchCheckChecked">Display Progress</label>
             </div>
           </li>
-
+<!-- 
           <li class="nav-item my-1">
             <div class="input-group">
               <input class="form-control border" type="search" placeholder="search" id="search-input">
             </div>
-          </li>
+          </li> -->
 
           <!-- Button trigger modal -->
           <button type="button" id="openModalButton" class="btn btn-primary mt-2" data-bs-toggle="modal"
@@ -654,7 +654,7 @@
               .attr("fill", progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : "white")
               .style("fill-opacity", progressChecked ? 1 : 0.3)
               .attr("stroke-width", 2)
-              .call(getArea)
+              //.call(getArea)
               .on("mouseover", function (d) {
                 tooltip2
                   .style("opacity", 1)
@@ -791,6 +791,7 @@
 
     function appendLayers() {
 
+      layerList.innerHTML = '';
       var storedLevels = localStorage.getItem("storedLevels");
       var currentLevels = null;
       if (storedLevels)
@@ -1105,48 +1106,35 @@
       return ul;
     }
 
-    function getArea() {
-      const value = document.getElementById("search-input").value
+    // function getArea() {
+    //   const value = document.getElementById("search-input").value
 
-      const multiLayerSelected = document.querySelectorAll('input[name=chbx-level]:checked').length > 1;
-      const progressChecked = document.getElementById(`flexSwitchCheckChecked`).checked;
+    //   const multiLayerSelected = document.querySelectorAll('input[name=chbx-level]:checked').length > 1;
+    //   const progressChecked = document.getElementById(`flexSwitchCheckChecked`).checked;
 
-      const existElements = d3.selectAll('.area').filter(function () {
-        const name = d3.select(this).attr("name");
-        return value && name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
-      })
-        .style("fill-opacity", 0.3)
-        .attr("fill", "red")
+    //   const existElements = d3.selectAll('.area').filter(function () {
+    //     const name = d3.select(this).attr("name");
+    //     return value && name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
+    //   })
+    //     .style("fill-opacity", 0.3)
+    //     .attr("fill", "red")
 
 
-      const notExistElements2 = d3.selectAll('.area').filter(function () {
-        const name = d3.select(this).attr("name");
-        return !value || !name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
-      })
+    //   const notExistElements2 = d3.selectAll('.area').filter(function () {
+    //     const name = d3.select(this).attr("name");
+    //     return !value || !name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
+    //   })
 
-      // notExistElements2.each(function () {
-      //   const entity = d3.select(this).node().dataset
-      //   d3.select(this).style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
-      //   .attr("fill", multiLayerSelected ? "none" : progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : "white")
-      // });
-    }
+    //   // notExistElements2.each(function () {
+    //   //   const entity = d3.select(this).node().dataset
+    //   //   d3.select(this).style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
+    //   //   .attr("fill", multiLayerSelected ? "none" : progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : "white")
+    //   // });
+    // }
 
-    // document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-    //   checkbox.addEventListener("change", function () {
-
-    //     var storedLevels = localStorage.getItem("storedLevels");
-    //     var currentLevels = null;
-    //     if (storedLevels)
-    //       currentLevels = JSON.parse(storedLevels)
-
-    //     Object.entries(currentLevels).forEach(([index, level]) => {
-
-    //       drawUploadedDXF(level);
-    //       d3.select("svg").selectAll("#" + level.levelId).attr("transform", `translate(${level.transitionX},${level.transitionY})`);
-
-    //     });
-    //   });
-    // });
+    document.getElementById('flexSwitchCheckChecked').addEventListener("change", function () {
+    appendLayers();
+      });
 
     function getColorByCompleteness(percentage) {
       //console.log("the precentage ",percentage);
