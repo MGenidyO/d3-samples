@@ -356,6 +356,7 @@
     });
 
     saveChildLevelButton.addEventListener('click', () => {
+      debugger
       const levelName = childLevelName.value.trim();
       const mainLayerId = document.getElementById("mainLayerId").value;
       const parentLevelId = document.getElementById("parentLevelId").value;
@@ -883,7 +884,7 @@
                 selectedEntities.push.apply(selectedEntities, item.entityList);
               });
             }
-              modalList.innerHTML = ''
+            modalList.innerHTML = ''
 
             Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
               debugger
@@ -944,8 +945,8 @@
       ul.setAttribute('name', parentLevelId);
       if (levelList) {
 
-        levelList.filter(l=> l.parentLevelId == parentLevelId ).forEach(level => {
-debugger
+        levelList.filter(l => l.parentLevelId == parentLevelId).forEach(level => {
+          debugger
           const childLevel_uuid = "_" + crypto.randomUUID();
           const li = document.createElement('li');
           li.classList.add('list-group-item', 'mb-2');
@@ -957,12 +958,12 @@ debugger
 
           // Create list item
           const nested_ul = document.createElement('ul');
-var lll = levelList.filter(l=> l.parentLevelId == level.levelId );
-          if (lll) {
-      nested_ul.classList.add('list-group', 'list-group-flush');
-          nested_ul.setAttribute('name', childLevel_uuid);
-debugger
-            var nestedLevels = getChildLevel(lll, mainLevelId, level.levelId);
+          var checkChildExist = levelList.filter(l => l.parentLevelId == level.levelId);
+          if (checkChildExist) {
+            nested_ul.classList.add('list-group', 'list-group-flush');
+            nested_ul.setAttribute('name', childLevel_uuid);
+            debugger
+            var nestedLevels = getChildLevel(levelList, mainLevelId, level.levelId);
             if (nestedLevels)
               nested_ul.appendChild(nestedLevels);
 
@@ -1048,7 +1049,7 @@ debugger
 
 
             var mainLevel = getStoredLevels(level.mainLayerId);
-            
+
             var selectedEntities = [];
             var filteredLevels = mainLevel.levelList.filter(l => l.parentLevelId == level.levelId);
             if (filteredLevels) {
@@ -1058,7 +1059,7 @@ debugger
             }
 
             modalList.innerHTML = ''
-debugger
+            debugger
             Object.entries(level.entityList).forEach(([index, entity]) => {
               debugger
               if (selectedEntities.includes(entity))
@@ -1153,7 +1154,7 @@ debugger
       if (percentage <= 0.70) return "#ECCB28";      // Yellow
       return "#97CA58";                            // Green
     }
-  
+
     function getStoredLevels(levelId) {
 
       var storedLevels = localStorage.getItem("storedLevels");
