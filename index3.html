@@ -652,7 +652,7 @@
               .attr("data-layer", entity.layer)
               .attr("id", entity.layer)
               .attr("fill", progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : "white")
-              .style("fill-opacity", progressChecked ? 1 : 0.3)
+              .style("fill-opacity", 0.3)
               .attr("stroke-width", 2)
               //.call(getArea)
               .on("mouseover", function (d) {
@@ -1127,7 +1127,7 @@
 
     //   // notExistElements2.each(function () {
     //   //   const entity = d3.select(this).node().dataset
-    //   //   d3.select(this).style("fill-opacity", multiLayerSelected ? 0 : progressChecked ? 1 : 0.35)
+    //   //   d3.select(this).style("fill-opacity",  0.35)
     //   //   .attr("fill", multiLayerSelected ? "none" : progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : "white")
     //   // });
     // }
