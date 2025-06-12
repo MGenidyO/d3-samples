@@ -1,0 +1,92 @@
+<script src="./lib/pdf.mjs" type="module"></script>
+<script src="./lib/pdf.worker.mjs" type="module"></script>
+<script type="module">
+   
+//     // Loaded via <script> tag, create shortcut to access PDF.js exports.
+//     var { pdfjsLib } = globalThis;
+    
+//    // PDFJS.workerSrc = './lib/pdf.mjs';
+//     // The workerSrc property shall be specified.
+//     pdfjsLib.GlobalWorkerOptions.workerSrc = './lib/pdf.worker.mjs';
+
+//     fetch('./files/HH-lv1-Base64.txt')
+//         .then(response => response.text())
+//         .then(text => {
+//              var pdfData = atob(text);
+//              var loadingTask = pdfjsLib.getDocument({ data: pdfData });
+//     loadingTask.promise.then(function (pdf) {
+//         console.log('PDF loaded');
+
+//         // Fetch the first page
+//         var pageNumber = 1;
+//         pdf.getPage(pageNumber).then(function (page) {
+//             console.log('Page loaded');
+
+//             var scale = 3;
+//             var viewport = page.getViewport({ scale: scale });
+
+//             // Prepare canvas using PDF page dimensions
+//             var canvas = document.getElementById('the-canvas');
+//             var context = canvas.getContext('2d');
+//             canvas.height = viewport.height;
+//             canvas.width = viewport.width;
+
+//             // Render PDF page into canvas context
+//             var renderContext = {
+//                 canvasContext: context,
+//                 viewport: viewport
+//             };
+//             var renderTask = page.render(renderContext);
+//             renderTask.promise.then(function () {
+//                 console.log('Page rendered');
+//             });
+//         });
+//     }, function (reason) {
+//         // PDF loading error
+//         console.error(reason);
+//     });
+//             console.log("pdftext: " + text)})
+//         .catch(error => console.error('Error:', error));
+
+//     // The workerSrc property shall be specified.
+//     //pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.mjs';
+
+//     // Using DocumentInitParameters object to load binary data.
+
+/*
+ * Load pdf page to canvas and zoom it on arbitrary region
+ *
+ * @url - url to pdf
+ * @pageNum - which page (start from 1)
+ * @width - canvas width
+ * @height - canvas height
+ * @zoom - zoom, 1=no zoom
+ * @posX - shift pdf on x axis (in pixels)
+ * @posY - shift pdf on y axis (in pixels)
+ */
+async function load(url,pageNum,width,height,zoom,posX,posY) {
+     var { pdfjsLib } = globalThis;
+  //let pdfjs = window['pdfjs-dist/build/pdf'];
+  pdfjsLib.GlobalWorkerOptions.workerSrc = './lib/pdf.worker.mjs';
+  let pdf = await pdfjsLib.getDocument(url).promise;
+  let page = await pdf.getPage(pageNum);
+  
+  let viewport = page.getViewport({scale:1});
+  let pY = viewport.transform[5]*zoom + posY;
+  viewport.transform = [zoom, 0, 0, -zoom, posX, pY];
+  
+  let context = canvasPdf.getContext('2d');
+  canvasPdf.width = width;
+  canvasPdf.height = height;
+  
+  let renderContext = {canvasContext: context, viewport};
+  var render = await page.render(renderContext).promise;
+}
+
+let url = "./files/HH-lv1.pdf";
+
+load(url,1,500,140,2,-140,-110);
+   
+</script>
+
+<canvas id="canvasPdf"></canvas>
