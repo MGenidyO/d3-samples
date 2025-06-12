@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dxf-parser@1.1.2/dist/dxf-parser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <style>
     /* #tooltip {
       position: absolute;
@@ -58,7 +59,7 @@
               <label class="form-check-label" for="flexSwitchCheckChecked">Display Progress</label>
             </div>
           </li>
-<!-- 
+          <!-- 
           <li class="nav-item my-1">
             <div class="input-group">
               <input class="form-control border" type="search" placeholder="search" id="search-input">
@@ -106,30 +107,40 @@
         <div class="d-flex justify-content-center mb-3">
           <div class="row">
             <div class="col-md-12">
-              <div id="svg_client_2_container">
-                <svg width="1500" height="1100" style="border:1px solid black;"></svg>
+              <div id="svg_client_2_container" class="position-relative d-flex justify-content-center">
+
+                <iframe class="position-absolute" src="./files/HH-lv1.pdf"
+                  style="width:1500px; height:1100px;"></iframe>
+
+                <svg class="position-absolute" width="1500" height="1100" style="border:1px solid black;"></svg>
+
               </div>
+
               <div id="tooltip">
               </div>
             </div>
+
+            <div class="col-md-12">
+              <div class="d-flex justify-content-start gap-4 my-1 ms-5 text-center">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="color1"></div>
+                  <div class="mt-2">0–29%</div>
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                  <div class="color2"></div>
+                  <div class="mt-2">30–70%</div>
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                  <div class="color3"></div>
+                  <div class="mt-2">71+%</div>
+                </div>
+              </div>
+            </div>
+
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
               integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
               crossorigin="anonymous"></script>
             <script src="./lib/import_js_files.js" type="module"></script>
-          </div>
-        </div>
-        <div class="d-flex justify-content-start gap-4 my-1 ms-5 text-center">
-          <div class="d-flex flex-column align-items-center">
-            <div class="color1"></div>
-            <div class="mt-2">0–29%</div>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <div class="color2"></div>
-            <div class="mt-2">30–70%</div>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <div class="color3"></div>
-            <div class="mt-2">71+%</div>
           </div>
         </div>
       </main>
@@ -888,9 +899,9 @@
             modalList.innerHTML = ''
 
             Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
-              debugger
-              if (selectedEntities.includes(entity.layer))
-                return;
+              //debugger
+              //if (selectedEntities.includes(entity.layer))
+                //return;
 
               const li = document.createElement('li');
               li.classList.add('d-flex', 'align-items-center', 'mb-2');
@@ -1041,7 +1052,7 @@
 
           // add click removes the layer
           add.addEventListener('click', () => {
-            debugger
+            //debugger
             const modalList = document.getElementById("addChildLevelList");
             const childLevel_uuid = "_" + crypto.randomUUID();
             document.getElementById("childLevelId").value = childLevel_uuid;
@@ -1060,11 +1071,11 @@
             }
 
             modalList.innerHTML = ''
-            debugger
+            //debugger
             Object.entries(level.entityList).forEach(([index, entity]) => {
-              debugger
-              if (selectedEntities.includes(entity))
-                return;
+              //debugger
+              //if (selectedEntities.includes(entity))
+                //return;
 
               const li = document.createElement('li');
               li.classList.add('d-flex', 'align-items-center', 'mb-2');
@@ -1133,8 +1144,8 @@
     // }
 
     document.getElementById('flexSwitchCheckChecked').addEventListener("change", function () {
-    appendLayers();
-      });
+      appendLayers();
+    });
 
     function getColorByCompleteness(percentage) {
       //console.log("the precentage ",percentage);
