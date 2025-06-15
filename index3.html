@@ -546,8 +546,10 @@
 
     // Function to draw uploaded DXF entities on SVG
     function drawUploadedDXF(levelData) {
-debugger
+
       let dxfData = levelData.dxfData;
+      let layersDetails = new Map(Object.entries(dxfData.tables.layer.layers).map(([key, value]) => [key.toLowerCase(), value])
+);
       let excelData = levelData.excelData;
       let levelId = levelData.levelId;
       let userScale = levelData.scale;
@@ -602,6 +604,11 @@ debugger
       const offsetY = -bounds.minY * scale + (svgHeight - (bounds.maxY - bounds.minY) * scale) / 2;
 
       dxfData.entities.forEach(entity => {
+        
+        let entityColor = layersDetails.get(entity.layer.toLowerCase());
+        const hexColor = `#${entityColor.color.toString(16).padStart(6, '0')}`;
+        debugger
+        
         switch (entity.type) {
           case "LINE":
             uploadGroup.append("line")
@@ -680,7 +687,7 @@ debugger
               .attr("data-level", levelId)
               .attr("data-layer", entity.layer)
               .attr("id", entity.layer)
-              .attr("fill", progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : "white")
+              .attr("fill", progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) :  `${hexColor}`)
               .style("fill-opacity", 0.3)
               .attr("stroke-width", 2)
               //.call(getArea)
