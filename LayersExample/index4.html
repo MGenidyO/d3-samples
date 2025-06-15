@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>عارض ملفات DXF مع تحجيم ذكي</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dxf-parser@1.1.2/dist/dxf-parser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -110,11 +116,13 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
         // العناصر الرئيسية
         const canvas = document.getElementById('dxf-canvas');
         const ctx = canvas.getContext('2d');
         const layerControls = document.getElementById('layer-controls');
+        // بيانات DXF وحالات العرض
+        let dxfData = null;
         
         // ضبط أبعاد Canvas
         function resizeCanvas() {
@@ -127,8 +135,6 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        // بيانات DXF وحالات العرض
-        let dxfData = null;
         let layerVisibility = {};
         let transform = { 
             scale: 1, 
@@ -149,17 +155,38 @@
         let isDragging = false;
         let lastX = 0, lastY = 0;
 
-        // تحميل ملف DXF
-        document.getElementById('dxf-file').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        // // تحميل ملف DXF
+        // document.getElementById('dxf-file').addEventListener('change', function(e) {
+        //     const file = e.target.files[0];
+        //     if (!file) return;
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                parseDXF(e.target.result);
-            };
-            reader.readAsText(file);
-        });
+        //     const reader = new FileReader();
+        //     reader.onload = function(e) {
+        //         parseDXF(e.target.result);
+        //     };
+        //     reader.readAsText(file);
+        // });
+
+        
+document.getElementById('dxf-file').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+      if (!file) return console.log("No file selected");
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const parser = new DxfParser();
+        let content;
+        try {
+          content = parser.parseSync(e.target.result);
+          parseDXF(content);
+
+        } catch (error) {
+          console.error("Error parsing DXF:", error);
+          return;
+        }
+        console.log("DXF Parsed Data:", content);
+      };
+      reader.readAsText(file);
+});
 
         // عناصر التحكم
         document.getElementById('reset-view').addEventListener('click', resetView);
@@ -175,63 +202,79 @@
         canvas.addEventListener('mouseleave', endDrag);
         canvas.addEventListener('wheel', handleWheel);
 
-        // تحليل ملف DXF (مثال مبسط)
-        function parseDXF(dxfText) {
-            try {
-                // في التطبيق الحقيقي، استخدم مكتبة لتحليل DXF هنا
-                // هذا مثال ببيانات اختبارية
-                dxfData = {
-                    entities: [
-                        {
-                            type: 'LINE',
-                            layer: 'الجدران',
-                            start: { x: 0, y: 0 },
-                            end: { x: 100, y: 100 }
-                        },
-                        {
-                            type: 'CIRCLE',
-                            layer: 'الأبواب',
-                            center: { x: 50, y: 50 },
-                            radius: 20
-                        },
-                        {
-                            type: 'ARC',
-                            layer: 'الأقواس',
-                            center: { x: 30, y: 30 },
-                            radius: 15,
-                            startAngle: 0,
-                            endAngle: 90
-                        },
-                        {
-                            type: 'TEXT',
-                            layer: 'النصوص',
-                            position: { x: 10, y: 80 },
-                            height: 5,
-                            text: "نص تجريبي"
-                        },
-                        {
-                            type: 'LWPOLYLINE',
-                            layer: 'المضلعات',
-                            vertices: [
-                                { x: 20, y: 20 },
-                                { x: 40, y: 20 },
-                                { x: 40, y: 40 },
-                                { x: 20, y: 40 }
-                            ],
-                            flags: 1 // مغلق
-                        }
-                    ]
-                };
+        // // تحليل ملف DXF (مثال مبسط)
+        // function parseDXF(dxfText) {
+        //     try {
+        //         // في التطبيق الحقيقي، استخدم مكتبة لتحليل DXF هنا
+        //         // هذا مثال ببيانات اختبارية
+        //         dxfData = {
+        //             entities: [
+        //                 {
+        //                     type: 'LINE',
+        //                     layer: 'الجدران',
+        //                     start: { x: 0, y: 0 },
+        //                     end: { x: 100, y: 100 }
+        //                 },
+        //                 {
+        //                     type: 'CIRCLE',
+        //                     layer: 'الأبواب',
+        //                     center: { x: 50, y: 50 },
+        //                     radius: 20
+        //                 },
+        //                 {
+        //                     type: 'ARC',
+        //                     layer: 'الأقواس',
+        //                     center: { x: 30, y: 30 },
+        //                     radius: 15,
+        //                     startAngle: 0,
+        //                     endAngle: 90
+        //                 },
+        //                 {
+        //                     type: 'TEXT',
+        //                     layer: 'النصوص',
+        //                     position: { x: 10, y: 80 },
+        //                     height: 5,
+        //                     text: "نص تجريبي"
+        //                 },
+        //                 {
+        //                     type: 'LWPOLYLINE',
+        //                     layer: 'المضلعات',
+        //                     vertices: [
+        //                         { x: 20, y: 20 },
+        //                         { x: 40, y: 20 },
+        //                         { x: 40, y: 40 },
+        //                         { x: 20, y: 40 }
+        //                     ],
+        //                     flags: 1 // مغلق
+        //                 }
+        //             ]
+        //         };
 
-                setupLayerControls();
-                calculateInitialTransform();
-                drawDXF();
-            } catch (err) {
-                console.error("فشل تحليل ملف DXF:", err);
-                alert("حدث خطأ أثناء تحليل الملف. يرجى التأكد من صحة ملف DXF.");
-            }
-        }
+        //         setupLayerControls();
+        //         calculateInitialTransform();
+        //         drawDXF();
+        //     } catch (err) {
+        //         console.error("فشل تحليل ملف DXF:", err);
+        //         alert("حدث خطأ أثناء تحليل الملف. يرجى التأكد من صحة ملف DXF.");
+        //     }
+        // }
 
+// تحليل ملف DXF باستخدام dxf-parser.js
+function parseDXF(content) {
+    try {
+        // const parser = new DXFParser();
+         dxfData = content;
+        console.log("DXF Data:", dxfData);
+
+        // عرض عناصر التحكم للطبقات
+        setupLayerControls();
+         calculateInitialTransform();
+        // رسم البيانات
+        drawDXF();
+    } catch (err) {
+        console.error("Failed to parse DXF:", err);
+    }
+}
         // إعداد عناصر تحكم الطبقات
         function setupLayerControls() {
             layerControls.innerHTML = '';
@@ -268,7 +311,7 @@
             drawDXF();
         }
 
-        // حساب التحويل الأولي
+        // // حساب التحويل الأولي
         function calculateInitialTransform() {
             const bounds = calculateBoundingBox();
             const margin = 40;
@@ -286,9 +329,56 @@
             transform.scale = scale;
             transform.offsetX = offsetX;
             transform.offsetY = offsetY;
+        transform.apply = function(ctx) {
+            ctx.save();
+            ctx.translate(0, canvas.height);
+            ctx.scale(1, -1); // انعكاس المحور Y هنا
+            ctx.translate(this.offsetX, -this.offsetY);
+            ctx.scale(this.scale, this.scale);
+        },
             
             originalTransform = {...transform};
         }
+
+//         function calculateInitialTransform() {
+//     const bounds = calculateBoundingBox();
+//     const margin = 40;
+    
+//     const dxfWidth = bounds.maxX - bounds.minX;
+//     const dxfHeight = bounds.maxY - bounds.minY;
+    
+//     const scaleX = (canvas.width - margin * 2) / dxfWidth;
+//     const scaleY = (canvas.height - margin * 2) / dxfHeight;
+//     const scale = Math.min(scaleX, scaleY);
+    
+//     // الإزاحة مع تعديل لانعكاس المحور Y
+//     const offsetX = (canvas.width - dxfWidth * scale) / 2 - bounds.minX * scale;
+//     const offsetY = (canvas.height + dxfHeight * scale) / 2 + bounds.minY * scale;
+    
+//     transform = { 
+//         scale: scale, 
+//         offsetX: offsetX,
+//         offsetY: offsetY,
+//         apply: function(ctx) {
+//             ctx.save();
+//             ctx.translate(0, canvas.height);
+//             ctx.scale(1, -1); // انعكاس المحور Y هنا
+//             ctx.translate(this.offsetX, -this.offsetY);
+//             ctx.scale(this.scale, this.scale);
+//         },
+//         restore: function(ctx) {
+//             ctx.restore();
+//         },
+//         invert: function(x, y) {
+//             return {
+//                 x: (x - this.offsetX) / this.scale,
+//                 y: (canvas.height - y - this.offsetY) / this.scale
+//             };
+//         }
+//     };
+    
+//     originalTransform = {...transform};
+// }
 
         // حساب حدود الرسم
         function calculateBoundingBox() {
@@ -330,7 +420,7 @@
             return { minX, maxX, minY, maxY };
         }
 
-        // رسم DXF مع التحجيم
+        // // رسم DXF مع التحجيم
         function drawDXF() {
             if (!dxfData || !dxfData.entities) return;
 
@@ -371,6 +461,41 @@
             ctx.restore();
         }
 
+//        function drawDXF() {
+//     if (!dxfData || !dxfData.entities) return;
+
+//     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+//     // تطبيق التحويلات (بما في ذلك انعكاس Y)
+//     transform.apply(ctx);
+
+//     // رسم جميع العناصر
+//     dxfData.entities.forEach(entity => {
+//         if (!layerVisibility[entity.layer]) return;
+
+//         ctx.strokeStyle = getLayerColor(entity.layer);
+//         ctx.fillStyle = getLayerColor(entity.layer);
+//         ctx.lineWidth = 1 / transform.scale;
+
+//         switch (entity.type) {
+//             case 'LINE': drawLine(entity); break;
+//             case 'CIRCLE': drawCircle(entity); break;
+//             case 'ARC': drawArc(entity); break;
+//             case 'TEXT': drawText(entity); break;
+//             case 'MTEXT': drawMText(entity); break;
+//             case 'LWPOLYLINE': 
+//             case 'POLYLINE': drawPolyline(entity); break;
+//             case 'INSERT': drawInsert(entity); break;
+//             case 'ELLIPSE': drawEllipse(entity); break;
+//             // يمكن إضافة المزيد من الأنواع هنا
+//         }
+//     });
+
+//     // استعادة حالة Canvas الأصلية
+//     transform.restore(ctx);
+// }
+
+
         // دوال الرسم مع التحجيم
         function drawLine(line) {
             ctx.beginPath();
@@ -379,11 +504,21 @@
             ctx.stroke();
         }
 
+
         function drawCircle(circle) {
             ctx.beginPath();
             ctx.arc(circle.center.x, circle.center.y, circle.radius, 0, Math.PI * 2);
             ctx.stroke();
         }
+
+
+        function drawText(text) {
+            ctx.save();
+            ctx.scale(1, -1); // انعكاس المحور Y للنصوص
+            ctx.fillText(text.text, text.position.x, -text.position.y);
+            ctx.restore();
+        }
+
 
         function drawArc(arc) {
             const startAngle = (arc.startAngle * Math.PI) / 180;
@@ -399,12 +534,7 @@
             ctx.stroke();
         }
 
-        function drawText(text) {
-            ctx.save();
-            ctx.scale(1, -1); // انعكاس المحور Y للنصوص
-            ctx.fillText(text.text, text.position.x, -text.position.y);
-            ctx.restore();
-        }
+
 
         function drawPolyline(polyline) {
             if (!polyline.vertices || polyline.vertices.length < 2) return;
@@ -422,7 +552,128 @@
             ctx.stroke();
         }
 
-        // توليد ألوان للطبقات
+        
+//         // الخطوط (LINE)
+// function drawLine(line) {
+//     ctx.beginPath();
+//     ctx.moveTo(line.start.x, line.start.y);
+//     ctx.lineTo(line.end.x, line.end.y);
+//     ctx.stroke();
+// }
+
+// // الدوائر (CIRCLE)
+// function drawCircle(circle) {
+//     ctx.beginPath();
+//     ctx.arc(
+//         circle.center.x,
+//         circle.center.y,
+//         circle.radius,
+//         0, Math.PI * 2
+//     );
+//     ctx.stroke();
+// }
+
+// // الأقواس (ARC)
+// function drawArc(arc) {
+//     const startAngle = (arc.startAngle * Math.PI) / 180;
+//     const endAngle = (arc.endAngle * Math.PI) / 180;
+    
+//     ctx.beginPath();
+//     ctx.arc(
+//         arc.center.x,
+//         arc.center.y,
+//         arc.radius,
+//         startAngle, endAngle,
+//         arc.endAngle < arc.startAngle
+//     );
+//     ctx.stroke();
+// }
+
+// // النصوص (TEXT)
+// function drawText(text) {
+//     ctx.save();
+//     // تصحيح اتجاه النص
+//     ctx.scale(1, -1);
+//     ctx.font = `${text.height}px Arial`;
+//     ctx.fillText(text.text, text.position.x, -text.position.y);
+//     ctx.restore();
+// }
+
+// // النصوص متعددة الأسطر (MTEXT)
+// function drawMText(mtext) {
+//     const lines = mtext.text.split('\\P');
+//     let y = mtext.position.y;
+    
+//     ctx.save();
+//     ctx.scale(1, -1);
+//     ctx.font = `${mtext.height}px Arial`;
+    
+//     lines.forEach(line => {
+//         ctx.fillText(line, mtext.position.x, -y);
+//         y += mtext.height * 1.2;
+//     });
+    
+//     ctx.restore();
+// }
+
+// // المضلعات (POLYLINE/LWPOLYLINE)
+// function drawPolyline(polyline) {
+//     if (!polyline.vertices || polyline.vertices.length < 2) return;
+
+//     ctx.beginPath();
+//     ctx.moveTo(polyline.vertices[0].x, polyline.vertices[0].y);
+
+//     for (let i = 1; i < polyline.vertices.length; i++) {
+//         ctx.lineTo(polyline.vertices[i].x, polyline.vertices[i].y);
+//     }
+
+//     if (polyline.flags === 1) {
+//         ctx.closePath();
+//     }
+//     ctx.stroke();
+// }
+
+// // البلوكات (INSERT)
+// function drawInsert(insert) {
+//     if (!dxfData.blocks || !insert.blockName) return;
+
+//     const block = dxfData.blocks[insert.blockName];
+//     if (!block || !block.entities) return;
+
+//     ctx.save();
+//     ctx.translate(insert.position.x, insert.position.y);
+    
+//     block.entities.forEach(entity => {
+//         ctx.strokeStyle = getLayerColor(entity.layer);
+//         ctx.fillStyle = getLayerColor(entity.layer);
+        
+//         switch (entity.type) {
+//             case 'LINE':
+//                 drawLine(entity);
+//                 break;
+//             case 'CIRCLE':
+//                 drawCircle(entity);
+//                 break;
+//             // ... معالجة أنواع أخرى داخل البلوك
+//         }
+//     });
+    
+//     ctx.restore();
+// }
+
+// // الأشكال البيضاوية (ELLIPSE)
+// function drawEllipse(ellipse) {
+//     ctx.save();
+//     ctx.translate(ellipse.center.x, ellipse.center.y);
+//     ctx.rotate(ellipse.rotation);
+//     ctx.scale(ellipse.majorAxis, ellipse.minorAxis);
+    
+//     ctx.beginPath();
+//     ctx.arc(0, 0, 1, 0, Math.PI * 2);
+//     ctx.restore();
+//     ctx.stroke();
+// }
+
         function getLayerColor(layer) {
             const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c'];
             const hash = Array.from(layer).reduce((acc, char) => acc + char.charCodeAt(0), 0);
@@ -456,27 +707,50 @@
         }
 
         // تفاعلات السحب
-        function startDrag(e) {
-            isDragging = true;
-            lastX = e.clientX;
-            lastY = e.clientY;
-            canvas.style.cursor = 'grabbing';
-        }
+        // function startDrag(e) {
+        //     isDragging = true;
+        //     lastX = e.clientX;
+        //     lastY = e.clientY;
+        //     canvas.style.cursor = 'grabbing';
+        // }
 
-        function drag(e) {
-            if (!isDragging) return;
+        // function drag(e) {
+        //     if (!isDragging) return;
             
-            const dx = e.clientX - lastX;
-            const dy = e.clientY - lastY;
+        //     const dx = e.clientX - lastX;
+        //     const dy = e.clientY - lastY;
             
-            transform.offsetX += dx;
-            transform.offsetY += dy;
+        //     transform.offsetX += dx;
+        //     transform.offsetY += dy;
             
-            lastX = e.clientX;
-            lastY = e.clientY;
+        //     lastX = e.clientX;
+        //     lastY = e.clientY;
             
-            drawDXF();
-        }
+        //     drawDXF();
+        // }
+
+        function startDrag(e) {
+    isDragging = true;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    canvas.style.cursor = 'grabbing';
+}
+
+function drag(e) {
+    if (!isDragging) return;
+    
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
+    
+    // عكس اتجاه حركة Y لأن النظام معكوس
+    transform.offsetX += dx;
+    transform.offsetY -= dy;
+    
+    lastX = e.clientX;
+    lastY = e.clientY;
+    
+    drawDXF();
+}
 
         function endDrag() {
             isDragging = false;
