@@ -28,8 +28,9 @@
       background: white;
       padding: 10px;
       border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
+
     button {
       padding: 5px 10px;
       margin: 0 5px;
@@ -122,16 +123,16 @@
                 <!-- <iframe class="position-absolute" src="./files/HH-lv1.pdf"
                   style="width:1500px; height:1100px;"></iframe> -->
 
-<canvas id="pdf-canvas" class="position-absolute" style="width:1500px; height:1100px;"></canvas>
+                <canvas id="pdf-canvas" class="position-absolute" style="width:1500px; height:1100px;"></canvas>
                 <svg class="position-absolute" width="1500" height="1100" style="border:1px solid black;"></svg>
 
               </div>
-  <div class="zoom-controls">
-    <button id="zoom-out">-</button>
-    <span id="zoom-level">100%</span>
-    <button id="zoom-in">+</button>
-    <button id="zoom-fit">Fit</button>
-  </div>
+              <div class="zoom-controls">
+                <button id="zoom-out">-</button>
+                <span id="zoom-level">100%</span>
+                <button id="zoom-in">+</button>
+                <button id="zoom-fit">Fit</button>
+              </div>
 
               <div id="tooltip">
               </div>
@@ -384,7 +385,7 @@
     });
 
     saveChildLevelButton.addEventListener('click', () => {
-      debugger
+      
       const levelName = childLevelName.value.trim();
       const mainLayerId = document.getElementById("mainLayerId").value;
       const parentLevelId = document.getElementById("parentLevelId").value;
@@ -417,7 +418,7 @@
               // Perform actions on each checkbox here
               // For example, check if it's checked and log its value
               if (checkbox.checked) {
-                debugger
+                
                 var areaId = checkbox.dataset.areaid;
                 childLevel.entityList.push(areaId);
               }
@@ -427,7 +428,7 @@
           }
           return item;
         });
-        debugger
+        
         localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
       }
 
@@ -545,7 +546,7 @@
 
     // Function to draw uploaded DXF entities on SVG
     function drawUploadedDXF(levelData) {
-
+debugger
       let dxfData = levelData.dxfData;
       let excelData = levelData.excelData;
       let levelId = levelData.levelId;
@@ -916,9 +917,9 @@
             modalList.innerHTML = ''
 
             Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
-              //debugger
+              
               //if (selectedEntities.includes(entity.layer))
-                //return;
+              //return;
 
               const li = document.createElement('li');
               li.classList.add('d-flex', 'align-items-center', 'mb-2');
@@ -975,7 +976,7 @@
       if (levelList) {
 
         levelList.filter(l => l.parentLevelId == parentLevelId).forEach(level => {
-          debugger
+          
           const childLevel_uuid = "_" + crypto.randomUUID();
           const li = document.createElement('li');
           li.classList.add('list-group-item', 'mb-2');
@@ -991,7 +992,7 @@
           if (checkChildExist) {
             nested_ul.classList.add('list-group', 'list-group-flush');
             nested_ul.setAttribute('name', childLevel_uuid);
-            debugger
+            
             var nestedLevels = getChildLevel(levelList, mainLevelId, level.levelId);
             if (nestedLevels)
               nested_ul.appendChild(nestedLevels);
@@ -1011,9 +1012,9 @@
 
           checkbox.addEventListener('change', (e) => {
             const isChecked = e.target.checked;
-            debugger
+            
             level.entityList.forEach(entity => {
-              debugger
+              
               document.getElementById(entity).style.display = isChecked ? null : 'none';
 
             });
@@ -1069,7 +1070,7 @@
 
           // add click removes the layer
           add.addEventListener('click', () => {
-            //debugger
+            
             const modalList = document.getElementById("addChildLevelList");
             const childLevel_uuid = "_" + crypto.randomUUID();
             document.getElementById("childLevelId").value = childLevel_uuid;
@@ -1088,11 +1089,11 @@
             }
 
             modalList.innerHTML = ''
-            //debugger
+            
             Object.entries(level.entityList).forEach(([index, entity]) => {
-              //debugger
+              
               //if (selectedEntities.includes(entity))
-                //return;
+              //return;
 
               const li = document.createElement('li');
               li.classList.add('d-flex', 'align-items-center', 'mb-2');
@@ -1185,12 +1186,12 @@
     }
   </script>
 
-  
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
   <script>
     // Initialize PDF.js
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-    
+
     let pdfDoc = null;
     let currentPage = 1;
     let currentScale = 1.0;
@@ -1200,26 +1201,26 @@
     const ctx = canvas.getContext('2d');
 
     // Load the PDF
-    pdfjsLib.getDocument('./files/HH-lv1.pdf').promise.then(function(pdf) {
+    pdfjsLib.getDocument('./files/HH-lv1.pdf').promise.then(function (pdf) {
       pdfDoc = pdf;
       renderPage(currentPage, currentScale);
     });
 
     function renderPage(pageNum, scale) {
-      pdfDoc.getPage(pageNum).then(function(page) {
+      pdfDoc.getPage(pageNum).then(function (page) {
         const viewport = page.getViewport({ scale: scale });
-        
+
         canvas.height = viewport.height;
         canvas.width = viewport.width;
-        
+
         container.style.width = `${viewport.width}px`;
         container.style.height = `${viewport.height}px`;
-        
+
         const renderContext = {
           canvasContext: ctx,
           viewport: viewport
         };
-        
+
         page.render(renderContext);
         updateZoomDisplay();
       });
@@ -1239,7 +1240,7 @@
 
     function zoomToFit() {
       const containerWidth = container.clientWidth - 40; // Account for padding
-      pdfDoc.getPage(currentPage).then(function(page) {
+      pdfDoc.getPage(currentPage).then(function (page) {
         const pageWidth = page.getViewport({ scale: 1.0 }).width;
         currentScale = containerWidth / pageWidth;
         renderPage(currentPage, currentScale);
@@ -1256,7 +1257,7 @@
     document.getElementById('zoom-fit').addEventListener('click', zoomToFit);
 
     // Keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.ctrlKey) {
         if (e.key === '+' || e.key === '=') {
           zoomIn();
